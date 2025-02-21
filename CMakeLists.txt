@@ -32,7 +32,7 @@ find_package(nlohmann_json REQUIRED)
 # Database dependencies
 option(USE_MYSQL "Enable MySQL support" ON)
 option(USE_POSTGRESQL "Enable PostgreSQL support" ON)
-option(USE_MONGODB "Enable MongoDB support" ON)
+option(USE_MONGODB "Enable MongoDB support" OFF)
 option(USE_SQLITE "Enable SQLite support" ON)
 
 if(USE_MYSQL)
@@ -149,6 +149,7 @@ target_link_libraries(my_db_backup_cli PRIVATE
 # Tests
 add_executable(unit_tests
     tests/test_backup_manager.cpp
+    tests/db/test_db_connections.cpp
 )
 
 target_include_directories(unit_tests PRIVATE

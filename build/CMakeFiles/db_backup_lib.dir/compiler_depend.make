@@ -8114,7 +8114,6 @@ CMakeFiles/db_backup_lib.dir/src/db_connection.cpp.o: /Users/monroestephenson/da
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/queue \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/ranges \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/ratio \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/set \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/span \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/sstream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/stack \
@@ -8535,43 +8534,6 @@ CMakeFiles/db_backup_lib.dir/src/db_connection.cpp.o: /Users/monroestephenson/da
   /usr/local/include/mysql/mysql_com.h \
   /usr/local/include/mysql/mysql_time.h \
   /usr/local/include/mysql/mysql_version.h \
-  /usr/local/include/mysqlx/common.h \
-  /usr/local/include/mysqlx/common_constants.h \
-  /usr/local/include/mysqlx/common/api.h \
-  /usr/local/include/mysqlx/common/error.h \
-  /usr/local/include/mysqlx/common/op_if.h \
-  /usr/local/include/mysqlx/common/settings.h \
-  /usr/local/include/mysqlx/common/util.h \
-  /usr/local/include/mysqlx/common/value.h \
-  /usr/local/include/mysqlx/common_constants.h \
-  /usr/local/include/mysqlx/version_info.h \
-  /usr/local/include/mysqlx/devapi/collations.h \
-  /usr/local/include/mysqlx/devapi/collection_crud.h \
-  /usr/local/include/mysqlx/devapi/common.h \
-  /usr/local/include/mysqlx/devapi/crud.h \
-  /usr/local/include/mysqlx/devapi/collations.h \
-  /usr/local/include/mysqlx/devapi/common.h \
-  /usr/local/include/mysqlx/devapi/crud.h \
-  /usr/local/include/mysqlx/devapi/common.h \
-  /usr/local/include/mysqlx/devapi/detail/error.h \
-  /usr/local/include/mysqlx/devapi/document.h \
-  /usr/local/include/mysqlx/devapi/error.h \
-  /usr/local/include/mysqlx/devapi/executable.h \
-  /usr/local/include/mysqlx/devapi/row.h \
-  /usr/local/include/mysqlx/devapi/detail/crud.h \
-  /usr/local/include/mysqlx/devapi/detail/result.h \
-  /usr/local/include/mysqlx/devapi/detail/row.h \
-  /usr/local/include/mysqlx/devapi/detail/session.h \
-  /usr/local/include/mysqlx/devapi/detail/settings.h \
-  /usr/local/include/mysqlx/devapi/document.h \
-  /usr/local/include/mysqlx/devapi/executable.h \
-  /usr/local/include/mysqlx/devapi/mysql_charsets.h \
-  /usr/local/include/mysqlx/devapi/mysql_collations.h \
-  /usr/local/include/mysqlx/devapi/result.h \
-  /usr/local/include/mysqlx/devapi/row.h \
-  /usr/local/include/mysqlx/devapi/settings.h \
-  /usr/local/include/mysqlx/devapi/table_crud.h \
-  /usr/local/include/mysqlx/xdevapi.h \
   /usr/local/include/postgresql@14/libpq-fe.h \
   /usr/local/include/postgresql@14/pg_config_ext.h \
   /usr/local/include/postgresql@14/postgres_ext.h \
@@ -12644,6 +12606,8 @@ CMakeFiles/db_backup_lib.dir/src/storage.cpp.o: /Users/monroestephenson/database
 
 /usr/local/include/pqxx/internal/result_iter.hxx:
 
+/usr/local/include/pqxx/internal/libpq-forward.hxx:
+
 /usr/local/include/pqxx/internal/header-post.hxx:
 
 /usr/local/include/pqxx/internal/gates/connection-stream_from.hxx:
@@ -12669,32 +12633,6 @@ CMakeFiles/db_backup_lib.dir/src/storage.cpp.o: /Users/monroestephenson/database
 /usr/local/include/pqxx/blob.hxx:
 
 /usr/local/include/pqxx/binarystring.hxx:
-
-/usr/local/include/mysqlx/devapi/settings.h:
-
-/usr/local/include/mysqlx/devapi/mysql_collations.h:
-
-/usr/local/include/mysqlx/devapi/mysql_charsets.h:
-
-/usr/local/include/mysqlx/devapi/detail/session.h:
-
-/usr/local/include/mysqlx/devapi/detail/result.h:
-
-/usr/local/include/mysqlx/devapi/row.h:
-
-/usr/local/include/mysqlx/devapi/executable.h:
-
-/usr/local/include/mysqlx/devapi/error.h:
-
-/usr/local/include/mysqlx/devapi/detail/error.h:
-
-/usr/local/include/mysqlx/devapi/collection_crud.h:
-
-/usr/local/include/pqxx/internal/libpq-forward.hxx:
-
-/usr/local/include/mysqlx/common_constants.h:
-
-/usr/local/include/mysqlx/common/error.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/span:
 
@@ -12731,8 +12669,6 @@ CMakeFiles/db_backup_lib.dir/src/storage.cpp.o: /Users/monroestephenson/database
 /Users/monroestephenson/database_backup/src/db/sqlite_connection.hpp:
 
 /usr/local/include/postgresql@14/postgres_ext.h:
-
-/usr/local/include/mysqlx/common/settings.h:
 
 /usr/local/include/postgresql@14/pg_config_ext.h:
 
@@ -12838,15 +12774,11 @@ CMakeFiles/db_backup_lib.dir/src/storage.cpp.o: /Users/monroestephenson/database
 
 /usr/local/include/mongocxx/v_noabi/mongocxx/options/aggregate-fwd.hpp:
 
-/usr/local/include/mysqlx/xdevapi.h:
-
 /usr/local/include/mongocxx/v_noabi/mongocxx/model/update_many-fwd.hpp:
 
 /usr/local/include/mongocxx/v_noabi/mongocxx/model/delete_one.hpp:
 
 /usr/local/include/mongocxx/v_noabi/mongocxx/model/delete_many.hpp:
-
-/usr/local/include/mysqlx/version_info.h:
 
 /usr/local/include/mongocxx/v_noabi/mongocxx/instance.hpp:
 
@@ -13096,8 +13028,6 @@ CMakeFiles/db_backup_lib.dir/src/storage.cpp.o: /Users/monroestephenson/database
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/copy_options.h:
 
-/usr/local/include/mysqlx/devapi/detail/settings.h:
-
 /Users/monroestephenson/database_backup/src/compression.cpp:
 
 /usr/local/include/spdlog/version.h:
@@ -13328,8 +13258,6 @@ CMakeFiles/db_backup_lib.dir/src/storage.cpp.o: /Users/monroestephenson/database
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/nl_types.h:
 
-/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/set:
-
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/math.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/malloc/_malloc_type.h:
@@ -13341,8 +13269,6 @@ CMakeFiles/db_backup_lib.dir/src/storage.cpp.o: /Users/monroestephenson/database
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__numeric/adjacent_difference.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/mach/machine/_structs.h:
-
-/usr/local/include/mysqlx/devapi/common.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/mach/i386/_structs.h:
 
@@ -13373,8 +13299,6 @@ CMakeFiles/db_backup_lib.dir/src/storage.cpp.o: /Users/monroestephenson/database
 /usr/local/include/bsoncxx/v_noabi/bsoncxx/builder/core-fwd.hpp:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/typeinfo:
-
-/usr/local/include/mysqlx/common/api.h:
 
 /Library/Developer/CommandLineTools/usr/lib/clang/16/include/__stdarg_va_list.h:
 
@@ -13519,8 +13443,6 @@ CMakeFiles/db_backup_lib.dir/src/storage.cpp.o: /Users/monroestephenson/database
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__type_traits/strip_signature.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__type_traits/remove_pointer.h:
-
-/usr/local/include/mysqlx/devapi/document.h:
 
 /usr/local/include/bsoncxx/v_noabi/bsoncxx/document/view_or_value.hpp:
 
@@ -13739,8 +13661,6 @@ CMakeFiles/db_backup_lib.dir/src/storage.cpp.o: /Users/monroestephenson/database
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/deque:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__tuple/tuple_types.h:
-
-/usr/local/include/mysqlx/devapi/detail/crud.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__utility/unreachable.h:
 
@@ -14027,8 +13947,6 @@ CMakeFiles/db_backup_lib.dir/src/storage.cpp.o: /Users/monroestephenson/database
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__node_handle:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__type_traits/type_identity.h:
-
-/usr/local/include/mysqlx/common/util.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__iterator/sortable.h:
 
@@ -14370,8 +14288,6 @@ CMakeFiles/db_backup_lib.dir/src/storage.cpp.o: /Users/monroestephenson/database
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__type_traits/is_scalar.h:
 
-/usr/local/include/mysqlx/devapi/result.h:
-
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__concepts/constructible.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__concepts/common_with.h:
@@ -14686,8 +14602,6 @@ CMakeFiles/db_backup_lib.dir/src/storage.cpp.o: /Users/monroestephenson/database
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/replace_if.h:
 
-/usr/local/include/mysqlx/devapi/detail/row.h:
-
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__hash_table:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/ranges_make_heap.h:
@@ -14946,8 +14860,6 @@ CMakeFiles/db_backup_lib.dir/src/storage.cpp.o: /Users/monroestephenson/database
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__math/traits.h:
 
-/usr/local/include/mysqlx/common/op_if.h:
-
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_fd_copy.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/pstl_backend.h:
@@ -15125,8 +15037,6 @@ CMakeFiles/db_backup_lib.dir/src/storage.cpp.o: /Users/monroestephenson/database
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/pstl_generate.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__string/constexpr_c_functions.h:
-
-/usr/local/include/mysqlx/common/value.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream:
 
@@ -15398,8 +15308,6 @@ CMakeFiles/db_backup_lib.dir/src/storage.cpp.o: /Users/monroestephenson/database
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/mem_fn.h:
 
-/usr/local/include/mysqlx/devapi/table_crud.h:
-
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/binary_search.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/is_partitioned.h:
@@ -15460,8 +15368,6 @@ CMakeFiles/db_backup_lib.dir/src/storage.cpp.o: /Users/monroestephenson/database
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_types/_wctype_t.h:
 
-/usr/local/include/mysqlx/common.h:
-
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_time.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_wchar.h:
@@ -15479,8 +15385,6 @@ CMakeFiles/db_backup_lib.dir/src/storage.cpp.o: /Users/monroestephenson/database
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/vector:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/ranges_transform.h:
-
-/usr/local/include/mysqlx/devapi/crud.h:
 
 /usr/local/include/mongocxx/v_noabi/mongocxx/config/export.hpp:
 
@@ -15551,8 +15455,6 @@ CMakeFiles/db_backup_lib.dir/src/storage.cpp.o: /Users/monroestephenson/database
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/prev_permutation.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory/shared_ptr.h:
-
-/usr/local/include/mysqlx/devapi/collations.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/in_in_result.h:
 

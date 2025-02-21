@@ -1,9 +1,17 @@
 #pragma once
 
 #include "../db_connection.hpp"
-#include <mongocxx/client.hpp>
-#include <mongocxx/instance.hpp>
 #include <memory>
+
+// Forward declarations
+#ifdef USE_MONGODB
+namespace mongocxx {
+inline namespace v_noabi {
+    class client;
+    class instance;
+}
+}
+#endif
 
 class MongoDBConnection : public IDBConnection {
 public:
@@ -16,8 +24,10 @@ public:
     bool restoreBackup(const std::string& backupPath) override;
 
 private:
-    std::unique_ptr<mongocxx::instance> instance;
-    std::unique_ptr<mongocxx::client> client;
+#ifdef USE_MONGODB
+    std::unique_ptr<mongocxx::v_noabi::instance> instance;
+    std::unique_ptr<mongocxx::v_noabi::client> client;
+#endif
     bool connected;
     std::string currentDbName;
 }; 

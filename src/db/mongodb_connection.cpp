@@ -3,8 +3,16 @@
 #include <filesystem>
 #include <stdexcept>
 
+#ifdef USE_MONGODB
+#include <mongocxx/client.hpp>
+#include <mongocxx/instance.hpp>
+#include <mongocxx/uri.hpp>
+#endif
+
 MongoDBConnection::MongoDBConnection() : connected(false) {
-    instance = std::make_unique<mongocxx::instance>();
+#ifdef USE_MONGODB
+    instance = std::make_unique<mongocxx::v_noabi::instance>();
+#endif
 }
 
 MongoDBConnection::~MongoDBConnection() {
@@ -14,6 +22,7 @@ MongoDBConnection::~MongoDBConnection() {
 }
 
 bool MongoDBConnection::connect(const DatabaseConfig& dbConfig) {
+#ifdef USE_MONGODB
     if (connected) {
         return true;
     }
@@ -25,8 +34,8 @@ bool MongoDBConnection::connect(const DatabaseConfig& dbConfig) {
         << "/" << dbConfig.dbName;
 
     try {
-        mongocxx::uri mongodb_uri(uri.str());
-        client = std::make_unique<mongocxx::client>(mongodb_uri);
+        mongocxx::v_noabi::uri mongodb_uri(uri.str());
+        client = std::make_unique<mongocxx::v_noabi::client>(mongodb_uri);
         
         // Test connection by listing databases
         client->list_databases();
@@ -37,9 +46,13 @@ bool MongoDBConnection::connect(const DatabaseConfig& dbConfig) {
     } catch (const std::exception& e) {
         throw std::runtime_error(std::string("Failed to connect to MongoDB: ") + e.what());
     }
+#else
+    throw std::runtime_error("MongoDB support not enabled");
+#endif
 }
 
 bool MongoDBConnection::disconnect() {
+#ifdef USE_MONGODB
     if (!connected) {
         return true;
     }
@@ -47,9 +60,13 @@ bool MongoDBConnection::disconnect() {
     client.reset();
     connected = false;
     return true;
+#else
+    throw std::runtime_error("MongoDB support not enabled");
+#endif
 }
 
 bool MongoDBConnection::createBackup(const std::string& backupPath) {
+#ifdef USE_MONGODB
     if (!connected) {
         throw std::runtime_error("Not connected to MongoDB server");
     }
@@ -70,9 +87,13 @@ bool MongoDBConnection::createBackup(const std::string& backupPath) {
 
     int result = system(cmd.str().c_str());
     return result == 0;
+#else
+    throw std::runtime_error("MongoDB support not enabled");
+#endif
 }
 
 bool MongoDBConnection::restoreBackup(const std::string& backupPath) {
+#ifdef USE_MONGODB
     if (!connected) {
         throw std::runtime_error("Not connected to MongoDB server");
     }
@@ -95,4 +116,7 @@ bool MongoDBConnection::restoreBackup(const std::string& backupPath) {
 
     int result = system(cmd.str().c_str());
     return result == 0;
+#else
+    throw std::runtime_error("MongoDB support not enabled");
+#endif
 } 

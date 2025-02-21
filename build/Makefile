@@ -622,6 +622,30 @@ src/storage.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/storage.cpp.s
 .PHONY : src/storage.cpp.s
 
+tests/db/test_db_connections.o: tests/db/test_db_connections.cpp.o
+.PHONY : tests/db/test_db_connections.o
+
+# target to build an object file
+tests/db/test_db_connections.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/db/test_db_connections.cpp.o
+.PHONY : tests/db/test_db_connections.cpp.o
+
+tests/db/test_db_connections.i: tests/db/test_db_connections.cpp.i
+.PHONY : tests/db/test_db_connections.i
+
+# target to preprocess a source file
+tests/db/test_db_connections.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/db/test_db_connections.cpp.i
+.PHONY : tests/db/test_db_connections.cpp.i
+
+tests/db/test_db_connections.s: tests/db/test_db_connections.cpp.s
+.PHONY : tests/db/test_db_connections.s
+
+# target to generate assembly for a file
+tests/db/test_db_connections.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/db/test_db_connections.cpp.s
+.PHONY : tests/db/test_db_connections.cpp.s
+
 tests/test_backup_manager.o: tests/test_backup_manager.cpp.o
 .PHONY : tests/test_backup_manager.o
 
@@ -711,6 +735,9 @@ help:
 	@echo "... src/storage.o"
 	@echo "... src/storage.i"
 	@echo "... src/storage.s"
+	@echo "... tests/db/test_db_connections.o"
+	@echo "... tests/db/test_db_connections.i"
+	@echo "... tests/db/test_db_connections.s"
 	@echo "... tests/test_backup_manager.o"
 	@echo "... tests/test_backup_manager.i"
 	@echo "... tests/test_backup_manager.s"
