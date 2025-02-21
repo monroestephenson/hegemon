@@ -70,7 +70,7 @@ sudo apt-get install libsqlite3-dev       # For SQLite
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/database_backup.git
+git clone https://github.com/monroestephenson/database_backup.git
 cd database_backup
 
 # Create build directory
