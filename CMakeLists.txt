@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 project(my_db_backup_cli)
 
+# Option for building tests (OFF by default)
+option(BUILD_TESTS "Build test suite" OFF)
+
 # Add our custom CMake modules path
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
@@ -136,6 +139,12 @@ target_link_libraries(my_db_backup_cli PRIVATE
     CLI11::CLI11
     nlohmann_json::nlohmann_json
 )
+
+# Only include tests if BUILD_TESTS is ON
+if(BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
 
 # Installation rules
 install(TARGETS my_db_backup_cli
