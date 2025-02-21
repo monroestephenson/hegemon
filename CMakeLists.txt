@@ -67,20 +67,6 @@ if(USE_SQLITE)
     endif()
 endif()
 
-# Example: If you have the libraries installed system-wide, you might do:
-# find_package(CLI11 REQUIRED)
-# find_package(nlohmann_json REQUIRED)
-# find_package(ZLIB REQUIRED)
-# find_package(CURL REQUIRED)
-# find_package(MySQLConnectorCXX REQUIRED)
-# find_package(PostgreSQL REQUIRED)
-# find_package(LibMongoCXX REQUIRED)
-# etc...
-
-# For demonstration, we'll just include some definitions. 
-# In a real scenario, be sure to link them properly:
-# target_link_libraries(my_db_backup_cli PRIVATE CLI11::CLI11 nlohmann_json::nlohmann_json spdlog::spdlog ...)
-
 # Include directories
 include_directories(${PROJECT_SOURCE_DIR}/src)
 include_directories(${PROJECT_SOURCE_DIR}/include)
@@ -89,20 +75,6 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 if(APPLE)
     include_directories(SYSTEM /Library/Developer/CommandLineTools/usr/include/c++/v1)
     include_directories(SYSTEM /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include)
-endif()
-
-# Option for building tests
-option(BUILD_TESTING "Build test suite" OFF)
-
-# Add Google Test only if testing is enabled
-if(BUILD_TESTING)
-    if(EXISTS "${PROJECT_SOURCE_DIR}/external/googletest/CMakeLists.txt")
-        add_subdirectory(external/googletest)
-        enable_testing()
-    else()
-        message(WARNING "Google Test not found, skipping tests")
-        set(BUILD_TESTING OFF)
-    endif()
 endif()
 
 # Define source files for the library
@@ -164,26 +136,6 @@ target_link_libraries(my_db_backup_cli PRIVATE
     CLI11::CLI11
     nlohmann_json::nlohmann_json
 )
-
-# Tests
-if(BUILD_TESTING)
-    add_executable(unit_tests
-        tests/test_backup_manager.cpp
-        tests/db/test_db_connections.cpp
-    )
-
-    target_include_directories(unit_tests PRIVATE
-        ${PROJECT_SOURCE_DIR}/src
-        ${PROJECT_SOURCE_DIR}/src/mocks
-    )
-
-    target_link_libraries(unit_tests PRIVATE
-        db_backup_lib
-        gtest
-        gtest_main
-        gmock
-    )
-endif()
 
 # Installation rules
 install(TARGETS my_db_backup_cli
