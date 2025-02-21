@@ -97,7 +97,7 @@ Below is a non-exhaustive list of libraries and tools that can be used to implem
    - Custom scheduling logic (using `<chrono>` in C++)
 
 9. **Notification Integration**  
-   - [libcurl](https://curl.se/libcurl/) for HTTP requests to Slack’s Webhook or any other REST endpoint.
+   - [libcurl](https://curl.se/libcurl/) for HTTP requests to Slack's Webhook or any other REST endpoint.
 
 ---
 
@@ -113,7 +113,11 @@ flowchart LR
     B --> L[Restore Manager]
 
     D --> E[Database Connection Manager]
-    E --> F[(Databases)<br>MySQL/PostgreSQL/<br>MongoDB/SQLite]
+    E --> F[(Databases)]
+    F --> F1[MySQL]
+    F --> F2[PostgreSQL]
+    F --> F3[MongoDB]
+    F --> F4[SQLite]
     
     D --> G[Compression Manager]
     G --> H[Compressed Backup File]
@@ -128,20 +132,30 @@ flowchart LR
     L --> E
     L --> I
     L --> M
+```
 
+### Diagram Explanation
 
-Diagram Explanation
-CLI Parser interprets user commands (e.g., backup, restore, schedule).
-Configuration Handler reads the user’s configuration parameters (DB credentials, storage preferences, scheduling intervals).
-Backup Manager takes these parameters and orchestrates the backup process.
-Database Connection Manager is responsible for connecting to the chosen DBMS.
-Compression Manager compresses the extracted data to save space.
-Storage Manager decides where the backup file is stored (locally or in the cloud).
-Logging & Notification Manager records backup details and optionally sends notifications (e.g., Slack messages).
-Restore Manager facilitates restoring the database from a backup file, optionally using selective restore functionality.
-Scheduler can trigger automated backups by invoking the Backup Manager at scheduled intervals.
+The diagram illustrates the system's core components and their interactions:
 
-5. Conclusion
-This architecture ensures a modular approach that can be extended to new database types or cloud services as needed. By separating concerns into distinct components (backup, restore, compression, storage, etc.), the tool remains maintainable and scalable. Logging and notifications provide transparency and traceability for backup operations, while scheduling ensures regular backups without manual intervention.
+- **CLI Parser**: Interprets user commands (e.g., backup, restore, schedule)
+- **Configuration Handler**: Reads user's configuration parameters (DB credentials, storage preferences, scheduling intervals)
+- **Backup Manager**: Orchestrates the backup process using the provided parameters
+- **Database Connection Manager**: Manages connections to the chosen DBMS
+- **Compression Manager**: Compresses the extracted data to save space
+- **Storage Manager**: Handles backup file storage (locally or in the cloud)
+- **Logging & Notification Manager**: Records backup details and sends optional notifications (e.g., Slack messages)
+- **Restore Manager**: Facilitates database restoration from backup files, with optional selective restore functionality
+- **Scheduler**: Triggers automated backups by invoking the Backup Manager at scheduled intervals
+
+## 5. Conclusion
+
+This architecture ensures a modular approach that can be extended to new database types or cloud services as needed. By separating concerns into distinct components (backup, restore, compression, storage, etc.), the tool remains maintainable and scalable. Key benefits include:
+
+- **Modularity**: Each component handles a specific responsibility
+- **Extensibility**: New database types or cloud services can be added easily
+- **Maintainability**: Components can be updated or replaced independently
+- **Transparency**: Comprehensive logging and notification system
+- **Automation**: Built-in scheduling for regular backups
 
 With this high-level design in place, the next step is to begin implementing each component, starting with the CLI, configuration parsing, and database connection modules. From there, each module (backup, restore, compression, storage, etc.) can be built and integrated to form a robust, user-friendly backup CLI tool.
