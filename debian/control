@@ -1,0 +1,16 @@
+Source: database-backup
+Section: utils
+Priority: optional
+Maintainer: Monroe Stephenson <your.email@example.com>
+Build-Depends: debhelper (>= 11), cmake, libspdlog-dev, nlohmann-json3-dev
+Standards-Version: 4.5.1
+Homepage: https://github.com/monroestephenson/database_backup
+
+Package: database-backup
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libspdlog1, nlohmann-json3
+Suggests: libmysqlcppconn-dev, libpqxx-dev, libmongocxx-dev, libsqlite3-dev
+Description: Powerful database backup CLI tool
+ A flexible command-line tool for backing up and restoring various types
+ of databases. Supports MySQL, PostgreSQL, MongoDB, and SQLite with
+ features like compression, encryption, and cloud storage integration. 

@@ -1,0 +1,114 @@
+#!/bin/bash
+
+# Default config location
+CONFIG_FILE="$HOME/.config/db-backup/config.json"
+
+# Function to show usage
+show_usage() {
+    echo "Database Backup CLI Tool"
+    echo
+    echo "Usage: db-backup <command> [options]"
+    echo
+    echo "Commands:"
+    echo "  backup [--type <full|incremental|differential>]  Perform a backup"
+    echo "  restore <filename>                              Restore from backup"
+    echo "  schedule                                       Start scheduled backups"
+    echo "  verify <filename>                              Verify backup integrity"
+    echo "  list                                          List available backups"
+    echo
+    echo "Options:"
+    echo "  --config <path>    Use specific config file (default: ~/.config/db-backup/config.json)"
+    echo "  --help            Show this help message"
+    echo "  --version         Show version information"
+}
+
+# Function to check if config exists
+check_config() {
+    if [ ! -f "$CONFIG_FILE" ]; then
+        echo "Error: Configuration file not found at $CONFIG_FILE"
+        echo "Please copy the template from /usr/local/etc/database_backup/config.template.json"
+        echo "  mkdir -p ~/.config/db-backup"
+        echo "  cp /usr/local/etc/database_backup/config.template.json ~/.config/db-backup/config.json"
+        echo "  nano ~/.config/db-backup/config.json"
+        exit 1
+    fi
+}
+
+# Parse command line arguments
+COMMAND=""
+TYPE="full"
+RESTORE_FILE=""
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        backup|restore|schedule|verify|list)
+            COMMAND="$1"
+            shift
+            ;;
+        --type)
+            TYPE="$2"
+            shift 2
+            ;;
+        --config)
+            CONFIG_FILE="$2"
+            shift 2
+            ;;
+        --help)
+            show_usage
+            exit 0
+            ;;
+        --version)
+            echo "Database Backup CLI v1.0.0"
+            exit 0
+            ;;
+        *)
+            if [ -z "$RESTORE_FILE" ] && [ "$COMMAND" = "restore" ]; then
+                RESTORE_FILE="$1"
+            else
+                echo "Error: Unknown option $1"
+                show_usage
+                exit 1
+            fi
+            shift
+            ;;
+    esac
+done
+
+# Check if command is provided
+if [ -z "$COMMAND" ]; then
+    echo "Error: No command specified"
+    show_usage
+    exit 1
+fi
+
+# Check if config exists
+check_config
+
+# Execute the appropriate command
+case $COMMAND in
+    backup)
+        /usr/local/bin/my_db_backup_cli backup --type "$TYPE" --config "$CONFIG_FILE"
+        ;;
+    restore)
+        if [ -z "$RESTORE_FILE" ]; then
+            echo "Error: No backup file specified for restore"
+            show_usage
+            exit 1
+        fi
+        /usr/local/bin/my_db_backup_cli restore --file "$RESTORE_FILE" --config "$CONFIG_FILE"
+        ;;
+    schedule)
+        /usr/local/bin/my_db_backup_cli schedule --config "$CONFIG_FILE"
+        ;;
+    verify)
+        if [ -z "$RESTORE_FILE" ]; then
+            echo "Error: No backup file specified for verification"
+            show_usage
+            exit 1
+        fi
+        /usr/local/bin/my_db_backup_cli verify --file "$RESTORE_FILE" --config "$CONFIG_FILE"
+        ;;
+    list)
+        /usr/local/bin/my_db_backup_cli list --config "$CONFIG_FILE"
+        ;;
+esac 
