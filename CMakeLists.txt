@@ -36,27 +36,35 @@ option(USE_MONGODB "Enable MongoDB support" OFF)
 option(USE_SQLITE "Enable SQLite support" ON)
 
 if(USE_MYSQL)
-    find_package(MySQL REQUIRED)
-    add_definitions(-DUSE_MYSQL)
-    include_directories(${MYSQL_INCLUDE_DIR})
+    find_package(MySQL)
+    if(MySQL_FOUND)
+        add_definitions(-DUSE_MYSQL)
+        include_directories(${MYSQL_INCLUDE_DIR})
+    endif()
 endif()
 
 if(USE_POSTGRESQL)
-    find_package(PostgreSQL REQUIRED)
-    find_package(PQXX REQUIRED)
-    add_definitions(-DUSE_POSTGRESQL)
-    include_directories(${PostgreSQL_INCLUDE_DIRS} ${PQXX_INCLUDE_DIR})
+    find_package(PostgreSQL)
+    find_package(PQXX)
+    if(PostgreSQL_FOUND AND PQXX_FOUND)
+        add_definitions(-DUSE_POSTGRESQL)
+        include_directories(${PostgreSQL_INCLUDE_DIRS} ${PQXX_INCLUDE_DIR})
+    endif()
 endif()
 
 if(USE_MONGODB)
-    find_package(mongocxx REQUIRED)
-    find_package(bsoncxx REQUIRED)
-    add_definitions(-DUSE_MONGODB)
+    find_package(mongocxx)
+    find_package(bsoncxx)
+    if(MONGOCXX_FOUND AND BSONCXX_FOUND)
+        add_definitions(-DUSE_MONGODB)
+    endif()
 endif()
 
 if(USE_SQLITE)
-    find_package(SQLite3 REQUIRED)
-    add_definitions(-DUSE_SQLITE)
+    find_package(SQLite3)
+    if(SQLite3_FOUND)
+        add_definitions(-DUSE_SQLITE)
+    endif()
 endif()
 
 # Example: If you have the libraries installed system-wide, you might do:
@@ -83,9 +91,19 @@ if(APPLE)
     include_directories(SYSTEM /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include)
 endif()
 
-# Add Google Test
-add_subdirectory(external/googletest)
-enable_testing()
+# Option for building tests
+option(BUILD_TESTING "Build test suite" OFF)
+
+# Add Google Test only if testing is enabled
+if(BUILD_TESTING)
+    if(EXISTS "${PROJECT_SOURCE_DIR}/external/googletest/CMakeLists.txt")
+        add_subdirectory(external/googletest)
+        enable_testing()
+    else()
+        message(WARNING "Google Test not found, skipping tests")
+        set(BUILD_TESTING OFF)
+    endif()
+endif()
 
 # Define source files for the library
 set(LIB_SOURCES
@@ -112,24 +130,24 @@ target_link_libraries(db_backup_lib PRIVATE
 )
 
 # Add database-specific libraries
-if(USE_MYSQL)
+if(MySQL_FOUND)
     target_include_directories(db_backup_lib PRIVATE ${MYSQL_INCLUDE_DIR})
     target_link_libraries(db_backup_lib PRIVATE ${MYSQL_LIBRARIES})
 endif()
 
-if(USE_POSTGRESQL)
+if(PostgreSQL_FOUND AND PQXX_FOUND)
     target_include_directories(db_backup_lib PRIVATE ${PostgreSQL_INCLUDE_DIRS} ${PQXX_INCLUDE_DIR})
     target_link_libraries(db_backup_lib PRIVATE ${PostgreSQL_LIBRARIES} ${PQXX_LIBRARIES})
 endif()
 
-if(USE_MONGODB)
+if(MONGOCXX_FOUND AND BSONCXX_FOUND)
     target_link_libraries(db_backup_lib PRIVATE 
         mongo::mongocxx_shared
         mongo::bsoncxx_shared
     )
 endif()
 
-if(USE_SQLITE)
+if(SQLite3_FOUND)
     target_link_libraries(db_backup_lib PRIVATE SQLite::SQLite3)
 endif()
 
@@ -148,22 +166,35 @@ target_link_libraries(my_db_backup_cli PRIVATE
 )
 
 # Tests
-add_executable(unit_tests
-    tests/test_backup_manager.cpp
-    tests/db/test_db_connections.cpp
+if(BUILD_TESTING)
+    add_executable(unit_tests
+        tests/test_backup_manager.cpp
+        tests/db/test_db_connections.cpp
+    )
+
+    target_include_directories(unit_tests PRIVATE
+        ${PROJECT_SOURCE_DIR}/src
+        ${PROJECT_SOURCE_DIR}/src/mocks
+    )
+
+    target_link_libraries(unit_tests PRIVATE
+        db_backup_lib
+        gtest
+        gtest_main
+        gmock
+    )
+endif()
+
+# Installation rules
+install(TARGETS my_db_backup_cli
+    RUNTIME DESTINATION bin
 )
 
-target_include_directories(unit_tests PRIVATE
-    ${PROJECT_SOURCE_DIR}/src
-    ${PROJECT_SOURCE_DIR}/src/mocks
+install(FILES config.json
+    DESTINATION etc/database_backup
+    RENAME config.template.json
 )
 
-target_link_libraries(unit_tests PRIVATE
-    db_backup_lib
-    gtest
-    gtest_main
-    gmock
-    gmock_main
+install(FILES README.md LICENSE
+    DESTINATION share/doc/database_backup
 )
-
-add_test(NAME unit_tests COMMAND unit_tests)
