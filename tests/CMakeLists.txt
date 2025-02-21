@@ -1,4 +1,13 @@
 # tests/CMakeLists.txt
+
+# Try to find Google Test
+find_package(GTest QUIET)
+
+if(NOT GTest_FOUND)
+    message(STATUS "Google Test not found. Tests will not be built.")
+    return()
+endif()
+
 set(TEST_SOURCES
     test_config.cpp
     test_backup_manager.cpp
@@ -15,10 +24,12 @@ add_executable(my_db_backup_cli_tests ${TEST_SOURCES})
 
 target_link_libraries(my_db_backup_cli_tests
     PRIVATE
-        gtest
-        gtest_main
+        GTest::GTest
+        GTest::Main
         pthread            # On Linux
-        # spdlog, nlohmann_json, ...
+        db_backup_lib
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
         # other libraries your code depends on
 )
 
