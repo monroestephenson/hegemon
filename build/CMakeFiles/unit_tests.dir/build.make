@@ -102,6 +102,12 @@ unit_tests: lib/libgmock.a
 unit_tests: lib/libgmock_main.a
 unit_tests: /usr/local/lib/libspdlog.1.15.1.dylib
 unit_tests: /usr/local/lib/libfmt.11.1.3.dylib
+unit_tests: /usr/local/lib/libmysqlclient.dylib
+unit_tests: /usr/local/lib/postgresql@14/libpq.dylib
+unit_tests: /usr/local/lib/libpqxx.dylib
+unit_tests: /usr/local/lib/libmongocxx.4.0.0.dylib
+unit_tests: /usr/local/lib/libbsoncxx.4.0.0.dylib
+unit_tests: /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/lib/libsqlite3.tbd
 unit_tests: lib/libgmock.a
 unit_tests: lib/libgtest.a
 unit_tests: CMakeFiles/unit_tests.dir/link.txt

@@ -358,6 +358,102 @@ src/config.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/config.cpp.s
 .PHONY : src/config.cpp.s
 
+src/db/mongodb_connection.o: src/db/mongodb_connection.cpp.o
+.PHONY : src/db/mongodb_connection.o
+
+# target to build an object file
+src/db/mongodb_connection.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/mongodb_connection.cpp.o
+.PHONY : src/db/mongodb_connection.cpp.o
+
+src/db/mongodb_connection.i: src/db/mongodb_connection.cpp.i
+.PHONY : src/db/mongodb_connection.i
+
+# target to preprocess a source file
+src/db/mongodb_connection.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/mongodb_connection.cpp.i
+.PHONY : src/db/mongodb_connection.cpp.i
+
+src/db/mongodb_connection.s: src/db/mongodb_connection.cpp.s
+.PHONY : src/db/mongodb_connection.s
+
+# target to generate assembly for a file
+src/db/mongodb_connection.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/mongodb_connection.cpp.s
+.PHONY : src/db/mongodb_connection.cpp.s
+
+src/db/mysql_connection.o: src/db/mysql_connection.cpp.o
+.PHONY : src/db/mysql_connection.o
+
+# target to build an object file
+src/db/mysql_connection.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/mysql_connection.cpp.o
+.PHONY : src/db/mysql_connection.cpp.o
+
+src/db/mysql_connection.i: src/db/mysql_connection.cpp.i
+.PHONY : src/db/mysql_connection.i
+
+# target to preprocess a source file
+src/db/mysql_connection.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/mysql_connection.cpp.i
+.PHONY : src/db/mysql_connection.cpp.i
+
+src/db/mysql_connection.s: src/db/mysql_connection.cpp.s
+.PHONY : src/db/mysql_connection.s
+
+# target to generate assembly for a file
+src/db/mysql_connection.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/mysql_connection.cpp.s
+.PHONY : src/db/mysql_connection.cpp.s
+
+src/db/postgresql_connection.o: src/db/postgresql_connection.cpp.o
+.PHONY : src/db/postgresql_connection.o
+
+# target to build an object file
+src/db/postgresql_connection.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/postgresql_connection.cpp.o
+.PHONY : src/db/postgresql_connection.cpp.o
+
+src/db/postgresql_connection.i: src/db/postgresql_connection.cpp.i
+.PHONY : src/db/postgresql_connection.i
+
+# target to preprocess a source file
+src/db/postgresql_connection.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/postgresql_connection.cpp.i
+.PHONY : src/db/postgresql_connection.cpp.i
+
+src/db/postgresql_connection.s: src/db/postgresql_connection.cpp.s
+.PHONY : src/db/postgresql_connection.s
+
+# target to generate assembly for a file
+src/db/postgresql_connection.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/postgresql_connection.cpp.s
+.PHONY : src/db/postgresql_connection.cpp.s
+
+src/db/sqlite_connection.o: src/db/sqlite_connection.cpp.o
+.PHONY : src/db/sqlite_connection.o
+
+# target to build an object file
+src/db/sqlite_connection.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/sqlite_connection.cpp.o
+.PHONY : src/db/sqlite_connection.cpp.o
+
+src/db/sqlite_connection.i: src/db/sqlite_connection.cpp.i
+.PHONY : src/db/sqlite_connection.i
+
+# target to preprocess a source file
+src/db/sqlite_connection.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/sqlite_connection.cpp.i
+.PHONY : src/db/sqlite_connection.cpp.i
+
+src/db/sqlite_connection.s: src/db/sqlite_connection.cpp.s
+.PHONY : src/db/sqlite_connection.s
+
+# target to generate assembly for a file
+src/db/sqlite_connection.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/sqlite_connection.cpp.s
+.PHONY : src/db/sqlite_connection.cpp.s
+
 src/db_connection.o: src/db_connection.cpp.o
 .PHONY : src/db_connection.o
 
@@ -582,6 +678,18 @@ help:
 	@echo "... src/config.o"
 	@echo "... src/config.i"
 	@echo "... src/config.s"
+	@echo "... src/db/mongodb_connection.o"
+	@echo "... src/db/mongodb_connection.i"
+	@echo "... src/db/mongodb_connection.s"
+	@echo "... src/db/mysql_connection.o"
+	@echo "... src/db/mysql_connection.i"
+	@echo "... src/db/mysql_connection.s"
+	@echo "... src/db/postgresql_connection.o"
+	@echo "... src/db/postgresql_connection.i"
+	@echo "... src/db/postgresql_connection.s"
+	@echo "... src/db/sqlite_connection.o"
+	@echo "... src/db/sqlite_connection.i"
+	@echo "... src/db/sqlite_connection.s"
 	@echo "... src/db_connection.o"
 	@echo "... src/db_connection.i"
 	@echo "... src/db_connection.s"

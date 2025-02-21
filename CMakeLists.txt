@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 project(my_db_backup_cli)
 
+# Add our custom CMake modules path
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -25,6 +28,36 @@ endif()
 find_package(spdlog REQUIRED)
 find_package(CLI11 REQUIRED)
 find_package(nlohmann_json REQUIRED)
+
+# Database dependencies
+option(USE_MYSQL "Enable MySQL support" ON)
+option(USE_POSTGRESQL "Enable PostgreSQL support" ON)
+option(USE_MONGODB "Enable MongoDB support" ON)
+option(USE_SQLITE "Enable SQLite support" ON)
+
+if(USE_MYSQL)
+    find_package(MySQL REQUIRED)
+    add_definitions(-DUSE_MYSQL)
+    include_directories(${MYSQL_INCLUDE_DIR})
+endif()
+
+if(USE_POSTGRESQL)
+    find_package(PostgreSQL REQUIRED)
+    find_package(PQXX REQUIRED)
+    add_definitions(-DUSE_POSTGRESQL)
+    include_directories(${PostgreSQL_INCLUDE_DIRS} ${PQXX_INCLUDE_DIR})
+endif()
+
+if(USE_MONGODB)
+    find_package(mongocxx REQUIRED)
+    find_package(bsoncxx REQUIRED)
+    add_definitions(-DUSE_MONGODB)
+endif()
+
+if(USE_SQLITE)
+    find_package(SQLite3 REQUIRED)
+    add_definitions(-DUSE_SQLITE)
+endif()
 
 # Example: If you have the libraries installed system-wide, you might do:
 # find_package(CLI11 REQUIRED)
@@ -64,6 +97,10 @@ set(LIB_SOURCES
     src/logging.cpp
     src/notifications.cpp
     src/restore_manager.cpp
+    src/db/mysql_connection.cpp
+    src/db/postgresql_connection.cpp
+    src/db/mongodb_connection.cpp
+    src/db/sqlite_connection.cpp
 )
 
 # Create a library from the common sources
@@ -72,6 +109,28 @@ target_link_libraries(db_backup_lib PRIVATE
     spdlog::spdlog
     nlohmann_json::nlohmann_json
 )
+
+# Add database-specific libraries
+if(USE_MYSQL)
+    target_include_directories(db_backup_lib PRIVATE ${MYSQL_INCLUDE_DIR})
+    target_link_libraries(db_backup_lib PRIVATE ${MYSQL_LIBRARIES})
+endif()
+
+if(USE_POSTGRESQL)
+    target_include_directories(db_backup_lib PRIVATE ${PostgreSQL_INCLUDE_DIRS} ${PQXX_INCLUDE_DIR})
+    target_link_libraries(db_backup_lib PRIVATE ${PostgreSQL_LIBRARIES} ${PQXX_LIBRARIES})
+endif()
+
+if(USE_MONGODB)
+    target_link_libraries(db_backup_lib PRIVATE 
+        mongo::mongocxx_shared
+        mongo::bsoncxx_shared
+    )
+endif()
+
+if(USE_SQLITE)
+    target_link_libraries(db_backup_lib PRIVATE SQLite::SQLite3)
+endif()
 
 # Main executable
 add_executable(my_db_backup_cli
