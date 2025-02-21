@@ -1,23 +1,39 @@
-#pragma once
-
-#include "config.hpp"
-#include <atomic>
+#include "scheduling.hpp"
+#include <chrono>
 #include <thread>
 
 /// A simple internal scheduler example. 
 /// In production, you'd likely use Cron, Task Scheduler, etc.
-class Scheduler {
-public:
-    Scheduler(const Config& cfg);
-    ~Scheduler();
+Scheduler::Scheduler(const Config& cfg)
+    : m_config(cfg)
+    , m_running(false)
+{
+}
 
-    void start();
-    void stop();
+Scheduler::~Scheduler() {
+    stop();
+}
 
-private:
-    void runScheduler();
+void Scheduler::start() {
+    if (!m_running) {
+        m_running = true;
+        m_thread = std::thread(&Scheduler::runScheduler, this);
+    }
+}
 
-    Config m_config;
-    std::atomic_bool m_running;
-    std::thread m_thread;
-};
+void Scheduler::stop() {
+    if (m_running) {
+        m_running = false;
+        if (m_thread.joinable()) {
+            m_thread.join();
+        }
+    }
+}
+
+void Scheduler::runScheduler() {
+    while (m_running) {
+        // TODO: Implement actual scheduling logic
+        // For now, just sleep for a while
+        std::this_thread::sleep_for(std::chrono::seconds(60));
+    }
+}

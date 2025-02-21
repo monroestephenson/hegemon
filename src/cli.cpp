@@ -20,8 +20,12 @@ CLIOptions parseCLI(int argc, char** argv) {
 
     // You can add more advanced options under each subcommand if needed.
 
-    // Parse
-    CLI11_PARSE(app, argc, argv);
+    try {
+        app.parse(argc, argv);
+    } catch (const CLI::ParseError &e) {
+        app.exit(e);
+        throw std::runtime_error("Failed to parse command line arguments");
+    }
 
     // Determine which command was used
     if (backupCmd->parsed()) {

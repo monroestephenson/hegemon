@@ -2,7 +2,7 @@
 #include <gmock/gmock.h>
 #include "backup_manager.hpp"
 #include "config.hpp"
-#include "mocks/mock_db_connection.hpp"
+#include "mock_db_connection.hpp"
 
 // Normally you'd provide a way to inject the mock DB connection into BackupManager.
 // For demonstration, we might override createDBConnection in test or pass a pointer in the constructor.

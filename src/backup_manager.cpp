@@ -21,9 +21,14 @@ bool BackupManager::backup(const std::string& backupType) {
     auto logger = getLogger();
     logger->info("Starting {} backup...", backupType);
 
-    // Step 1: Connect to DB
-    auto conn = createDBConnection(m_config.database);
-    if(!conn->connect(m_config.database)) {
+    auto conn = createConnection();
+    if (!conn) {
+        logger->error("Failed to create DB connection.");
+        sendNotificationIfNeeded(m_config.logging, "Backup failed: createConnection error.");
+        return false;
+    }
+
+    if (!conn->connect(m_config.database)) {
         logger->error("Database connection failed.");
         sendNotificationIfNeeded(m_config.logging, "Backup failed: DB connection error.");
         return false;
@@ -39,7 +44,7 @@ bool BackupManager::backup(const std::string& backupType) {
     std::string localBackupPath = m_config.storage.localPath + "/" + backupFileName;
 
     // Step 3: Perform DB-specific backup
-    // For incremental/differential, you’d maintain a position or metadata.
+    // For incremental/differential, you'd maintain a position or metadata.
     bool success = conn->createBackup(localBackupPath);
     if(!success) {
         logger->error("Backup creation failed.");
@@ -74,4 +79,8 @@ bool BackupManager::backup(const std::string& backupType) {
     sendNotificationIfNeeded(m_config.logging, "Backup succeeded: " + localBackupPath);
 
     return true;
+}
+
+std::unique_ptr<IDBConnection> BackupManager::createConnection() {
+    return std::make_unique<DBConnection>();
 }
