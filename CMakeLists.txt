@@ -31,6 +31,8 @@ endif()
 find_package(spdlog REQUIRED)
 find_package(CLI11 REQUIRED)
 find_package(nlohmann_json REQUIRED)
+find_package(OpenSSL REQUIRED)
+find_package(ZLIB REQUIRED)
 
 # Database dependencies
 option(USE_MYSQL "Enable MySQL support" ON)
@@ -39,7 +41,7 @@ option(USE_MONGODB "Enable MongoDB support" OFF)
 option(USE_SQLITE "Enable SQLite support" ON)
 
 if(USE_MYSQL)
-    find_package(MySQL)
+    find_package(MySQL REQUIRED)
     if(MySQL_FOUND)
         add_definitions(-DUSE_MYSQL)
         include_directories(${MYSQL_INCLUDE_DIR})
@@ -90,6 +92,8 @@ set(LIB_SOURCES
     src/logging.cpp
     src/notifications.cpp
     src/restore_manager.cpp
+    src/cli.cpp
+    src/scheduling.cpp
     src/db/mysql_connection.cpp
     src/db/postgresql_connection.cpp
     src/db/mongodb_connection.cpp
@@ -102,6 +106,9 @@ add_library(db_backup_lib STATIC ${LIB_SOURCES})
 target_link_libraries(db_backup_lib PRIVATE
     spdlog::spdlog
     nlohmann_json::nlohmann_json
+    OpenSSL::SSL
+    OpenSSL::Crypto
+    ZLIB::ZLIB
 )
 
 # Add database-specific libraries
@@ -129,8 +136,6 @@ endif()
 # Main executable
 add_executable(my_db_backup_cli
     src/main.cpp
-    src/cli.cpp
-    src/scheduling.cpp
 )
 
 target_link_libraries(my_db_backup_cli PRIVATE 

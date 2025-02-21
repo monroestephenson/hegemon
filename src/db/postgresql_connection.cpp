@@ -6,7 +6,23 @@
 
 using namespace dbbackup::error;
 
-bool PostgreSQLConnection::connect(const DatabaseConfig& dbConfig) {
+PostgreSQLConnection::PostgreSQLConnection() noexcept : conn(nullptr) {
+}
+
+PostgreSQLConnection::~PostgreSQLConnection() noexcept {
+    if (conn) {
+        try {
+            if (conn->is_open()) {
+                conn->close();
+            }
+        } catch (...) {
+            // Ignore errors during destruction
+        }
+        conn.reset();
+    }
+}
+
+bool PostgreSQLConnection::connect(const dbbackup::DatabaseConfig& dbConfig) {
     DB_TRY_CATCH_LOG("PostgreSQLConnection", {
         // Store config for later use in backup/restore
         currentConfig = dbConfig;

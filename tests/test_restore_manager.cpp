@@ -2,13 +2,15 @@
 #include <gmock/gmock.h>
 #include "restore_manager.hpp"
 #include "mocks/mock_db_connection.hpp"
+#include "config.hpp"
 
 using ::testing::_;
 using ::testing::Return;
+using namespace dbbackup;
 
 class TestableRestoreManager : public RestoreManager {
 public:
-    TestableRestoreManager(const Config& cfg, std::unique_ptr<IDBConnection> dbconn)
+    TestableRestoreManager(const dbbackup::Config& cfg, std::unique_ptr<IDBConnection> dbconn)
         : RestoreManager(cfg), mockConn(std::move(dbconn)) {}
 
 protected:
@@ -22,11 +24,16 @@ private:
 
 TEST(RestoreManagerTest, RestoreSuccess) {
     // Arrange
-    Config cfg;
-    cfg.database.type = "postgres";
+    dbbackup::Config cfg;
+    cfg.database.type = "mysql";
+    cfg.database.host = "localhost";
+    cfg.database.port = 3306;
+    cfg.database.username = "test_user";
+    cfg.database.password = "test_pass";
+    cfg.database.database = "test_db";
 
     auto mockConn = std::make_unique<MockDBConnection>();
-    EXPECT_CALL(*mockConn, connect(_)).WillOnce(Return(true));
+    EXPECT_CALL(*mockConn, connect(::testing::An<const dbbackup::DatabaseConfig&>())).WillOnce(Return(true));
     EXPECT_CALL(*mockConn, restoreBackup("backup.dump")).WillOnce(Return(true));
     EXPECT_CALL(*mockConn, disconnect()).WillOnce(Return(true));
 

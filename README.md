@@ -13,7 +13,10 @@ brew tap monroestephenson/database-backup
 brew install database-backup
 
 # Optional: Install database-specific dependencies
-brew install mysql-connector-c++ libpq mongo-cxx-driver sqlite3
+brew install mysql-connector-c++  # For MySQL support
+brew install libpq               # For PostgreSQL support
+brew install mongo-cxx-driver    # For MongoDB support
+brew install sqlite3            # For SQLite support
 ```
 
 #### Ubuntu/Debian
@@ -38,36 +41,108 @@ cd database_backup
 sudo make install
 ```
 
-### Quick Usage
+### Post-Installation Setup
 
-1. Set up your environment variables (add to ~/.zshrc or ~/.bash_profile):
+After installation, follow these steps to complete the setup:
+
+1. Create your configuration directory:
 ```bash
-export DB_USER=your_database_user
-export DB_PASSWORD=your_database_password
-export SLACK_WEBHOOK_ID=your_webhook_id  # Optional
-export ENCRYPTION_KEY_PATH=/path/to/your/key  # Optional
+mkdir -p ~/.config/db-backup
 ```
 
-2. Create your configuration:
+2. Copy the configuration template:
 ```bash
-# Copy the template
-mkdir -p ~/.config/db-backup
 cp /usr/local/etc/database_backup/config.template.json ~/.config/db-backup/config.json
+```
 
-# Edit the configuration
+3. Set up your environment variables by adding these lines to your `~/.zshrc` or `~/.bash_profile`:
+```bash
+# Required variables
+export DB_USER=your_database_user
+export DB_PASSWORD=your_database_password
+
+# Optional variables
+export SLACK_WEBHOOK_ID=your_webhook_id          # For Slack notifications
+export ENCRYPTION_KEY_PATH=/path/to/your/key     # For encrypted backups
+```
+
+4. Edit your configuration file:
+```bash
 nano ~/.config/db-backup/config.json
 ```
 
-3. Run backups:
+5. Test the installation:
+```bash
+db-backup-cli --help
+```
+
+### Basic Usage
+
 ```bash
 # Perform a full backup
-db-backup backup --type full
+db-backup-cli backup --type full
 
-# Restore from backup
-db-backup restore --file backup_20240221_123456.dump.gz
+# List available backups
+db-backup-cli list
 
-# Start scheduled backups
-db-backup schedule
+# Restore from a backup
+db-backup-cli restore backup_20240221_123456.dump.gz
+
+# Start scheduled backups (based on cron settings in config)
+db-backup-cli schedule
+
+# Verify backup integrity
+db-backup-cli verify backup_20240221_123456.dump.gz
+```
+
+## Configuration
+
+The configuration file at `~/.config/db-backup/config.json` supports the following options:
+
+```json
+{
+    "database": {
+        "type": "mysql",          // mysql, postgresql, mongodb, sqlite
+        "host": "localhost",
+        "port": 3306,
+        "username": "${DB_USER}",
+        "password": "${DB_PASSWORD}",
+        "database": "mydb"
+    },
+    "storage": {
+        "localPath": "./backups",
+        "cloudProvider": "aws",    // aws, gcp (planned), azure (planned)
+        "cloudPath": "my-backup-bucket/database-backups"
+    },
+    "logging": {
+        "logPath": "./logs/backup.log",
+        "logLevel": "info",       // debug, info, warn, error
+        "enableNotifications": true,
+        "notificationEndpoint": "https://hooks.slack.com/services/${SLACK_WEBHOOK_ID}"
+    },
+    "backup": {
+        "compression": {
+            "enabled": true,
+            "format": "gzip",     // gzip, bzip2, xz
+            "level": "medium"     // low, medium, high
+        },
+        "retention": {
+            "days": 30,
+            "maxBackups": 10
+        },
+        "schedule": {
+            "enabled": true,
+        "cron": "0 0 * * *"      // Daily at midnight
+        }
+    },
+    "security": {
+        "encryption": {
+            "enabled": true,
+            "algorithm": "AES-256-GCM",
+            "keyPath": "${ENCRYPTION_KEY_PATH}"
+        }
+    }
+}
 ```
 
 ## Features
@@ -106,110 +181,37 @@ db-backup schedule
   - Multiple log levels
   - Log rotation
 
-## Prerequisites
+## Troubleshooting
 
-- C++17 compatible compiler
-- CMake 3.10 or higher
-- Required libraries:
-  - spdlog
-  - CLI11
-  - nlohmann_json
-  - Database-specific client libraries (MySQL, PostgreSQL, etc.)
+### Common Issues
 
-### Installing Dependencies
+1. **Permission Denied**
+   ```
+   mkdir: /Users/username/.config/db-backup: Operation not permitted
+   ```
+   Solution: Create the directory manually using the commands in the setup instructions.
 
-#### macOS
-```bash
-brew install cmake spdlog cli11 nlohmann-json
-# Database-specific installations
-brew install mysql-connector-c++  # For MySQL
-brew install libpq               # For PostgreSQL
-brew install mongo-cxx-driver    # For MongoDB
-brew install sqlite3            # For SQLite
-```
+2. **Configuration Not Found**
+   ```
+   Error: Configuration file not found at ~/.config/db-backup/config.json
+   ```
+   Solution: Follow the post-installation setup steps to create and configure your config file.
 
-#### Ubuntu/Debian
-```bash
-sudo apt-get update
-sudo apt-get install cmake libspdlog-dev nlohmann-json3-dev
-# Database-specific installations
-sudo apt-get install libmysqlcppconn-dev  # For MySQL
-sudo apt-get install libpqxx-dev          # For PostgreSQL
-sudo apt-get install libmongocxx-dev      # For MongoDB
-sudo apt-get install libsqlite3-dev       # For SQLite
-```
+3. **Environment Variables Not Set**
+   ```
+   Error: Environment variable DB_USER not set
+   ```
+   Solution: Make sure to set the required environment variables in your shell configuration file and reload it:
+   ```bash
+   source ~/.zshrc  # or source ~/.bash_profile
+   ```
 
-## Configuration
+### Getting Help
 
-### Environment Variables
+- Run `db-backup-cli --help` for command usage
+- Check the logs at `./logs/backup.log`
+- File issues on GitHub for bug reports or feature requests
 
-The following environment variables need to be set for secure operation:
+## License
 
-```bash
-# Database credentials
-export DB_USER=your_database_user
-export DB_PASSWORD=your_database_password
-
-# For Slack notifications (optional)
-export SLACK_WEBHOOK_ID=your_slack_webhook_id
-
-# For encryption (if enabled)
-export ENCRYPTION_KEY_PATH=/path/to/your/encryption.key
-```
-
-### Configuration File
-
-Create a `config.json` file in your project directory. Here's a sample configuration:
-
-```json
-{
-    "database": {
-        "type": "mysql",
-        "host": "localhost",
-        "port": 3306,
-        "username": "${DB_USER}",
-        "password": "${DB_PASSWORD}",
-        "database": "mydb"
-    },
-    "storage": {
-        "localPath": "./backups",
-        "cloudProvider": "aws",
-        "cloudPath": "my-backup-bucket/database-backups"
-    },
-    "logging": {
-        "logPath": "./logs/backup.log",
-        "logLevel": "info",
-        "enableNotifications": true,
-        "notificationEndpoint": "https://hooks.slack.com/services/${SLACK_WEBHOOK_ID}"
-    },
-    "backup": {
-        "compression": {
-            "enabled": true,
-            "format": "gzip",
-            "level": "medium"
-        },
-        "retention": {
-            "days": 30,
-            "maxBackups": 10
-        },
-        "schedule": {
-            "enabled": true,
-            "cron": "0 0 * * *"
-        }
-    },
-    "security": {
-        "encryption": {
-            "enabled": true,
-            "algorithm": "AES-256-GCM",
-            "keyPath": "${ENCRYPTION_KEY_PATH}"
-        }
-    }
-}
-```
-
-### Configuration Options
-
-#### Database Settings
-- `type`: Database type (mysql, postgresql, mongodb, sqlite)
-- `host`: Database host
-- `
+MIT License - see LICENSE file for details

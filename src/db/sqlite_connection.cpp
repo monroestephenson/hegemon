@@ -5,21 +5,24 @@
 
 using namespace dbbackup::error;
 
-SQLiteConnection::SQLiteConnection() : db(nullptr) {}
+SQLiteConnection::SQLiteConnection() noexcept : db(nullptr) {}
 
-SQLiteConnection::~SQLiteConnection() {
+SQLiteConnection::~SQLiteConnection() noexcept {
     if (db) {
         sqlite3_close(db);
         db = nullptr;
     }
 }
 
-bool SQLiteConnection::connect(const DatabaseConfig& dbConfig) {
+bool SQLiteConnection::connect(const dbbackup::DatabaseConfig& dbConfig) {
     DB_TRY_CATCH_LOG("SQLiteConnection", {
         // For SQLite, we use the database field as the path to the database file
         if (dbConfig.database.empty()) {
             DB_THROW(ConfigurationError, "SQLite database path not specified");
         }
+
+        // Store config for later use
+        currentConfig = dbConfig;
 
         // Create the directory if it doesn't exist
         std::filesystem::path dbPath(dbConfig.database);

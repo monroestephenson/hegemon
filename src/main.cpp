@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
             DB_CHECK(!options.configPath.empty(), ConfigurationError, "Configuration file path not provided");
             
             // Load configuration
-            auto config = Config::fromFile(options.configPath);
+            auto config = dbbackup::Config::fromFile(options.configPath);
             
             // Create and run backup manager
             BackupManager manager(config);

@@ -14,9 +14,16 @@ set(TEST_SOURCES
     test_restore_manager.cpp
     test_cli.cpp
     test_scheduling.cpp
+    test_compression.cpp
 )
 
 add_executable(my_db_backup_cli_tests ${TEST_SOURCES})
+
+# Add MySQL support if enabled
+if(MySQL_FOUND)
+    target_compile_definitions(my_db_backup_cli_tests PRIVATE -DUSE_MYSQL)
+    target_include_directories(my_db_backup_cli_tests PRIVATE ${MYSQL_INCLUDE_DIR})
+endif()
 
 # Link your production code libraries or objects
 # For example, if the main project was built as a library "my_db_backup_cli_lib"
@@ -26,6 +33,8 @@ target_link_libraries(my_db_backup_cli_tests
     PRIVATE
         GTest::GTest
         GTest::Main
+        GTest::gmock
+        GTest::gmock_main
         pthread            # On Linux
         db_backup_lib
         spdlog::spdlog

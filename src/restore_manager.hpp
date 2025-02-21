@@ -5,12 +5,12 @@
 
 class RestoreManager {
 public:
-    RestoreManager(const Config& cfg);
+    RestoreManager(const dbbackup::Config& cfg);
     ~RestoreManager();
 
     /// Restores the database from a given backup file path (compressed or uncompressed).
     bool restore(const std::string& backupFilePath, bool selectiveRestore = false);
 
 private:
-    Config m_config;
+    dbbackup::Config m_config;
 };

@@ -6,21 +6,21 @@
 
 using namespace dbbackup::error;
 
-MySQLConnection::MySQLConnection() : mysql(nullptr) {
+MySQLConnection::MySQLConnection() noexcept : mysql(nullptr) {
     mysql = mysql_init(nullptr);
     if (!mysql) {
         DB_THROW(ConnectionError, "Failed to initialize MySQL connection");
     }
 }
 
-MySQLConnection::~MySQLConnection() {
+MySQLConnection::~MySQLConnection() noexcept {
     if (mysql) {
         mysql_close(mysql);
         mysql = nullptr;
     }
 }
 
-bool MySQLConnection::connect(const DatabaseConfig& dbConfig) {
+bool MySQLConnection::connect(const dbbackup::DatabaseConfig& dbConfig) {
     DB_TRY_CATCH_LOG("MySQLConnection", {
         if (!mysql) {
             DB_THROW(ConnectionError, "MySQL connection not initialized");

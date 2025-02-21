@@ -13,6 +13,7 @@ using ::testing::Return;
 using ::testing::AtLeast;
 using ::testing::DoAll;
 using ::testing::Invoke;
+using namespace dbbackup;
 
 class BackupManagerTest : public ::testing::Test {
 protected:
@@ -29,7 +30,7 @@ protected:
 
 TEST_F(BackupManagerTest, SuccessfulFullBackup) {
     // Arrange
-    Config cfg;
+    dbbackup::Config cfg;
     cfg.database.type = "mysql";
     cfg.database.host = "localhost";
     cfg.database.port = 3306;
@@ -47,7 +48,7 @@ TEST_F(BackupManagerTest, SuccessfulFullBackup) {
     auto mockConn = std::make_unique<MockDBConnection>();
 
     // Setup expectations
-    EXPECT_CALL(*mockConn, connect(_))
+    EXPECT_CALL(*mockConn, connect(::testing::An<const dbbackup::DatabaseConfig&>()))
         .Times(1)
         .WillOnce(Return(true));
     EXPECT_CALL(*mockConn, createBackup(_))
@@ -68,7 +69,7 @@ TEST_F(BackupManagerTest, SuccessfulFullBackup) {
     // We'll craft a custom BackupManager that accepts an external DBConnection pointer
     class TestableBackupManager : public BackupManager {
     public:
-        TestableBackupManager(const Config& c, std::unique_ptr<IDBConnection> conn)
+        TestableBackupManager(const dbbackup::Config& c, std::unique_ptr<IDBConnection> conn)
             : BackupManager(c), testConn(std::move(conn)) {}
 
     protected:

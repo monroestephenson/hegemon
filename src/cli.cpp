@@ -1,6 +1,8 @@
 #include "cli.hpp"
 #include "error/ErrorUtils.hpp"
 #include <iostream>
+#include <string>
+#include <vector>
 
 using namespace dbbackup::error;
 
@@ -61,4 +63,29 @@ CLIOptions CLI::parse() {
     
     // This return is never reached due to DB_TRY_CATCH_LOG, but needed for compilation
     return CLIOptions();
+}
+
+CLIOptions parseCLI(int argc, char** argv) {
+    std::vector<std::string> args;
+    for (int i = 1; i < argc; ++i) {
+        args.push_back(argv[i]);
+    }
+
+    CLIOptions options;
+    options.configPath = "config.json"; // Default config path
+
+    for (size_t i = 0; i < args.size(); ++i) {
+        const std::string& arg = args[i];
+        if (arg == "--verbose") {
+            options.verbose = true;
+        } else if (arg == "--config" && i + 1 < args.size()) {
+            options.configPath = args[++i];
+        } else if (arg == "backup") {
+            options.command = "backup";
+        } else if (arg == "restore") {
+            options.command = "restore";
+        }
+    }
+
+    return options;
 }

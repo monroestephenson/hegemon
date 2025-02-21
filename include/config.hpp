@@ -3,6 +3,8 @@
 #include <string>
 #include <map>
 
+namespace dbbackup {
+
 struct DatabaseConfig {
     std::string type;
     std::string host;
@@ -12,10 +14,14 @@ struct DatabaseConfig {
     std::string database;
 };
 
+// Forward declare BackupConfig
+struct BackupConfig;
+
 struct StorageConfig {
     std::string localPath;
     std::string cloudProvider;
     std::string cloudPath;
+    BackupConfig* backup = nullptr;  // Pointer to backup config for retention settings
 };
 
 struct LoggingConfig {
@@ -70,3 +76,5 @@ public:
 private:
     static std::string substituteEnvVars(const std::string& value);
 }; 
+
+} // namespace dbbackup 

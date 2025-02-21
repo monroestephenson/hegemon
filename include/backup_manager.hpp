@@ -2,12 +2,13 @@
 
 #include "config.hpp"
 #include "db_connection.hpp"
+#include "compression.hpp"
 #include <memory>
 #include <string>
 
 class BackupManager {
 public:
-    explicit BackupManager(const Config& cfg);
+    explicit BackupManager(const dbbackup::Config& cfg);
     ~BackupManager();
 
     bool backup(const std::string& backupType);
@@ -17,5 +18,5 @@ protected:
     virtual std::unique_ptr<IDBConnection> createConnection();
 
 private:
-    Config m_config;
+    dbbackup::Config m_config;
 }; 

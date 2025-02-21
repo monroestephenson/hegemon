@@ -13,7 +13,7 @@
 
 using namespace dbbackup::error;  // Add this line to bring error types into scope
 
-BackupManager::BackupManager(const Config& cfg)
+BackupManager::BackupManager(const dbbackup::Config& cfg)
     : m_config(cfg)
 {
     // Validate configuration in constructor
@@ -34,6 +34,12 @@ BackupManager::BackupManager(const Config& cfg)
 BackupManager::~BackupManager() = default;
 
 bool BackupManager::backup(const std::string& backupType) {
+    // Create compressor outside the macro if compression is enabled
+    std::unique_ptr<dbbackup::Compressor> compressor;
+    if (m_config.backup.compression.enabled) {
+        compressor = std::make_unique<dbbackup::Compressor>(m_config.backup.compression);
+    }
+
     DB_TRY_CATCH_LOG("BackupManager", {
         // Validate input
         DB_CHECK(!backupType.empty(), ValidationError, "Backup type cannot be empty");
@@ -74,22 +80,26 @@ bool BackupManager::backup(const std::string& backupType) {
             DB_THROW(BackupError, "Failed to create backup at: " + localBackupPath);
         }
 
-        // Compress the backup
-        std::string compressedFilePath = localBackupPath + ".gz";
-        if (!compressFile(localBackupPath, compressedFilePath)) {
-            logger->warn("Compression failed, proceeding with uncompressed file");
-        } else {
-            // Remove original uncompressed file if compression succeeded
-            if (std::filesystem::remove(localBackupPath)) {
-                localBackupPath = compressedFilePath;
+        // Compress the backup if compression is enabled
+        std::string finalBackupPath = localBackupPath;
+        if (compressor) {
+            std::string compressedFilePath = localBackupPath + compressor->getFileExtension();
+            
+            if (!compressor->compressFile(localBackupPath, compressedFilePath)) {
+                logger->warn("Compression failed, proceeding with uncompressed file");
             } else {
-                logger->warn("Failed to remove uncompressed file: {}", localBackupPath);
+                // Remove original uncompressed file if compression succeeded
+                if (std::filesystem::remove(localBackupPath)) {
+                    finalBackupPath = compressedFilePath;
+                } else {
+                    logger->warn("Failed to remove uncompressed file: {}", localBackupPath);
+                }
             }
         }
 
         // Store the backup
-        if (!storeBackup(m_config.storage, localBackupPath)) {
-            DB_THROW(StorageError, "Failed to store backup at: " + localBackupPath);
+        if (!storeBackup(m_config.storage, finalBackupPath)) {
+            DB_THROW(StorageError, "Failed to store backup at: " + finalBackupPath);
         }
 
         // Disconnect database
@@ -98,8 +108,8 @@ bool BackupManager::backup(const std::string& backupType) {
         }
 
         // Log success and send notification
-        logger->info("Backup completed successfully: {}", localBackupPath);
-        sendNotificationIfNeeded(m_config.logging, "Backup succeeded: " + localBackupPath);
+        logger->info("Backup completed successfully: {}", finalBackupPath);
+        sendNotificationIfNeeded(m_config.logging, "Backup succeeded: " + finalBackupPath);
 
         return true;
     });
@@ -108,6 +118,12 @@ bool BackupManager::backup(const std::string& backupType) {
 }
 
 bool BackupManager::restore(const std::string& backupPath) {
+    // Create compressor outside the macro if compression is enabled
+    std::unique_ptr<dbbackup::Compressor> compressor;
+    if (m_config.backup.compression.enabled) {
+        compressor = std::make_unique<dbbackup::Compressor>(m_config.backup.compression);
+    }
+
     DB_TRY_CATCH_LOG("BackupManager", {
         // Validate input
         DB_CHECK(!backupPath.empty(), ValidationError, "Backup path cannot be empty");
@@ -128,14 +144,16 @@ bool BackupManager::restore(const std::string& backupPath) {
 
         // Decompress if needed
         std::string restorePath = backupPath;
-        const std::string gzSuffix = ".gz";
-        if (backupPath.length() >= gzSuffix.length() &&
-            backupPath.compare(backupPath.length() - gzSuffix.length(), gzSuffix.length(), gzSuffix) == 0) {
-            std::string uncompressedPath = backupPath.substr(0, backupPath.length() - gzSuffix.length());
-            if (!decompressFile(backupPath, uncompressedPath)) {
-                DB_THROW(CompressionError, "Failed to decompress backup file");
+        if (compressor) {
+            std::string uncompressedPath = backupPath;
+            size_t extPos = backupPath.find(compressor->getFileExtension());
+            if (extPos != std::string::npos) {
+                uncompressedPath = backupPath.substr(0, extPos);
+                if (!compressor->decompressFile(backupPath, uncompressedPath)) {
+                    DB_THROW(CompressionError, "Failed to decompress backup file");
+                }
+                restorePath = uncompressedPath;
             }
-            restorePath = uncompressedPath;
         }
 
         // Perform restore

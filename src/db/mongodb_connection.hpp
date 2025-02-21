@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../db_connection.hpp"
+#include <string>
 #include <memory>
 
 // Forward declarations
@@ -18,7 +19,7 @@ public:
     MongoDBConnection();
     ~MongoDBConnection() override;
 
-    bool connect(const DatabaseConfig& dbConfig) override;
+    bool connect(const dbbackup::DatabaseConfig& dbConfig) override;
     bool disconnect() override;
     bool createBackup(const std::string& backupPath) override;
     bool restoreBackup(const std::string& backupPath) override;
@@ -28,6 +29,7 @@ private:
     std::unique_ptr<mongocxx::v_noabi::instance> instance;
     std::unique_ptr<mongocxx::v_noabi::client> client;
 #endif
-    bool connected;
+    bool connected = false;
     std::string currentDbName;
+    dbbackup::DatabaseConfig currentConfig;  // Store config for backup/restore operations
 }; 

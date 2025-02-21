@@ -13,6 +13,10 @@ find_path(MYSQL_INCLUDE_DIR
     /usr/local/include/mysql
     /usr/local/opt/mysql-client/include/mysql
     /opt/homebrew/opt/mysql-client/include/mysql
+    /usr/local/opt/mysql/include/mysql
+    /opt/homebrew/opt/mysql/include/mysql
+    /usr/local/Cellar/mysql-client/*/include/mysql
+    /usr/local/Cellar/mysql/*/include/mysql
 )
 
 find_library(MYSQL_LIBRARY
@@ -24,6 +28,10 @@ find_library(MYSQL_LIBRARY
     /usr/local/lib/mysql
     /usr/local/opt/mysql-client/lib
     /opt/homebrew/opt/mysql-client/lib
+    /usr/local/opt/mysql/lib
+    /opt/homebrew/opt/mysql/lib
+    /usr/local/Cellar/mysql-client/*/lib
+    /usr/local/Cellar/mysql/*/lib
 )
 
 if(MYSQL_INCLUDE_DIR AND MYSQL_LIBRARY)

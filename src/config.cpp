@@ -8,12 +8,15 @@
 using json = nlohmann::json;
 using namespace dbbackup::error;
 
+namespace dbbackup {
+
 std::string Config::substituteEnvVars(const std::string& value) {
-    std::regex env_var_pattern("\\${([^}]+)}");
+    std::regex env_var_pattern("\\$\\{([A-Za-z_][A-Za-z0-9_]*)\\}");
     std::string result = value;
     
     std::smatch match;
-    while (std::regex_search(result, match, env_var_pattern)) {
+    std::string::const_iterator searchStart = result.cbegin();
+    while (std::regex_search(searchStart, result.cend(), match, env_var_pattern)) {
         std::string env_var_name = match[1].str();
         const char* env_var_value = std::getenv(env_var_name.c_str());
         
@@ -21,7 +24,9 @@ std::string Config::substituteEnvVars(const std::string& value) {
             DB_THROW(ConfigurationError, "Environment variable not set: " + env_var_name);
         }
         
-        result.replace(match[0].first - result.begin(), match[0].length(), env_var_value);
+        auto replaceStart = result.begin() + (searchStart - result.begin()) + match.position();
+        result.replace(replaceStart, replaceStart + match.length(), env_var_value);
+        searchStart = result.begin() + (replaceStart - result.begin()) + strlen(env_var_value);
     }
     
     return result;
@@ -121,6 +126,9 @@ Config Config::fromFile(const std::string& configPath) {
                 config.backup.schedule.enabled = scheduleConfig.value("enabled", false);
                 config.backup.schedule.cron = scheduleConfig.value("cron", "0 0 * * *");
             }
+
+            // Set up the backup pointer in storage config
+            config.storage.backup = &config.backup;
         }
 
         // Security configuration
@@ -172,3 +180,5 @@ Config Config::fromFile(const std::string& configPath) {
     // This return is never reached due to DB_TRY_CATCH_LOG, but needed for compilation
     return Config();
 }
+
+} // namespace dbbackup

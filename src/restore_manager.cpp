@@ -6,7 +6,9 @@
 
 #include <iostream>
 
-RestoreManager::RestoreManager(const Config& cfg)
+using namespace dbbackup;
+
+RestoreManager::RestoreManager(const dbbackup::Config& cfg)
     : m_config(cfg)
 {
 }
@@ -28,7 +30,7 @@ bool RestoreManager::restore(const std::string& backupFilePath, bool selectiveRe
     // Decompress if needed
     if(isCompressed) {
         std::string decompressedFilePath = backupFilePath.substr(0, backupFilePath.size()-3);
-        if(!decompressFile(backupFilePath, decompressedFilePath)) {
+        if(!dbbackup::decompressFile(backupFilePath, decompressedFilePath)) {
             logger->error("Failed to decompress backup file.");
             sendNotificationIfNeeded(m_config.logging, "Restore failed: decompression error.");
             return false;

@@ -1,21 +1,21 @@
 #pragma once
 
-#include "db_connection.hpp"
-#include <string>
+#include "../db_connection.hpp"
 #include <mysql/mysql.h>
+#include <string>
 
-class MySQLConnection : public DBConnection {
+class MySQLConnection : public IDBConnection {
 public:
-    MySQLConnection();
-    ~MySQLConnection();
+    MySQLConnection() noexcept;
+    ~MySQLConnection() noexcept override;
 
-    bool connect(const DatabaseConfig& dbConfig) override;
+    bool connect(const dbbackup::DatabaseConfig& dbConfig) override;
     bool disconnect() override;
     bool createBackup(const std::string& backupPath) override;
     bool restoreBackup(const std::string& backupPath) override;
 
 private:
-    MYSQL* mysql;
-    std::string currentDatabase;
-    DatabaseConfig currentConfig;  // Store config for backup/restore operations
+    dbbackup::DatabaseConfig currentConfig;  // Store config for backup/restore operations
+    MYSQL* mysql = nullptr;  // MySQL connection handle
+    std::string currentDatabase;  // Current database name
 }; 

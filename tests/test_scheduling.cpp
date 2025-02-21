@@ -4,10 +4,29 @@
 #include <chrono>
 #include <thread>
 
+using namespace dbbackup;
+
 TEST(SchedulerTest, StartAndStop) {
-    Config cfg;
-    cfg.schedule.enabled = true; 
-    // super short intervals or mocking the sleep logic is recommended for unit tests
+    // Create a valid configuration
+    dbbackup::Config cfg;
+    cfg.database.type = "mysql";
+    cfg.database.host = "localhost";
+    cfg.database.port = 3306;
+    cfg.database.username = "test_user";
+    cfg.database.password = "test_pass";
+    cfg.database.database = "test_db";
+    
+    cfg.storage.localPath = "/tmp/backups";
+    cfg.storage.cloudProvider = "";
+    cfg.storage.cloudPath = "";
+    
+    cfg.logging.logPath = "/tmp/logs";
+    cfg.logging.logLevel = "info";
+    
+    cfg.backup.schedule.enabled = true;
+    cfg.backup.schedule.cron = "0 0 * * *";
+
+    // Create and test scheduler
     Scheduler scheduler(cfg);
 
     scheduler.start();

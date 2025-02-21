@@ -8,7 +8,7 @@
 /// In production, you'd likely use Cron, Task Scheduler, etc.
 class Scheduler {
 public:
-    Scheduler(const Config& cfg);
+    Scheduler(const dbbackup::Config& cfg);
     ~Scheduler();
 
     void start();
@@ -17,7 +17,7 @@ public:
 private:
     void runScheduler();
 
-    Config m_config;
+    dbbackup::Config m_config;
     std::atomic_bool m_running;
     std::thread m_thread;
 };

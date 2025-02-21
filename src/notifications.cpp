@@ -5,7 +5,7 @@
 
 using namespace dbbackup::error;
 
-void sendNotificationIfNeeded(const LoggingConfig& loggingConfig, const std::string& message) {
+void sendNotificationIfNeeded(const dbbackup::LoggingConfig& loggingConfig, const std::string& message) {
     DB_TRY_CATCH_LOG("Notifications", {
         if (!loggingConfig.enableNotifications || loggingConfig.notificationEndpoint.empty()) {
             return;

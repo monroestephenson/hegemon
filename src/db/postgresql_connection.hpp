@@ -1,22 +1,22 @@
 #pragma once
 
-#include "db_connection.hpp"
+#include "../db_connection.hpp"
+#include <pqxx/pqxx>
 #include <string>
 #include <memory>
-#include <pqxx/pqxx>
 
-class PostgreSQLConnection : public DBConnection {
+class PostgreSQLConnection : public IDBConnection {
 public:
-    PostgreSQLConnection() = default;
-    ~PostgreSQLConnection() = default;
+    PostgreSQLConnection() noexcept;
+    ~PostgreSQLConnection() noexcept override;
 
-    bool connect(const DatabaseConfig& dbConfig) override;
+    bool connect(const dbbackup::DatabaseConfig& dbConfig) override;
     bool disconnect() override;
     bool createBackup(const std::string& backupPath) override;
     bool restoreBackup(const std::string& backupPath) override;
 
 private:
-    std::unique_ptr<pqxx::connection> conn;
-    std::string currentDatabase;
-    DatabaseConfig currentConfig;  // Store config for backup/restore operations
+    dbbackup::DatabaseConfig currentConfig;  // Store config for backup/restore operations
+    std::unique_ptr<pqxx::connection> conn;  // PostgreSQL connection handle
+    std::string currentDatabase;  // Current database name
 }; 
