@@ -130,6 +130,10 @@ my_db_backup_cli: CMakeFiles/my_db_backup_cli.dir/build.make
 my_db_backup_cli: libdb_backup_lib.a
 my_db_backup_cli: /usr/local/lib/libspdlog.1.15.1.dylib
 my_db_backup_cli: /usr/local/lib/libfmt.11.1.3.dylib
+my_db_backup_cli: /usr/local/lib/libmysqlclient.dylib
+my_db_backup_cli: /usr/local/lib/postgresql@14/libpq.dylib
+my_db_backup_cli: /usr/local/lib/libpqxx.dylib
+my_db_backup_cli: /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/lib/libsqlite3.tbd
 my_db_backup_cli: CMakeFiles/my_db_backup_cli.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/monroestephenson/database_backup/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable my_db_backup_cli"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/my_db_backup_cli.dir/link.txt --verbose=$(VERBOSE)

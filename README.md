@@ -13,20 +13,25 @@ A powerful and flexible command-line tool for backing up and restoring various t
   - Full backups
   - Incremental backups (planned)
   - Differential backups (planned)
+- 🔐 **Security**
+  - Environment variable support for sensitive data
+  - AES-256-GCM encryption support
+  - Secure credential management
 - 🗜️ **Compression**
-  - Automatic backup compression
-  - Multiple compression formats support
+  - Multiple formats (gzip, bzip2, xz)
+  - Configurable compression levels
 - 📦 **Storage Options**
   - Local storage
-  - Cloud storage (planned)
+  - Cloud storage support
     - AWS S3
-    - Google Cloud Storage
-    - Azure Blob Storage
+    - Google Cloud Storage (planned)
+    - Azure Blob Storage (planned)
 - ⏰ **Scheduling**
-  - Automated backup scheduling
-  - Flexible scheduling options
+  - Cron-based scheduling
+  - Retention policies
+  - Backup rotation
 - 📢 **Notifications**
-  - Slack integration (planned)
+  - Slack integration
   - Email notifications (planned)
 - 📝 **Logging**
   - Comprehensive logging
@@ -66,6 +71,113 @@ sudo apt-get install libmongocxx-dev      # For MongoDB
 sudo apt-get install libsqlite3-dev       # For SQLite
 ```
 
+## Configuration
+
+### Environment Variables
+
+The following environment variables need to be set for secure operation:
+
+```bash
+# Database credentials
+export DB_USER=your_database_user
+export DB_PASSWORD=your_database_password
+
+# For Slack notifications (optional)
+export SLACK_WEBHOOK_ID=your_slack_webhook_id
+
+# For encryption (if enabled)
+export ENCRYPTION_KEY_PATH=/path/to/your/encryption.key
+```
+
+### Configuration File
+
+Create a `config.json` file in your project directory. Here's a sample configuration:
+
+```json
+{
+    "database": {
+        "type": "mysql",
+        "host": "localhost",
+        "port": 3306,
+        "username": "${DB_USER}",
+        "password": "${DB_PASSWORD}",
+        "database": "mydb"
+    },
+    "storage": {
+        "localPath": "./backups",
+        "cloudProvider": "aws",
+        "cloudPath": "my-backup-bucket/database-backups"
+    },
+    "logging": {
+        "logPath": "./logs/backup.log",
+        "logLevel": "info",
+        "enableNotifications": true,
+        "notificationEndpoint": "https://hooks.slack.com/services/${SLACK_WEBHOOK_ID}"
+    },
+    "backup": {
+        "compression": {
+            "enabled": true,
+            "format": "gzip",
+            "level": "medium"
+        },
+        "retention": {
+            "days": 30,
+            "maxBackups": 10
+        },
+        "schedule": {
+            "enabled": true,
+            "cron": "0 0 * * *"
+        }
+    },
+    "security": {
+        "encryption": {
+            "enabled": true,
+            "algorithm": "AES-256-GCM",
+            "keyPath": "${ENCRYPTION_KEY_PATH}"
+        }
+    }
+}
+```
+
+### Configuration Options
+
+#### Database Settings
+- `type`: Database type (mysql, postgresql, mongodb, sqlite)
+- `host`: Database host
+- `port`: Database port
+- `username`: Database username (supports env vars)
+- `password`: Database password (supports env vars)
+- `database`: Database name
+
+#### Storage Settings
+- `localPath`: Local backup storage path
+- `cloudProvider`: Cloud storage provider (aws, gcp, azure)
+- `cloudPath`: Cloud storage path/bucket
+
+#### Logging Settings
+- `logPath`: Path to log file
+- `logLevel`: Log level (debug, info, warn, error)
+- `enableNotifications`: Enable Slack notifications
+- `notificationEndpoint`: Slack webhook URL (supports env vars)
+
+#### Backup Settings
+- Compression:
+  - `enabled`: Enable compression
+  - `format`: Compression format (gzip, bzip2, xz)
+  - `level`: Compression level (low, medium, high)
+- Retention:
+  - `days`: Days to keep backups
+  - `maxBackups`: Maximum number of backups to keep
+- Schedule:
+  - `enabled`: Enable scheduled backups
+  - `cron`: Cron expression for schedule
+
+#### Security Settings
+- Encryption:
+  - `enabled`: Enable encryption
+  - `algorithm`: Encryption algorithm
+  - `keyPath`: Path to encryption key (supports env vars)
+
 ## Building
 
 ```bash
@@ -89,6 +201,9 @@ make test
 ### Basic Commands
 
 ```bash
+# Set required environment variables
+source .env  # If using a .env file
+
 # Perform a full backup
 ./my_db_backup_cli backup --type full --config config.json
 
@@ -99,10 +214,25 @@ make test
 ./my_db_backup_cli schedule --config config.json
 ```
 
-### Configuration
+### Example .env File
 
-Create a `config.json` file:
+Create a `.env` file (don't commit to version control):
 
+```bash
+# Database credentials
+export DB_USER=myuser
+export DB_PASSWORD=mypassword
+
+# Slack notifications
+export SLACK_WEBHOOK_ID=T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX
+
+# Encryption
+export ENCRYPTION_KEY_PATH=/path/to/encryption.key
+```
+
+Then source it before running the application:
+```bash
+source .env
 ```json
 {
   "database": {

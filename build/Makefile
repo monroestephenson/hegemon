@@ -358,6 +358,102 @@ src/config.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/config.cpp.s
 .PHONY : src/config.cpp.s
 
+src/db/mongodb_connection.o: src/db/mongodb_connection.cpp.o
+.PHONY : src/db/mongodb_connection.o
+
+# target to build an object file
+src/db/mongodb_connection.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/mongodb_connection.cpp.o
+.PHONY : src/db/mongodb_connection.cpp.o
+
+src/db/mongodb_connection.i: src/db/mongodb_connection.cpp.i
+.PHONY : src/db/mongodb_connection.i
+
+# target to preprocess a source file
+src/db/mongodb_connection.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/mongodb_connection.cpp.i
+.PHONY : src/db/mongodb_connection.cpp.i
+
+src/db/mongodb_connection.s: src/db/mongodb_connection.cpp.s
+.PHONY : src/db/mongodb_connection.s
+
+# target to generate assembly for a file
+src/db/mongodb_connection.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/mongodb_connection.cpp.s
+.PHONY : src/db/mongodb_connection.cpp.s
+
+src/db/mysql_connection.o: src/db/mysql_connection.cpp.o
+.PHONY : src/db/mysql_connection.o
+
+# target to build an object file
+src/db/mysql_connection.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/mysql_connection.cpp.o
+.PHONY : src/db/mysql_connection.cpp.o
+
+src/db/mysql_connection.i: src/db/mysql_connection.cpp.i
+.PHONY : src/db/mysql_connection.i
+
+# target to preprocess a source file
+src/db/mysql_connection.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/mysql_connection.cpp.i
+.PHONY : src/db/mysql_connection.cpp.i
+
+src/db/mysql_connection.s: src/db/mysql_connection.cpp.s
+.PHONY : src/db/mysql_connection.s
+
+# target to generate assembly for a file
+src/db/mysql_connection.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/mysql_connection.cpp.s
+.PHONY : src/db/mysql_connection.cpp.s
+
+src/db/postgresql_connection.o: src/db/postgresql_connection.cpp.o
+.PHONY : src/db/postgresql_connection.o
+
+# target to build an object file
+src/db/postgresql_connection.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/postgresql_connection.cpp.o
+.PHONY : src/db/postgresql_connection.cpp.o
+
+src/db/postgresql_connection.i: src/db/postgresql_connection.cpp.i
+.PHONY : src/db/postgresql_connection.i
+
+# target to preprocess a source file
+src/db/postgresql_connection.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/postgresql_connection.cpp.i
+.PHONY : src/db/postgresql_connection.cpp.i
+
+src/db/postgresql_connection.s: src/db/postgresql_connection.cpp.s
+.PHONY : src/db/postgresql_connection.s
+
+# target to generate assembly for a file
+src/db/postgresql_connection.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/postgresql_connection.cpp.s
+.PHONY : src/db/postgresql_connection.cpp.s
+
+src/db/sqlite_connection.o: src/db/sqlite_connection.cpp.o
+.PHONY : src/db/sqlite_connection.o
+
+# target to build an object file
+src/db/sqlite_connection.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/sqlite_connection.cpp.o
+.PHONY : src/db/sqlite_connection.cpp.o
+
+src/db/sqlite_connection.i: src/db/sqlite_connection.cpp.i
+.PHONY : src/db/sqlite_connection.i
+
+# target to preprocess a source file
+src/db/sqlite_connection.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/sqlite_connection.cpp.i
+.PHONY : src/db/sqlite_connection.cpp.i
+
+src/db/sqlite_connection.s: src/db/sqlite_connection.cpp.s
+.PHONY : src/db/sqlite_connection.s
+
+# target to generate assembly for a file
+src/db/sqlite_connection.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db/sqlite_connection.cpp.s
+.PHONY : src/db/sqlite_connection.cpp.s
+
 src/db_connection.o: src/db_connection.cpp.o
 .PHONY : src/db_connection.o
 
@@ -381,6 +477,30 @@ src/db_connection.s: src/db_connection.cpp.s
 src/db_connection.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db_connection.cpp.s
 .PHONY : src/db_connection.cpp.s
+
+src/error/ErrorUtils.o: src/error/ErrorUtils.cpp.o
+.PHONY : src/error/ErrorUtils.o
+
+# target to build an object file
+src/error/ErrorUtils.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.o
+.PHONY : src/error/ErrorUtils.cpp.o
+
+src/error/ErrorUtils.i: src/error/ErrorUtils.cpp.i
+.PHONY : src/error/ErrorUtils.i
+
+# target to preprocess a source file
+src/error/ErrorUtils.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.i
+.PHONY : src/error/ErrorUtils.cpp.i
+
+src/error/ErrorUtils.s: src/error/ErrorUtils.cpp.s
+.PHONY : src/error/ErrorUtils.s
+
+# target to generate assembly for a file
+src/error/ErrorUtils.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.s
+.PHONY : src/error/ErrorUtils.cpp.s
 
 src/logging.o: src/logging.cpp.o
 .PHONY : src/logging.o
@@ -526,6 +646,30 @@ src/storage.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/storage.cpp.s
 .PHONY : src/storage.cpp.s
 
+tests/db/test_db_connections.o: tests/db/test_db_connections.cpp.o
+.PHONY : tests/db/test_db_connections.o
+
+# target to build an object file
+tests/db/test_db_connections.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/db/test_db_connections.cpp.o
+.PHONY : tests/db/test_db_connections.cpp.o
+
+tests/db/test_db_connections.i: tests/db/test_db_connections.cpp.i
+.PHONY : tests/db/test_db_connections.i
+
+# target to preprocess a source file
+tests/db/test_db_connections.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/db/test_db_connections.cpp.i
+.PHONY : tests/db/test_db_connections.cpp.i
+
+tests/db/test_db_connections.s: tests/db/test_db_connections.cpp.s
+.PHONY : tests/db/test_db_connections.s
+
+# target to generate assembly for a file
+tests/db/test_db_connections.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/db/test_db_connections.cpp.s
+.PHONY : tests/db/test_db_connections.cpp.s
+
 tests/test_backup_manager.o: tests/test_backup_manager.cpp.o
 .PHONY : tests/test_backup_manager.o
 
@@ -582,9 +726,24 @@ help:
 	@echo "... src/config.o"
 	@echo "... src/config.i"
 	@echo "... src/config.s"
+	@echo "... src/db/mongodb_connection.o"
+	@echo "... src/db/mongodb_connection.i"
+	@echo "... src/db/mongodb_connection.s"
+	@echo "... src/db/mysql_connection.o"
+	@echo "... src/db/mysql_connection.i"
+	@echo "... src/db/mysql_connection.s"
+	@echo "... src/db/postgresql_connection.o"
+	@echo "... src/db/postgresql_connection.i"
+	@echo "... src/db/postgresql_connection.s"
+	@echo "... src/db/sqlite_connection.o"
+	@echo "... src/db/sqlite_connection.i"
+	@echo "... src/db/sqlite_connection.s"
 	@echo "... src/db_connection.o"
 	@echo "... src/db_connection.i"
 	@echo "... src/db_connection.s"
+	@echo "... src/error/ErrorUtils.o"
+	@echo "... src/error/ErrorUtils.i"
+	@echo "... src/error/ErrorUtils.s"
 	@echo "... src/logging.o"
 	@echo "... src/logging.i"
 	@echo "... src/logging.s"
@@ -603,6 +762,9 @@ help:
 	@echo "... src/storage.o"
 	@echo "... src/storage.i"
 	@echo "... src/storage.s"
+	@echo "... tests/db/test_db_connections.o"
+	@echo "... tests/db/test_db_connections.i"
+	@echo "... tests/db/test_db_connections.s"
 	@echo "... tests/test_backup_manager.o"
 	@echo "... tests/test_backup_manager.i"
 	@echo "... tests/test_backup_manager.s"

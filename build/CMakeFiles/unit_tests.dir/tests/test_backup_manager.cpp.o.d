@@ -1,6 +1,6 @@
 CMakeFiles/unit_tests.dir/tests/test_backup_manager.cpp.o: \
   /Users/monroestephenson/database_backup/tests/test_backup_manager.cpp \
-  /Users/monroestephenson/database_backup/external/googletest/googletest/include/gtest/gtest.h \
+  /usr/local/include/gtest/gtest.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/cstddef \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__assert \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__assertion_handler \
@@ -959,9 +959,9 @@ CMakeFiles/unit_tests.dir/tests/test_backup_manager.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__tree \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/sstream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/istream \
-  /Users/monroestephenson/database_backup/external/googletest/googletest/include/gtest/gtest-assertion-result.h \
-  /Users/monroestephenson/database_backup/external/googletest/googletest/include/gtest/gtest-message.h \
-  /Users/monroestephenson/database_backup/external/googletest/googletest/include/gtest/internal/gtest-port.h \
+  /usr/local/include/gtest/gtest-assertion-result.h \
+  /usr/local/include/gtest/gtest-message.h \
+  /usr/local/include/gtest/internal/gtest-port.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/ciso646 \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/iostream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/stat.h \
@@ -969,8 +969,8 @@ CMakeFiles/unit_tests.dir/tests/test_backup_manager.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_filesec_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/AvailabilityMacros.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/TargetConditionals.h \
-  /Users/monroestephenson/database_backup/external/googletest/googletest/include/gtest/internal/custom/gtest-port.h \
-  /Users/monroestephenson/database_backup/external/googletest/googletest/include/gtest/internal/gtest-port-arch.h \
+  /usr/local/include/gtest/internal/custom/gtest-port.h \
+  /usr/local/include/gtest/internal/gtest-port-arch.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/strings.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/unistd.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_posix_vdisable.h \
@@ -1007,48 +1007,65 @@ CMakeFiles/unit_tests.dir/tests/test_backup_manager.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__chrono/literals.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/forward_list \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/span \
-  /Users/monroestephenson/database_backup/external/googletest/googletest/include/gtest/gtest-death-test.h \
-  /Users/monroestephenson/database_backup/external/googletest/googletest/include/gtest/internal/gtest-death-test-internal.h \
-  /Users/monroestephenson/database_backup/external/googletest/googletest/include/gtest/gtest-matchers.h \
-  /Users/monroestephenson/database_backup/external/googletest/googletest/include/gtest/gtest-printers.h \
-  /Users/monroestephenson/database_backup/external/googletest/googletest/include/gtest/internal/gtest-internal.h \
+  /usr/local/include/gtest/gtest-death-test.h \
+  /usr/local/include/gtest/internal/gtest-death-test-internal.h \
+  /usr/local/include/gtest/gtest-matchers.h \
+  /usr/local/include/gtest/gtest-printers.h \
+  /usr/local/include/gtest/internal/gtest-internal.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/float.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/16/include/float.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/float.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/map \
-  /Users/monroestephenson/database_backup/external/googletest/googletest/include/gtest/internal/gtest-filepath.h \
-  /Users/monroestephenson/database_backup/external/googletest/googletest/include/gtest/internal/gtest-string.h \
-  /Users/monroestephenson/database_backup/external/googletest/googletest/include/gtest/internal/gtest-type-util.h \
+  /usr/local/include/gtest/internal/gtest-filepath.h \
+  /usr/local/include/gtest/internal/gtest-string.h \
+  /usr/local/include/gtest/internal/gtest-type-util.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/cxxabi.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__cxxabi_config.h \
-  /Users/monroestephenson/database_backup/external/googletest/googletest/include/gtest/internal/custom/gtest-printers.h \
-  /Users/monroestephenson/database_backup/external/googletest/googletest/include/gtest/gtest-param-test.h \
-  /Users/monroestephenson/database_backup/external/googletest/googletest/include/gtest/internal/gtest-param-util.h \
+  /usr/local/include/gtest/internal/custom/gtest-printers.h \
+  /usr/local/include/gtest/gtest-param-test.h \
+  /usr/local/include/gtest/internal/gtest-param-util.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/cassert \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/assert.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_assert.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
-  /Users/monroestephenson/database_backup/external/googletest/googletest/include/gtest/gtest-test-part.h \
-  /Users/monroestephenson/database_backup/external/googletest/googletest/include/gtest/gtest-typed-test.h \
-  /Users/monroestephenson/database_backup/external/googletest/googletest/include/gtest/gtest_pred_impl.h \
-  /Users/monroestephenson/database_backup/external/googletest/googletest/include/gtest/gtest_prod.h \
-  /Users/monroestephenson/database_backup/external/googletest/googlemock/include/gmock/gmock.h \
-  /Users/monroestephenson/database_backup/external/googletest/googlemock/include/gmock/gmock-actions.h \
-  /Users/monroestephenson/database_backup/external/googletest/googlemock/include/gmock/internal/gmock-internal-utils.h \
-  /Users/monroestephenson/database_backup/external/googletest/googlemock/include/gmock/internal/gmock-port.h \
-  /Users/monroestephenson/database_backup/external/googletest/googlemock/include/gmock/internal/custom/gmock-port.h \
-  /Users/monroestephenson/database_backup/external/googletest/googlemock/include/gmock/internal/gmock-pp.h \
-  /Users/monroestephenson/database_backup/external/googletest/googlemock/include/gmock/gmock-cardinalities.h \
-  /Users/monroestephenson/database_backup/external/googletest/googlemock/include/gmock/gmock-function-mocker.h \
-  /Users/monroestephenson/database_backup/external/googletest/googlemock/include/gmock/gmock-spec-builders.h \
-  /Users/monroestephenson/database_backup/external/googletest/googlemock/include/gmock/gmock-matchers.h \
-  /Users/monroestephenson/database_backup/external/googletest/googlemock/include/gmock/internal/custom/gmock-matchers.h \
-  /Users/monroestephenson/database_backup/external/googletest/googlemock/include/gmock/gmock-more-actions.h \
-  /Users/monroestephenson/database_backup/external/googletest/googlemock/include/gmock/internal/custom/gmock-generated-actions.h \
-  /Users/monroestephenson/database_backup/external/googletest/googlemock/include/gmock/gmock-more-matchers.h \
-  /Users/monroestephenson/database_backup/external/googletest/googlemock/include/gmock/gmock-nice-strict.h \
-  /Users/monroestephenson/database_backup/src/backup_manager.hpp \
-  /Users/monroestephenson/database_backup/src/config.hpp \
+  /usr/local/include/gtest/gtest-test-part.h \
+  /usr/local/include/gtest/gtest-typed-test.h \
+  /usr/local/include/gtest/gtest_pred_impl.h \
+  /usr/local/include/gtest/gtest_prod.h /usr/local/include/gmock/gmock.h \
+  /usr/local/include/gmock/gmock-actions.h \
+  /usr/local/include/gmock/internal/gmock-internal-utils.h \
+  /usr/local/include/gmock/internal/gmock-port.h \
+  /usr/local/include/gmock/internal/custom/gmock-port.h \
+  /usr/local/include/gmock/internal/gmock-pp.h \
+  /usr/local/include/gmock/gmock-cardinalities.h \
+  /usr/local/include/gmock/gmock-function-mocker.h \
+  /usr/local/include/gmock/gmock-spec-builders.h \
+  /usr/local/include/gmock/gmock-matchers.h \
+  /usr/local/include/gmock/internal/custom/gmock-matchers.h \
+  /usr/local/include/gmock/gmock-more-actions.h \
+  /usr/local/include/gmock/internal/custom/gmock-generated-actions.h \
+  /usr/local/include/gmock/gmock-more-matchers.h \
+  /usr/local/include/gmock/gmock-nice-strict.h \
+  /Users/monroestephenson/database_backup/include/backup_manager.hpp \
+  /Users/monroestephenson/database_backup/include/config.hpp \
   /Users/monroestephenson/database_backup/src/db_connection.hpp \
-  /Users/monroestephenson/database_backup/src/mocks/mock_db_connection.hpp \
-  /Users/monroestephenson/database_backup/src/mocks/../db_connection.hpp
+  /Users/monroestephenson/database_backup/tests/mocks/mock_db_connection.hpp \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/filesystem \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/copy_options.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/directory_entry.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/file_status.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/file_type.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/perms.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/file_time_type.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/filesystem_error.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/path.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/iomanip \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/operations.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/perm_options.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/space_info.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/directory_iterator.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/directory_options.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/path_iterator.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/recursive_directory_iterator.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__filesystem/u8path.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/fstream
