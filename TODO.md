@@ -7,10 +7,10 @@
   - [x] Add PostgreSQL connection implementation
   - [ ] Add MongoDB connection implementation
   - [x] Add SQLite connection implementation
-- [ ] Add configuration file support
-  - [ ] Create sample config.json
-  - [ ] Implement config file validation
-  - [ ] Add environment variable support for sensitive data
+- [x] Add configuration file support
+  - [x] Create sample config.json
+  - [x] Implement config file validation
+  - [x] Add environment variable support for sensitive data
 
 ## Medium Priority
 - [ ] Implement compression functionality
