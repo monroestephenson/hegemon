@@ -16,6 +16,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/monroestephenson/database_backup/src/db/postgresql_connection.cpp" "CMakeFiles/db_backup_lib.dir/src/db/postgresql_connection.cpp.o" "gcc" "CMakeFiles/db_backup_lib.dir/src/db/postgresql_connection.cpp.o.d"
   "/Users/monroestephenson/database_backup/src/db/sqlite_connection.cpp" "CMakeFiles/db_backup_lib.dir/src/db/sqlite_connection.cpp.o" "gcc" "CMakeFiles/db_backup_lib.dir/src/db/sqlite_connection.cpp.o.d"
   "/Users/monroestephenson/database_backup/src/db_connection.cpp" "CMakeFiles/db_backup_lib.dir/src/db_connection.cpp.o" "gcc" "CMakeFiles/db_backup_lib.dir/src/db_connection.cpp.o.d"
+  "/Users/monroestephenson/database_backup/src/error/ErrorUtils.cpp" "CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.o" "gcc" "CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.o.d"
   "/Users/monroestephenson/database_backup/src/logging.cpp" "CMakeFiles/db_backup_lib.dir/src/logging.cpp.o" "gcc" "CMakeFiles/db_backup_lib.dir/src/logging.cpp.o.d"
   "/Users/monroestephenson/database_backup/src/notifications.cpp" "CMakeFiles/db_backup_lib.dir/src/notifications.cpp.o" "gcc" "CMakeFiles/db_backup_lib.dir/src/notifications.cpp.o.d"
   "/Users/monroestephenson/database_backup/src/restore_manager.cpp" "CMakeFiles/db_backup_lib.dir/src/restore_manager.cpp.o" "gcc" "CMakeFiles/db_backup_lib.dir/src/restore_manager.cpp.o.d"

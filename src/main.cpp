@@ -1,57 +1,59 @@
-#include "cli.hpp"
-#include "config.hpp"
 #include "backup_manager.hpp"
-#include "restore_manager.hpp"
-#include "scheduling.hpp"
+#include "config.hpp"
+#include "cli.hpp"
 #include "logging.hpp"
+#include "error/ErrorUtils.hpp"
 #include <iostream>
+#include <cstdlib>
 
-int main(int argc, char** argv) {
-    // 1. Parse CLI
-    CLIOptions options;
+using namespace dbbackup::error;
+
+int main(int argc, char* argv[]) {
     try {
-        options = parseCLI(argc, argv);
-    } catch(const std::exception& e) {
-        std::cerr << "Error parsing CLI: " << e.what() << std::endl;
-        return 1;
-    }
+        // Initialize logging first
+        auto logger = getLogger();
+        logger->info("Database Backup Tool Starting...");
 
-    // 2. Load config
-    Config cfg;
-    try {
-        cfg = loadConfig(options.configPath);
-    } catch(const std::exception& e) {
-        std::cerr << "Error loading config: " << e.what() << std::endl;
-        return 1;
+        // Parse command line arguments
+        DB_TRY_CATCH_LOG("Main", {
+            CLI cli(argc, argv);
+            auto options = cli.parse();
+            
+            DB_CHECK(!options.configPath.empty(), ConfigurationError, "Configuration file path not provided");
+            
+            // Load configuration
+            auto config = Config::fromFile(options.configPath);
+            
+            // Create and run backup manager
+            BackupManager manager(config);
+            
+            if (options.command == "backup") {
+                DB_CHECK(!options.backupType.empty(), ValidationError, "Backup type not specified");
+                if (!manager.backup(options.backupType)) {
+                    DB_THROW(BackupError, "Backup operation failed");
+                }
+            } else if (options.command == "restore") {
+                DB_CHECK(!options.restorePath.empty(), ValidationError, "Restore path not specified");
+                if (!manager.restore(options.restorePath)) {
+                    DB_THROW(RestoreError, "Restore operation failed");
+                }
+            } else {
+                DB_THROW(ValidationError, "Unknown command: " + options.command);
+            }
+            
+            logger->info("Operation completed successfully");
+            return EXIT_SUCCESS;
+        });
+    } catch (const DatabaseBackupError& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        return EXIT_FAILURE;
+    } catch (const std::exception& e) {
+        std::cerr << "Unexpected error: " << e.what() << std::endl;
+        return EXIT_FAILURE;
+    } catch (...) {
+        std::cerr << "Unknown error occurred" << std::endl;
+        return EXIT_FAILURE;
     }
-
-    // 3. Initialize logging (optional: dynamic config)
-    auto logger = getLogger();
-    logger->info("CLI started. Command: {}", options.command);
-
-    // 4. Dispatch command
-    if(options.command == "backup") {
-        BackupManager bm(cfg);
-        bm.backup("full"); // or parse a --type arg from CLI
-    }
-    else if(options.command == "restore") {
-        // In real usage, you'd parse a --file parameter from CLI
-        RestoreManager rm(cfg);
-        rm.restore("path/to/backup_file.dump.gz", false);
-    }
-    else if(options.command == "schedule") {
-        // Start or manage scheduling in the background
-        static Scheduler scheduler(cfg);
-        scheduler.start();
-
-        std::cout << "Scheduler started. Press Enter to stop...\n";
-        std::cin.get();
-        scheduler.stop();
-        std::cout << "Scheduler stopped.\n";
-    }
-    else {
-        std::cout << "No valid command provided. Use 'backup', 'restore', or 'schedule'.\n";
-    }
-
-    return 0;
+    
+    return EXIT_FAILURE;
 }

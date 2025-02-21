@@ -1,13 +1,12 @@
 #pragma once
 
-#include "../db_connection.hpp"
-#include <sqlite3.h>
-#include <memory>
+#include "db_connection.hpp"
+#include <string>
 
-class SQLiteConnection : public IDBConnection {
+class SQLiteConnection : public DBConnection {
 public:
-    SQLiteConnection();
-    ~SQLiteConnection() override;
+    SQLiteConnection() = default;
+    ~SQLiteConnection() = default;
 
     bool connect(const DatabaseConfig& dbConfig) override;
     bool disconnect() override;
@@ -15,7 +14,5 @@ public:
     bool restoreBackup(const std::string& backupPath) override;
 
 private:
-    sqlite3* db;
-    bool connected;
-    std::string dbPath;
+    std::string currentDatabase;
 }; 

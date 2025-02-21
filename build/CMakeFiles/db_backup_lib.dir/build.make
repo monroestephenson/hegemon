@@ -240,6 +240,20 @@ CMakeFiles/db_backup_lib.dir/src/db/sqlite_connection.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/db_backup_lib.dir/src/db/sqlite_connection.cpp.s"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/monroestephenson/database_backup/src/db/sqlite_connection.cpp -o CMakeFiles/db_backup_lib.dir/src/db/sqlite_connection.cpp.s
 
+CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.o: CMakeFiles/db_backup_lib.dir/flags.make
+CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.o: /Users/monroestephenson/database_backup/src/error/ErrorUtils.cpp
+CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.o: CMakeFiles/db_backup_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/monroestephenson/database_backup/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.o -MF CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.o.d -o CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.o -c /Users/monroestephenson/database_backup/src/error/ErrorUtils.cpp
+
+CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/monroestephenson/database_backup/src/error/ErrorUtils.cpp > CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.i
+
+CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/monroestephenson/database_backup/src/error/ErrorUtils.cpp -o CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.s
+
 # Object files for target db_backup_lib
 db_backup_lib_OBJECTS = \
 "CMakeFiles/db_backup_lib.dir/src/backup_manager.cpp.o" \
@@ -253,7 +267,8 @@ db_backup_lib_OBJECTS = \
 "CMakeFiles/db_backup_lib.dir/src/db/mysql_connection.cpp.o" \
 "CMakeFiles/db_backup_lib.dir/src/db/postgresql_connection.cpp.o" \
 "CMakeFiles/db_backup_lib.dir/src/db/mongodb_connection.cpp.o" \
-"CMakeFiles/db_backup_lib.dir/src/db/sqlite_connection.cpp.o"
+"CMakeFiles/db_backup_lib.dir/src/db/sqlite_connection.cpp.o" \
+"CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.o"
 
 # External object files for target db_backup_lib
 db_backup_lib_EXTERNAL_OBJECTS =
@@ -270,9 +285,10 @@ libdb_backup_lib.a: CMakeFiles/db_backup_lib.dir/src/db/mysql_connection.cpp.o
 libdb_backup_lib.a: CMakeFiles/db_backup_lib.dir/src/db/postgresql_connection.cpp.o
 libdb_backup_lib.a: CMakeFiles/db_backup_lib.dir/src/db/mongodb_connection.cpp.o
 libdb_backup_lib.a: CMakeFiles/db_backup_lib.dir/src/db/sqlite_connection.cpp.o
+libdb_backup_lib.a: CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.o
 libdb_backup_lib.a: CMakeFiles/db_backup_lib.dir/build.make
 libdb_backup_lib.a: CMakeFiles/db_backup_lib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/monroestephenson/database_backup/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX static library libdb_backup_lib.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/monroestephenson/database_backup/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX static library libdb_backup_lib.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/db_backup_lib.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/db_backup_lib.dir/link.txt --verbose=$(VERBOSE)
 

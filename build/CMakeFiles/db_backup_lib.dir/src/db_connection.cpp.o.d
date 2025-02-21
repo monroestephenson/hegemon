@@ -1,7 +1,7 @@
 CMakeFiles/db_backup_lib.dir/src/db_connection.cpp.o: \
   /Users/monroestephenson/database_backup/src/db_connection.cpp \
   /Users/monroestephenson/database_backup/src/db_connection.hpp \
-  /Users/monroestephenson/database_backup/src/config.hpp \
+  /Users/monroestephenson/database_backup/include/config.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/string \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/max.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/comp.h \
@@ -812,6 +812,23 @@ CMakeFiles/db_backup_lib.dir/src/db_connection.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__bit/byteswap.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__bit/endian.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__bit/has_single_bit.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/map \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/is_transparent.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__iterator/ranges_iterator_traits.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__node_handle \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__tree \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/functional \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/binary_negate.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/bind.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/bind_back.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/perfect_forward.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/bind_front.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/binder1st.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/binder2nd.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/boyer_moore_searcher.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/array \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/unordered_map \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__hash_table \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/vector \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__bit_reference \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__format/formatter.h \
@@ -838,7 +855,6 @@ CMakeFiles/db_backup_lib.dir/src/db_connection.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__format/unicode.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__format/extended_grapheme_cluster_table.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__format/width_estimation_table.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/array \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/locale \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__locale \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__mutex/once_flag.h \
@@ -904,22 +920,6 @@ CMakeFiles/db_backup_lib.dir/src/db_connection.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/cstdarg \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory/temp_value.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__split_buffer \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/map \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/is_transparent.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__iterator/ranges_iterator_traits.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__node_handle \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__tree \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/functional \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/binary_negate.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/bind.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/bind_back.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/perfect_forward.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/bind_front.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/binder1st.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/binder2nd.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/boyer_moore_searcher.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/unordered_map \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__hash_table \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/compose.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/default_searcher.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/function.h \
@@ -932,29 +932,12 @@ CMakeFiles/db_backup_lib.dir/src/db_connection.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/pointer_to_unary_function.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/unary_negate.h \
   /Users/monroestephenson/database_backup/src/db/mysql_connection.hpp \
-  /Users/monroestephenson/database_backup/src/db/../db_connection.hpp \
-  /usr/local/include/mysql/mysql.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/stdbool.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/16/include/stdbool.h \
-  /usr/local/include/mysql/field_types.h \
-  /usr/local/include/mysql/my_list.h \
-  /usr/local/include/mysql/mysql_com.h \
-  /usr/local/include/mysql/my_command.h \
-  /usr/local/include/mysql/my_compress.h \
-  /usr/local/include/mysql/mysql/udf_registration_types.h \
-  /usr/local/include/mysql/mysql/client_plugin.h \
-  /usr/local/include/mysql/mysql/plugin_auth_common.h \
-  /usr/local/include/mysql/mysql_version.h \
-  /usr/local/include/mysql/mysql_time.h \
-  /usr/local/include/mysql/errmsg.h \
   /Users/monroestephenson/database_backup/src/db/postgresql_connection.hpp \
-  /usr/local/include/postgresql@14/libpq-fe.h \
-  /usr/local/include/postgresql@14/postgres_ext.h \
-  /usr/local/include/postgresql@14/pg_config_ext.h \
   /Users/monroestephenson/database_backup/src/db/mongodb_connection.hpp \
+  /Users/monroestephenson/database_backup/src/db/../db_connection.hpp \
   /Users/monroestephenson/database_backup/src/db/sqlite_connection.hpp \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sqlite3.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/iostream \
+  /Users/monroestephenson/database_backup/include/error/ErrorUtils.hpp \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/sstream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/istream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/ostream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/bitset \
@@ -983,7 +966,22 @@ CMakeFiles/db_backup_lib.dir/src/db_connection.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__format/formatter_tuple.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/print \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h \
-  /usr/local/include/pqxx/pqxx \
+  /Users/monroestephenson/database_backup/include/error/DatabaseBackupError.hpp \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/iostream \
+  /usr/local/include/mysql/mysql.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/stdbool.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/16/include/stdbool.h \
+  /usr/local/include/mysql/field_types.h \
+  /usr/local/include/mysql/my_list.h \
+  /usr/local/include/mysql/mysql_com.h \
+  /usr/local/include/mysql/my_command.h \
+  /usr/local/include/mysql/my_compress.h \
+  /usr/local/include/mysql/mysql/udf_registration_types.h \
+  /usr/local/include/mysql/mysql/client_plugin.h \
+  /usr/local/include/mysql/mysql/plugin_auth_common.h \
+  /usr/local/include/mysql/mysql_version.h \
+  /usr/local/include/mysql/mysql_time.h \
+  /usr/local/include/mysql/errmsg.h /usr/local/include/pqxx/pqxx \
   /usr/local/include/pqxx/internal/header-pre.hxx \
   /usr/local/include/pqxx/config-public-compiler.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/ciso646 \
@@ -1006,7 +1004,6 @@ CMakeFiles/db_backup_lib.dir/src/db_connection.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__charconv/from_chars_integral.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__charconv/from_chars_result.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__charconv/to_chars.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/sstream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__ranges/all.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__ranges/owning_view.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__ranges/range_adaptor.h \
@@ -1130,221 +1127,4 @@ CMakeFiles/db_backup_lib.dir/src/db_connection.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/forward_list \
   /usr/local/include/pqxx/transactor.hxx \
   /usr/local/include/pqxx/internal/header-post.hxx \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/client.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/client-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/config/prelude.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/config/compiler.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/config/config.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/config/export.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/config/version.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/config/postlude.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/client_session-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/collection-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/database-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/auto_encryption-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/client_encryption-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/pool-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/client_session.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/bulk_write-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/index_view-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/search_index_view-fwd.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/document/view.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/document/view-fwd.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/config/prelude.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/config/util.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/config/compiler.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/config/config.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/config/export.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/config/version.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/config/postlude.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/document/element.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/array/element-fwd.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/document/element-fwd.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/types-fwd.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/types/bson_value/value-fwd.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/types/bson_value/view-fwd.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/stdx/optional.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/stdx/operators.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/stdx/type_traits.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/stdx/string_view.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/client_session.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/client_session-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/transaction.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/transaction-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/read_concern-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/read_preference-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/write_concern-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/database.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/client_encryption-fwd.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/document/view_or_value.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/document/value.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/document/value-fwd.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/array/view.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/array/view-fwd.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/array/element.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/view_or_value.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/view_or_value-fwd.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/string/view_or_value.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/string/view_or_value-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/collection.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/builder/basic/array.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/builder/basic/array-fwd.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/array/value.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/array/value-fwd.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/builder/basic/impl.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/builder/basic/sub_array.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/builder/basic/sub_array-fwd.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/builder/basic/helpers.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/builder/concatenate.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/builder/concatenate-fwd.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/array/view_or_value.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/builder/core.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/builder/core-fwd.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/types.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/decimal128.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/decimal128-fwd.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/oid.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/oid-fwd.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/builder/basic/sub_document.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/builder/basic/sub_document-fwd.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/builder/basic/kvp.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/builder/basic/document.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/builder/basic/document-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/bulk_write.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/model/write.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/model/write-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/model/delete_many.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/model/delete_many-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/hint.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/hint-fwd.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/types/bson_value/view.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/model/delete_one.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/model/delete_one-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/model/insert_one.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/model/insert_one-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/model/replace_one.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/model/replace_one-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/model/update_many.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/model/update_many-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/pipeline.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/pipeline-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/model/update_one.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/model/update_one-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/write_type.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/write_type-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/bulk_write.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/bulk_write-fwd.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/types/bson_value/view_or_value.hpp \
-  /usr/local/include/bsoncxx/v_noabi/bsoncxx/types/bson_value/value.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/write_concern.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/uri-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/result/bulk_write.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/result/bulk_write-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/change_stream.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/change_stream-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/cursor.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/cursor-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/index_view.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/index_model.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/index_model-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/index.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/index-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/index_view.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/index_view-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/aggregate.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/aggregate-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/read_concern.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/read_preference.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/topology_description-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/change_stream.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/change_stream-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/count.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/count-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/delete.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/delete-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/distinct.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/distinct-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/estimated_document_count.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/estimated_document_count-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/find.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/find-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/find_one_and_delete.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/find_one_and_delete-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/find_one_and_replace.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/find_one_and_replace-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/find_one_common_options.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/find_one_common_options-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/find_one_and_update.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/find_one_and_update-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/insert.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/insert-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/replace.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/replace-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/update.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/update-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/result/delete.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/result/delete-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/result/insert_many.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/result/insert_many-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/result/insert_one.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/result/insert_one-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/result/replace_one.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/result/replace_one-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/result/update.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/result/update-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/search_index_view.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/search_index_model.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/search_index_model-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/gridfs/bucket.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/gridfs/bucket-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/gridfs/downloader.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/gridfs/downloader-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/gridfs/uploader.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/gridfs/uploader-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/result/gridfs/upload.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/result/gridfs/upload-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/gridfs/bucket.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/gridfs/bucket-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/gridfs/upload.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/gridfs/upload-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/client.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/client-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/apm.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/apm-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/command_failed_event.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/command_failed_event-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/command_started_event.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/command_started_event-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/command_succeeded_event.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/command_succeeded_event-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/heartbeat_failed_event.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/heartbeat_failed_event-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/heartbeat_started_event.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/heartbeat_started_event-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/heartbeat_succeeded_event.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/heartbeat_succeeded_event-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/server_changed_event.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/server_changed_event-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/server_description.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/server_description-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/server_closed_event.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/server_closed_event-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/server_opening_event.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/server_opening_event-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/topology_changed_event.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/topology_changed_event-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/topology_description.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/topology_closed_event.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/topology_closed_event-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/topology_opening_event.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/events/topology_opening_event-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/auto_encryption.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/server_api.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/server_api-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/tls.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/tls-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/options/client_encryption.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/uri.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/instance.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/instance-fwd.hpp \
-  /usr/local/include/mongocxx/v_noabi/mongocxx/logger-fwd.hpp
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sqlite3.h

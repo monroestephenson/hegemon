@@ -19,7 +19,7 @@ protected:
         mysqlConfig.port = 3306;
         mysqlConfig.username = "test_user";
         mysqlConfig.password = "test_pass";
-        mysqlConfig.dbName = "test_db";
+        mysqlConfig.database = "test_db";
 
         postgresConfig = mysqlConfig;
         postgresConfig.type = "postgresql";
@@ -31,7 +31,7 @@ protected:
 
         sqliteConfig = mysqlConfig;
         sqliteConfig.type = "sqlite";
-        sqliteConfig.path = "/tmp/test.db";
+        sqliteConfig.database = "/tmp/test.db";
     }
 
     DatabaseConfig mysqlConfig;

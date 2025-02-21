@@ -823,7 +823,6 @@ CMakeFiles/unit_tests.dir/tests/db/test_db_connections.cpp.o: /Users/monroesteph
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/span \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/sstream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/stack \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/stdbool.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/stddef.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/stdexcept \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/stdint.h \
@@ -881,7 +880,6 @@ CMakeFiles/unit_tests.dir/tests/db/test_db_connections.cpp.o: /Users/monroesteph
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/regex.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/runetype.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sched.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sqlite3.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/stdint.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/stdio.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/stdlib.h \
@@ -1013,12 +1011,9 @@ CMakeFiles/unit_tests.dir/tests/db/test_db_connections.cpp.o: /Users/monroesteph
   /Library/Developer/CommandLineTools/usr/lib/clang/16/include/float.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/16/include/limits.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/16/include/stdarg.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/16/include/stdbool.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/16/include/stddef.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/16/include/stdint.h \
-  /Users/monroestephenson/database_backup/src/config.hpp \
-  /Users/monroestephenson/database_backup/src/db_connection.hpp \
-  /Users/monroestephenson/database_backup/src/db/mongodb_connection.hpp \
+  /Users/monroestephenson/database_backup/include/config.hpp \
   /Users/monroestephenson/database_backup/src/db/mysql_connection.hpp \
   /Users/monroestephenson/database_backup/src/db/postgresql_connection.hpp \
   /Users/monroestephenson/database_backup/src/db/sqlite_connection.hpp \
@@ -1058,22 +1053,7 @@ CMakeFiles/unit_tests.dir/tests/db/test_db_connections.cpp.o: /Users/monroesteph
   /usr/local/include/gtest/internal/gtest-port-arch.h \
   /usr/local/include/gtest/internal/gtest-port.h \
   /usr/local/include/gtest/internal/gtest-string.h \
-  /usr/local/include/gtest/internal/gtest-type-util.h \
-  /usr/local/include/mysql/errmsg.h \
-  /usr/local/include/mysql/field_types.h \
-  /usr/local/include/mysql/my_command.h \
-  /usr/local/include/mysql/my_compress.h \
-  /usr/local/include/mysql/my_list.h \
-  /usr/local/include/mysql/mysql.h \
-  /usr/local/include/mysql/mysql/client_plugin.h \
-  /usr/local/include/mysql/mysql/plugin_auth_common.h \
-  /usr/local/include/mysql/mysql/udf_registration_types.h \
-  /usr/local/include/mysql/mysql_com.h \
-  /usr/local/include/mysql/mysql_time.h \
-  /usr/local/include/mysql/mysql_version.h \
-  /usr/local/include/postgresql@14/libpq-fe.h \
-  /usr/local/include/postgresql@14/pg_config_ext.h \
-  /usr/local/include/postgresql@14/postgres_ext.h
+  /usr/local/include/gtest/internal/gtest-type-util.h
 
 CMakeFiles/unit_tests.dir/tests/test_backup_manager.cpp.o: /Users/monroestephenson/database_backup/tests/test_backup_manager.cpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/Availability.h \
@@ -2087,8 +2067,8 @@ CMakeFiles/unit_tests.dir/tests/test_backup_manager.cpp.o: /Users/monroestephens
   /Library/Developer/CommandLineTools/usr/lib/clang/16/include/stdarg.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/16/include/stddef.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/16/include/stdint.h \
-  /Users/monroestephenson/database_backup/src/backup_manager.hpp \
-  /Users/monroestephenson/database_backup/src/config.hpp \
+  /Users/monroestephenson/database_backup/include/backup_manager.hpp \
+  /Users/monroestephenson/database_backup/include/config.hpp \
   /Users/monroestephenson/database_backup/src/db_connection.hpp \
   /Users/monroestephenson/database_backup/src/db_connection.hpp \
   /Users/monroestephenson/database_backup/src/mocks/mock_db_connection.hpp \
@@ -2132,27 +2112,7 @@ CMakeFiles/unit_tests.dir/tests/test_backup_manager.cpp.o: /Users/monroestephens
 
 /Users/monroestephenson/database_backup/src/mocks/mock_db_connection.hpp:
 
-/Users/monroestephenson/database_backup/src/backup_manager.hpp:
-
 /Users/monroestephenson/database_backup/tests/test_backup_manager.cpp:
-
-/usr/local/include/postgresql@14/postgres_ext.h:
-
-/usr/local/include/postgresql@14/pg_config_ext.h:
-
-/usr/local/include/mysql/mysql_time.h:
-
-/usr/local/include/mysql/mysql_com.h:
-
-/usr/local/include/mysql/mysql/udf_registration_types.h:
-
-/usr/local/include/mysql/mysql/plugin_auth_common.h:
-
-/usr/local/include/mysql/mysql/client_plugin.h:
-
-/usr/local/include/mysql/field_types.h:
-
-/usr/local/include/mysql/errmsg.h:
 
 /usr/local/include/gtest/internal/gtest-type-util.h:
 
@@ -2186,19 +2146,13 @@ CMakeFiles/unit_tests.dir/tests/test_backup_manager.cpp.o: /Users/monroestephens
 
 /usr/local/include/gmock/gmock-function-mocker.h:
 
-/Users/monroestephenson/database_backup/src/db/sqlite_connection.hpp:
-
-/Users/monroestephenson/database_backup/src/db/mongodb_connection.hpp:
-
 /Users/monroestephenson/database_backup/src/db_connection.hpp:
 
-/Users/monroestephenson/database_backup/src/config.hpp:
+/Users/monroestephenson/database_backup/src/db/sqlite_connection.hpp:
 
 /Library/Developer/CommandLineTools/usr/lib/clang/16/include/stdint.h:
 
 /Library/Developer/CommandLineTools/usr/lib/clang/16/include/stddef.h:
-
-/Library/Developer/CommandLineTools/usr/lib/clang/16/include/stdbool.h:
 
 /Library/Developer/CommandLineTools/usr/lib/clang/16/include/stdarg.h:
 
@@ -2233,8 +2187,6 @@ CMakeFiles/unit_tests.dir/tests/test_backup_manager.cpp.o: /Users/monroestephens
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/wctype.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/wchar.h:
-
-/usr/local/include/mysql/my_list.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h:
 
@@ -2297,6 +2249,8 @@ CMakeFiles/unit_tests.dir/tests/test_backup_manager.cpp.o: /Users/monroestephens
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h:
+
+/Users/monroestephenson/database_backup/include/config.hpp:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h:
 
@@ -2403,8 +2357,6 @@ CMakeFiles/unit_tests.dir/tests/test_backup_manager.cpp.o: /Users/monroestephens
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/stdexcept:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/stddef.h:
-
-/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/stdbool.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/span:
 
@@ -2792,8 +2744,6 @@ CMakeFiles/unit_tests.dir/tests/test_backup_manager.cpp.o: /Users/monroestephens
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_fd_clr.h:
 
-/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sqlite3.h:
-
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__concepts/invocable.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__stop_token/stop_callback.h:
@@ -2905,8 +2855,6 @@ CMakeFiles/unit_tests.dir/tests/test_backup_manager.cpp.o: /Users/monroestephens
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/machine/limits.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__mutex/mutex.h:
-
-/usr/local/include/mysql/my_compress.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/chrono:
 
@@ -3398,8 +3346,6 @@ CMakeFiles/unit_tests.dir/tests/test_backup_manager.cpp.o: /Users/monroestephens
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/ranges_minmax.h:
 
-/usr/local/include/mysql/mysql_version.h:
-
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__config_site:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__format/format_arg.h:
@@ -3710,11 +3656,11 @@ CMakeFiles/unit_tests.dir/tests/test_backup_manager.cpp.o: /Users/monroestephens
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/ranges_merge.h:
 
-/usr/local/include/postgresql@14/libpq-fe.h:
-
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__concepts/predicate.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__concepts/copyable.h:
+
+/Users/monroestephenson/database_backup/include/backup_manager.hpp:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/partition_copy.h:
 
@@ -3865,8 +3811,6 @@ CMakeFiles/unit_tests.dir/tests/test_backup_manager.cpp.o: /Users/monroestephens
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/__xlocale.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__type_traits/is_signed.h:
-
-/usr/local/include/mysql/my_command.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/variant:
 
@@ -4147,8 +4091,6 @@ CMakeFiles/unit_tests.dir/tests/test_backup_manager.cpp.o: /Users/monroestephens
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__utility/cmp.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/copy_move_common.h:
-
-/usr/local/include/mysql/mysql.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/ranges_find_if_not.h:
 

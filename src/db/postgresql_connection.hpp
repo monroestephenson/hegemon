@@ -1,13 +1,12 @@
 #pragma once
 
-#include "../db_connection.hpp"
-#include <libpq-fe.h>
-#include <memory>
+#include "db_connection.hpp"
+#include <string>
 
-class PostgreSQLConnection : public IDBConnection {
+class PostgreSQLConnection : public DBConnection {
 public:
-    PostgreSQLConnection();
-    ~PostgreSQLConnection() override;
+    PostgreSQLConnection() = default;
+    ~PostgreSQLConnection() = default;
 
     bool connect(const DatabaseConfig& dbConfig) override;
     bool disconnect() override;
@@ -15,7 +14,5 @@ public:
     bool restoreBackup(const std::string& backupPath) override;
 
 private:
-    PGconn* conn;
-    bool connected;
-    std::string currentDbName;
+    std::string currentDatabase;
 }; 

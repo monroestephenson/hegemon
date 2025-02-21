@@ -15,6 +15,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/db_backup_lib.dir/src/db/sqlite_connection.cpp.o.d"
   "CMakeFiles/db_backup_lib.dir/src/db_connection.cpp.o"
   "CMakeFiles/db_backup_lib.dir/src/db_connection.cpp.o.d"
+  "CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.o"
+  "CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.o.d"
   "CMakeFiles/db_backup_lib.dir/src/logging.cpp.o"
   "CMakeFiles/db_backup_lib.dir/src/logging.cpp.o.d"
   "CMakeFiles/db_backup_lib.dir/src/notifications.cpp.o"

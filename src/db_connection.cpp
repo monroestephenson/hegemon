@@ -3,7 +3,10 @@
 #include "db/postgresql_connection.hpp"
 #include "db/mongodb_connection.hpp"
 #include "db/sqlite_connection.hpp"
+#include "error/ErrorUtils.hpp"
 #include <iostream>
+
+using namespace dbbackup::error;
 
 // ================ MySQL Implementation Stub =================
 #ifdef USE_MYSQL
@@ -28,51 +31,58 @@
 
 // ================ Factory Function =================
 std::unique_ptr<IDBConnection> createDBConnection(const DatabaseConfig& dbConfig) {
-    if (dbConfig.type == "mysql") {
+    DB_TRY_CATCH_LOG("DBConnection", {
+        DB_CHECK(!dbConfig.type.empty(), ConfigurationError, "Database type cannot be empty");
+        
+        if (dbConfig.type == "mysql") {
 #ifdef USE_MYSQL
-        return std::make_unique<MySQLConnection>();
+            return std::make_unique<MySQLConnection>();
 #else
-        std::cerr << "[Warning] MySQL not compiled in. Using generic fallback.\n";
+            DB_THROW(ConfigurationError, "MySQL support not compiled in");
 #endif
-    }
-    else if (dbConfig.type == "postgres" || dbConfig.type == "postgresql") {
+        }
+        else if (dbConfig.type == "postgres" || dbConfig.type == "postgresql") {
 #ifdef USE_POSTGRESQL
-        return std::make_unique<PostgreSQLConnection>();
+            return std::make_unique<PostgreSQLConnection>();
 #else
-        std::cerr << "[Warning] PostgreSQL not compiled in. Using generic fallback.\n";
+            DB_THROW(ConfigurationError, "PostgreSQL support not compiled in");
 #endif
-    }
-    else if (dbConfig.type == "mongodb") {
+        }
+        else if (dbConfig.type == "mongodb") {
 #ifdef USE_MONGODB
-        return std::make_unique<MongoDBConnection>();
+            return std::make_unique<MongoDBConnection>();
 #else
-        std::cerr << "[Warning] MongoDB not compiled in. Using generic fallback.\n";
+            DB_THROW(ConfigurationError, "MongoDB support not compiled in");
 #endif
-    }
-    else if (dbConfig.type == "sqlite") {
+        }
+        else if (dbConfig.type == "sqlite") {
 #ifdef USE_SQLITE
-        return std::make_unique<SQLiteConnection>();
+            return std::make_unique<SQLiteConnection>();
 #else
-        std::cerr << "[Warning] SQLite not compiled in. Using generic fallback.\n";
+            DB_THROW(ConfigurationError, "SQLite support not compiled in");
 #endif
-    }
+        }
 
-    throw std::runtime_error("Unsupported database type: " + dbConfig.type);
+        DB_THROW(ConfigurationError, "Unsupported database type: " + dbConfig.type);
+    });
+    
+    // This return is never reached due to DB_TRY_CATCH_LOG, but needed for compilation
+    return nullptr;
 }
 
 // ================ Default Implementation =================
 bool DBConnection::connect(const DatabaseConfig& dbConfig) {
-    throw std::runtime_error("DBConnection::connect not implemented");
+    DB_THROW(ConnectionError, "connect() not implemented for this database type");
 }
 
 bool DBConnection::disconnect() {
-    throw std::runtime_error("DBConnection::disconnect not implemented");
+    DB_THROW(ConnectionError, "disconnect() not implemented for this database type");
 }
 
 bool DBConnection::createBackup(const std::string& backupPath) {
-    throw std::runtime_error("DBConnection::createBackup not implemented");
+    DB_THROW(BackupError, "createBackup() not implemented for this database type");
 }
 
 bool DBConnection::restoreBackup(const std::string& backupPath) {
-    throw std::runtime_error("DBConnection::restoreBackup not implemented");
+    DB_THROW(RestoreError, "restoreBackup() not implemented for this database type");
 }

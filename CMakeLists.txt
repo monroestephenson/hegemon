@@ -101,6 +101,7 @@ set(LIB_SOURCES
     src/db/postgresql_connection.cpp
     src/db/mongodb_connection.cpp
     src/db/sqlite_connection.cpp
+    src/error/ErrorUtils.cpp
 )
 
 # Create a library from the common sources

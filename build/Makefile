@@ -478,6 +478,30 @@ src/db_connection.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/db_connection.cpp.s
 .PHONY : src/db_connection.cpp.s
 
+src/error/ErrorUtils.o: src/error/ErrorUtils.cpp.o
+.PHONY : src/error/ErrorUtils.o
+
+# target to build an object file
+src/error/ErrorUtils.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.o
+.PHONY : src/error/ErrorUtils.cpp.o
+
+src/error/ErrorUtils.i: src/error/ErrorUtils.cpp.i
+.PHONY : src/error/ErrorUtils.i
+
+# target to preprocess a source file
+src/error/ErrorUtils.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.i
+.PHONY : src/error/ErrorUtils.cpp.i
+
+src/error/ErrorUtils.s: src/error/ErrorUtils.cpp.s
+.PHONY : src/error/ErrorUtils.s
+
+# target to generate assembly for a file
+src/error/ErrorUtils.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/db_backup_lib.dir/build.make CMakeFiles/db_backup_lib.dir/src/error/ErrorUtils.cpp.s
+.PHONY : src/error/ErrorUtils.cpp.s
+
 src/logging.o: src/logging.cpp.o
 .PHONY : src/logging.o
 
@@ -717,6 +741,9 @@ help:
 	@echo "... src/db_connection.o"
 	@echo "... src/db_connection.i"
 	@echo "... src/db_connection.s"
+	@echo "... src/error/ErrorUtils.o"
+	@echo "... src/error/ErrorUtils.i"
+	@echo "... src/error/ErrorUtils.s"
 	@echo "... src/logging.o"
 	@echo "... src/logging.i"
 	@echo "... src/logging.s"

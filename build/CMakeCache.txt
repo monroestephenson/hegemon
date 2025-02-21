@@ -28,7 +28,7 @@ CMAKE_AR:FILEPATH=/Library/Developer/CommandLineTools/usr/bin/ar
 
 //Choose the type of build, options are: None Debug Release RelWithDebInfo
 // MinSizeRel ...
-CMAKE_BUILD_TYPE:STRING=
+CMAKE_BUILD_TYPE:STRING=Debug
 
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON
@@ -296,9 +296,6 @@ MYSQL_INCLUDE_DIR:PATH=/usr/local/include/mysql
 //Path to a library.
 MYSQL_LIBRARY:FILEPATH=/usr/local/lib/libmysqlclient.dylib
 
-//The directory containing a CMake configuration file for MySQL.
-MySQL_DIR:PATH=MySQL_DIR-NOTFOUND
-
 //Arguments to supply to pkg-config
 PKG_CONFIG_ARGN:STRING=
 
@@ -329,12 +326,6 @@ PostgreSQL_LIBRARY_RELEASE:FILEPATH=/usr/local/lib/postgresql@14/libpq.dylib
 // /usr/local/include/PostgreSQL/8.4 or C:/Program Files/PostgreSQL/8.4/include
 PostgreSQL_TYPE_INCLUDE_DIR:PATH=/usr/local/include/postgresql@14/server
 
-//Header include-directory for Cyrus libsasl2
-SASL2_INCLUDE_DIR:PATH=/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include
-
-//Library file for Cyrus libsasl2
-SASL2_LIBRARY:FILEPATH=/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/lib/libsasl2.tbd
-
 //Path to a file.
 SQLite3_INCLUDE_DIR:PATH=/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include
 
@@ -342,7 +333,7 @@ SQLite3_INCLUDE_DIR:PATH=/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk
 SQLite3_LIBRARY:FILEPATH=/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/lib/libsqlite3.tbd
 
 //Enable MongoDB support
-USE_MONGODB:BOOL=ON
+USE_MONGODB:BOOL=OFF
 
 //Enable MySQL support
 USE_MYSQL:BOOL=ON
@@ -353,14 +344,8 @@ USE_POSTGRESQL:BOOL=ON
 //Enable SQLite support
 USE_SQLITE:BOOL=ON
 
-//The directory containing a CMake configuration file for bson-1.0.
-bson-1.0_DIR:PATH=/usr/local/lib/cmake/bson-1.0
-
-//The directory containing a CMake configuration file for bsoncxx.
-bsoncxx_DIR:PATH=/usr/local/lib/cmake/bsoncxx-4.0.0
-
 //Dependencies for the target
-db_backup_lib_LIB_DEPENDS:STATIC=general;spdlog::spdlog;general;/usr/local/lib/libmysqlclient.dylib;general;/usr/local/lib/postgresql@14/libpq.dylib;general;/usr/local/lib/libpqxx.dylib;general;mongo::mongocxx_shared;general;mongo::bsoncxx_shared;general;SQLite::SQLite3;
+db_backup_lib_LIB_DEPENDS:STATIC=general;spdlog::spdlog;general;/usr/local/lib/libmysqlclient.dylib;general;/usr/local/lib/postgresql@14/libpq.dylib;general;/usr/local/lib/libpqxx.dylib;general;SQLite::SQLite3;
 
 //The directory containing a CMake configuration file for fmt.
 fmt_DIR:PATH=/usr/local/lib/cmake/fmt
@@ -410,12 +395,6 @@ gtest_force_shared_crt:BOOL=OFF
 
 //Build gtest with internal symbols hidden in shared libraries.
 gtest_hide_internal_symbols:BOOL=OFF
-
-//The directory containing a CMake configuration file for mongoc-1.0.
-mongoc-1.0_DIR:PATH=/usr/local/lib/cmake/mongoc-1.0
-
-//The directory containing a CMake configuration file for mongocxx.
-mongocxx_DIR:PATH=/usr/local/lib/cmake/mongocxx-4.0.0
 
 //Value Computed by CMake
 my_db_backup_cli_BINARY_DIR:STATIC=/Users/monroestephenson/database_backup/build
@@ -612,8 +591,6 @@ CMAKE_UNAME:INTERNAL=/usr/bin/uname
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding PostgreSQL
 FIND_PACKAGE_MESSAGE_DETAILS_PostgreSQL:INTERNAL=[/usr/local/lib/postgresql@14/libpq.dylib][/usr/local/include/postgresql@14][c ][v14.17()]
-//Details about finding SASL2
-FIND_PACKAGE_MESSAGE_DETAILS_SASL2:INTERNAL=[2.1.26][/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include][/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/lib/libsasl2.tbd][v2.1.26(2.0)]
 //Details about finding SQLite3
 FIND_PACKAGE_MESSAGE_DETAILS_SQLite3:INTERNAL=[/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include][/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/lib/libsqlite3.tbd][v3.43.2()]
 //Details about finding Threads

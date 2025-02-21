@@ -1046,8 +1046,8 @@ CMakeFiles/unit_tests.dir/tests/test_backup_manager.cpp.o: \
   /usr/local/include/gmock/internal/custom/gmock-generated-actions.h \
   /usr/local/include/gmock/gmock-more-matchers.h \
   /usr/local/include/gmock/gmock-nice-strict.h \
-  /Users/monroestephenson/database_backup/src/backup_manager.hpp \
-  /Users/monroestephenson/database_backup/src/config.hpp \
+  /Users/monroestephenson/database_backup/include/backup_manager.hpp \
+  /Users/monroestephenson/database_backup/include/config.hpp \
   /Users/monroestephenson/database_backup/src/db_connection.hpp \
   /Users/monroestephenson/database_backup/src/mocks/mock_db_connection.hpp \
   /Users/monroestephenson/database_backup/src/mocks/../db_connection.hpp
