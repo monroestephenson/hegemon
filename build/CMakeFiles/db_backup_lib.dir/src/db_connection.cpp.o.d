@@ -932,11 +932,46 @@ CMakeFiles/db_backup_lib.dir/src/db_connection.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/pointer_to_unary_function.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__functional/unary_negate.h \
   /Users/monroestephenson/database_backup/src/db/mysql_connection.hpp \
+  /usr/local/include/mysql/mysql.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/stdbool.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/16/include/stdbool.h \
+  /usr/local/include/mysql/field_types.h \
+  /usr/local/include/mysql/my_list.h \
+  /usr/local/include/mysql/mysql_com.h \
+  /usr/local/include/mysql/my_command.h \
+  /usr/local/include/mysql/my_compress.h \
+  /usr/local/include/mysql/mysql/udf_registration_types.h \
+  /usr/local/include/mysql/mysql/client_plugin.h \
+  /usr/local/include/mysql/mysql/plugin_auth_common.h \
+  /usr/local/include/mysql/mysql_version.h \
+  /usr/local/include/mysql/mysql_time.h \
+  /usr/local/include/mysql/errmsg.h \
   /Users/monroestephenson/database_backup/src/db/postgresql_connection.hpp \
-  /Users/monroestephenson/database_backup/src/db/mongodb_connection.hpp \
-  /Users/monroestephenson/database_backup/src/db/../db_connection.hpp \
-  /Users/monroestephenson/database_backup/src/db/sqlite_connection.hpp \
-  /Users/monroestephenson/database_backup/include/error/ErrorUtils.hpp \
+  /usr/local/include/pqxx/pqxx \
+  /usr/local/include/pqxx/internal/header-pre.hxx \
+  /usr/local/include/pqxx/config-public-compiler.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/ciso646 \
+  /usr/local/include/pqxx/array.hxx \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/cassert \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/assert.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_assert.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
+  /usr/local/include/pqxx/connection.hxx \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/list \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/ranges \
+  /usr/local/include/pqxx/errorhandler.hxx \
+  /usr/local/include/pqxx/types.hxx \
+  /usr/local/include/pqxx/internal/ignore-deprecated-pre.hxx \
+  /usr/local/include/pqxx/internal/ignore-deprecated-post.hxx \
+  /usr/local/include/pqxx/except.hxx \
+  /usr/local/include/pqxx/internal/concat.hxx \
+  /usr/local/include/pqxx/strconv.hxx \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/charconv \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__charconv/chars_format.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__charconv/from_chars_integral.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__charconv/from_chars_result.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__charconv/to_chars.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__charconv/to_chars_floating_point.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/sstream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/istream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/ostream \
@@ -958,52 +993,12 @@ CMakeFiles/db_backup_lib.dir/src/db_connection.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__format/write_escaped.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__format/escaped_output_table.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__format/formatter_floating_point.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__charconv/chars_format.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__charconv/to_chars_floating_point.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__format/formatter_integer.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__format/formatter_pointer.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__format/formatter_string.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__format/formatter_tuple.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/print \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h \
-  /Users/monroestephenson/database_backup/include/error/DatabaseBackupError.hpp \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/iostream \
-  /usr/local/include/mysql/mysql.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/stdbool.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/16/include/stdbool.h \
-  /usr/local/include/mysql/field_types.h \
-  /usr/local/include/mysql/my_list.h \
-  /usr/local/include/mysql/mysql_com.h \
-  /usr/local/include/mysql/my_command.h \
-  /usr/local/include/mysql/my_compress.h \
-  /usr/local/include/mysql/mysql/udf_registration_types.h \
-  /usr/local/include/mysql/mysql/client_plugin.h \
-  /usr/local/include/mysql/mysql/plugin_auth_common.h \
-  /usr/local/include/mysql/mysql_version.h \
-  /usr/local/include/mysql/mysql_time.h \
-  /usr/local/include/mysql/errmsg.h /usr/local/include/pqxx/pqxx \
-  /usr/local/include/pqxx/internal/header-pre.hxx \
-  /usr/local/include/pqxx/config-public-compiler.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/ciso646 \
-  /usr/local/include/pqxx/array.hxx \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/cassert \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/assert.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_assert.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
-  /usr/local/include/pqxx/connection.hxx \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/list \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/ranges \
-  /usr/local/include/pqxx/errorhandler.hxx \
-  /usr/local/include/pqxx/types.hxx \
-  /usr/local/include/pqxx/internal/ignore-deprecated-pre.hxx \
-  /usr/local/include/pqxx/internal/ignore-deprecated-post.hxx \
-  /usr/local/include/pqxx/except.hxx \
-  /usr/local/include/pqxx/internal/concat.hxx \
-  /usr/local/include/pqxx/strconv.hxx \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/charconv \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__charconv/from_chars_integral.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__charconv/from_chars_result.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__charconv/to_chars.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__ranges/all.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__ranges/owning_view.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__ranges/range_adaptor.h \
@@ -1127,4 +1122,10 @@ CMakeFiles/db_backup_lib.dir/src/db_connection.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/forward_list \
   /usr/local/include/pqxx/transactor.hxx \
   /usr/local/include/pqxx/internal/header-post.hxx \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sqlite3.h
+  /Users/monroestephenson/database_backup/src/db/mongodb_connection.hpp \
+  /Users/monroestephenson/database_backup/src/db/../db_connection.hpp \
+  /Users/monroestephenson/database_backup/src/db/sqlite_connection.hpp \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sqlite3.h \
+  /Users/monroestephenson/database_backup/include/error/ErrorUtils.hpp \
+  /Users/monroestephenson/database_backup/include/error/DatabaseBackupError.hpp \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/iostream

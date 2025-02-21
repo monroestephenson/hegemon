@@ -1,18 +1,66 @@
 #include "db/mysql_connection.hpp"
 #include "error/ErrorUtils.hpp"
 #include <iostream>
+#include <cstdlib>
+#include <filesystem>
 
 using namespace dbbackup::error;
 
+MySQLConnection::MySQLConnection() : mysql(nullptr) {
+    mysql = mysql_init(nullptr);
+    if (!mysql) {
+        DB_THROW(ConnectionError, "Failed to initialize MySQL connection");
+    }
+}
+
+MySQLConnection::~MySQLConnection() {
+    if (mysql) {
+        mysql_close(mysql);
+        mysql = nullptr;
+    }
+}
+
 bool MySQLConnection::connect(const DatabaseConfig& dbConfig) {
     DB_TRY_CATCH_LOG("MySQLConnection", {
-        // In a real implementation, you would:
-        // mysql_init(&mysql);
-        // mysql_real_connect(&mysql, host, user, pass, db, port, nullptr, 0);
-        
-        std::cout << "[MySQL] Connecting to " << dbConfig.host << ":" << dbConfig.port 
-                  << " database: " << dbConfig.database << "\n";
-        
+        if (!mysql) {
+            DB_THROW(ConnectionError, "MySQL connection not initialized");
+        }
+
+        // Store config for later use in backup/restore
+        currentConfig = dbConfig;
+
+        // Set connection timeout to 5 seconds
+        int timeout = 5;
+        mysql_options(mysql, MYSQL_OPT_CONNECT_TIMEOUT, &timeout);
+
+        // Enable automatic reconnection
+        bool reconnect = true;
+        mysql_options(mysql, MYSQL_OPT_RECONNECT, &reconnect);
+
+        // Attempt to connect
+        MYSQL* result = mysql_real_connect(mysql,
+            dbConfig.host.c_str(),
+            dbConfig.username.c_str(),
+            dbConfig.password.c_str(),
+            dbConfig.database.c_str(),
+            dbConfig.port,
+            nullptr,  // unix_socket
+            0        // client_flag
+        );
+
+        if (!result) {
+            std::string error = mysql_error(mysql);
+            mysql_close(mysql);
+            mysql = mysql_init(nullptr);  // Reinitialize for future attempts
+
+            // Check if it's an authentication error
+            if (error.find("Access denied") != std::string::npos) {
+                DB_THROW(AuthenticationError, error);
+            } else {
+                DB_THROW(ConnectionError, error);
+            }
+        }
+
         currentDatabase = dbConfig.database;
         return true;
     });
@@ -22,8 +70,10 @@ bool MySQLConnection::connect(const DatabaseConfig& dbConfig) {
 
 bool MySQLConnection::disconnect() {
     DB_TRY_CATCH_LOG("MySQLConnection", {
-        std::cout << "[MySQL] Disconnecting from database: " << currentDatabase << "\n";
-        // mysql_close(&mysql);
+        if (mysql) {
+            mysql_close(mysql);
+            mysql = mysql_init(nullptr);  // Reinitialize for future attempts
+        }
         return true;
     });
     
@@ -32,15 +82,37 @@ bool MySQLConnection::disconnect() {
 
 bool MySQLConnection::createBackup(const std::string& backupPath) {
     DB_TRY_CATCH_LOG("MySQLConnection", {
-        std::cout << "[MySQL] Creating backup of " << currentDatabase 
-                  << " to " << backupPath << "\n";
-        
-        // In a real implementation, you would:
-        // 1. Use mysqldump command or MySQL Backup API
-        // 2. Handle large databases
-        // 3. Implement progress reporting
-        // 4. Handle errors and cleanup
-        
+        if (!mysql || mysql_ping(mysql) != 0) {
+            DB_THROW(BackupError, "Not connected to MySQL server");
+        }
+
+        // Create the backup directory if it doesn't exist
+        std::filesystem::path backupFilePath(backupPath);
+        if (auto parentPath = backupFilePath.parent_path(); !parentPath.empty()) {
+            std::filesystem::create_directories(parentPath);
+        }
+
+        // Construct mysqldump command
+        std::string cmd = "mysqldump"
+            " --host=" + currentConfig.host +
+            " --port=" + std::to_string(currentConfig.port) +
+            " --user=" + currentConfig.username +
+            " --password=" + currentConfig.password +
+            " --databases " + currentDatabase +
+            " --add-drop-database" +
+            " --add-drop-table" +
+            " --create-options" +
+            " --quote-names" +
+            " --single-transaction" +  // For InnoDB tables
+            " --set-gtid-purged=OFF" +
+            " --result-file=" + backupPath;
+
+        int result = system(cmd.c_str());
+        if (result != 0) {
+            DB_THROW(BackupError, "mysqldump failed with error code: " + 
+                    std::to_string(result));
+        }
+
         return true;
     });
     
@@ -49,16 +121,30 @@ bool MySQLConnection::createBackup(const std::string& backupPath) {
 
 bool MySQLConnection::restoreBackup(const std::string& backupPath) {
     DB_TRY_CATCH_LOG("MySQLConnection", {
-        std::cout << "[MySQL] Restoring backup from " << backupPath 
-                  << " to database: " << currentDatabase << "\n";
-        
-        // In a real implementation, you would:
-        // 1. Verify backup file exists and is valid
-        // 2. Use mysql command or MySQL API to restore
-        // 3. Handle large backups
-        // 4. Implement progress reporting
-        // 5. Handle errors and cleanup
-        
+        if (!mysql || mysql_ping(mysql) != 0) {
+            DB_THROW(RestoreError, "Not connected to MySQL server");
+        }
+
+        // Verify backup file exists
+        if (!std::filesystem::exists(backupPath)) {
+            DB_THROW(RestoreError, "Backup file does not exist: " + backupPath);
+        }
+
+        // Construct mysql command
+        std::string cmd = "mysql"
+            " --host=" + currentConfig.host +
+            " --port=" + std::to_string(currentConfig.port) +
+            " --user=" + currentConfig.username +
+            " --password=" + currentConfig.password +
+            " " + currentDatabase +
+            " < " + backupPath;
+
+        int result = system(cmd.c_str());
+        if (result != 0) {
+            DB_THROW(RestoreError, "mysql restore failed with error code: " + 
+                    std::to_string(result));
+        }
+
         return true;
     });
     

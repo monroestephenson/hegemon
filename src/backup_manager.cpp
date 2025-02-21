@@ -17,11 +17,18 @@ BackupManager::BackupManager(const Config& cfg)
     : m_config(cfg)
 {
     // Validate configuration in constructor
-    if (!cfg.database.type.empty() && !cfg.storage.localPath.empty() && 
-        !cfg.logging.logPath.empty() && !cfg.logging.logLevel.empty()) {
-        return;
+    if (cfg.database.type.empty()) {
+        DB_THROW(ConfigurationError, "Database type not specified");
     }
-    DB_THROW(ConfigurationError, "Invalid configuration provided to BackupManager");
+    if (cfg.storage.localPath.empty()) {
+        DB_THROW(ConfigurationError, "Storage path not specified");
+    }
+    if (cfg.logging.logPath.empty()) {
+        DB_THROW(ConfigurationError, "Log path not specified");
+    }
+    if (cfg.logging.logLevel.empty()) {
+        DB_THROW(ConfigurationError, "Log level not specified");
+    }
 }
 
 BackupManager::~BackupManager() = default;

@@ -2,6 +2,8 @@
 
 #include "db_connection.hpp"
 #include <string>
+#include <memory>
+#include <pqxx/pqxx>
 
 class PostgreSQLConnection : public DBConnection {
 public:
@@ -14,5 +16,7 @@ public:
     bool restoreBackup(const std::string& backupPath) override;
 
 private:
+    std::unique_ptr<pqxx::connection> conn;
     std::string currentDatabase;
+    DatabaseConfig currentConfig;  // Store config for backup/restore operations
 }; 

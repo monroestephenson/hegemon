@@ -2,11 +2,12 @@
 
 #include "db_connection.hpp"
 #include <string>
+#include <mysql/mysql.h>
 
 class MySQLConnection : public DBConnection {
 public:
-    MySQLConnection() = default;
-    ~MySQLConnection() = default;
+    MySQLConnection();
+    ~MySQLConnection();
 
     bool connect(const DatabaseConfig& dbConfig) override;
     bool disconnect() override;
@@ -14,5 +15,7 @@ public:
     bool restoreBackup(const std::string& backupPath) override;
 
 private:
+    MYSQL* mysql;
     std::string currentDatabase;
+    DatabaseConfig currentConfig;  // Store config for backup/restore operations
 }; 

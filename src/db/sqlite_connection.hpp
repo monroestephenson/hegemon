@@ -2,11 +2,12 @@
 
 #include "db_connection.hpp"
 #include <string>
+#include <sqlite3.h>
 
 class SQLiteConnection : public DBConnection {
 public:
-    SQLiteConnection() = default;
-    ~SQLiteConnection() = default;
+    SQLiteConnection();
+    ~SQLiteConnection();
 
     bool connect(const DatabaseConfig& dbConfig) override;
     bool disconnect() override;
@@ -14,5 +15,6 @@ public:
     bool restoreBackup(const std::string& backupPath) override;
 
 private:
+    sqlite3* db;
     std::string currentDatabase;
 }; 
