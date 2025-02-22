@@ -159,8 +159,10 @@ Config Config::fromFile(const std::string& configPath) {
         if (config.database.type != "sqlite") {
             DB_CHECK(!config.database.host.empty(), ConfigurationError, "Database host cannot be empty");
             DB_CHECK(config.database.port > 0, ConfigurationError, "Invalid database port");
+            DB_CHECK(!config.database.database.empty(), ConfigurationError, "Database name cannot be empty");
         } else {
             DB_CHECK(!config.database.database.empty(), ConfigurationError, "SQLite database file path cannot be empty");
+            // For SQLite, we don't validate host and port as they're not needed
         }
         DB_CHECK(!config.storage.localPath.empty(), ConfigurationError, "Storage local path cannot be empty");
         DB_CHECK(!config.logging.logPath.empty(), ConfigurationError, "Log path cannot be empty");
