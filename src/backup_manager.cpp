@@ -97,9 +97,9 @@ bool BackupManager::backup(const std::string& backupType) {
             }
         }
 
-        // Store the backup
-        if (!storeBackup(m_config.storage, finalBackupPath)) {
-            DB_THROW(StorageError, "Failed to store backup at: " + finalBackupPath);
+        // Store the backup (no need to create a duplicate)
+        if (!std::filesystem::exists(finalBackupPath)) {
+            DB_THROW(StorageError, "Backup file not found: " + finalBackupPath);
         }
 
         // Disconnect database
@@ -107,9 +107,11 @@ bool BackupManager::backup(const std::string& backupType) {
             logger->warn("Failed to disconnect from database");
         }
 
-        // Log success and send notification
+        // Log success and send notification if enabled
         logger->info("Backup completed successfully: {}", finalBackupPath);
-        sendNotificationIfNeeded(m_config.logging, "Backup succeeded: " + finalBackupPath);
+        if (m_config.logging.enableNotifications) {
+            sendNotificationIfNeeded(m_config.logging, "Backup succeeded: " + finalBackupPath);
+        }
 
         return true;
     });

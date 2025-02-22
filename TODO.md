@@ -109,3 +109,10 @@
 5. List and verify commands are not implemented
 6. Need better validation for SQLite database paths
 7. Progress indication could be improved
+
+
+
+The CLI format changes we made haven't been included in the latest release
+The tool creates duplicate backup files with slightly different names
+List and verify commands are not implemented yet
+Some environment variables are required even when features are disabled

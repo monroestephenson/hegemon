@@ -74,7 +74,7 @@ public:
     static Config fromFile(const std::string& configPath);
 
 private:
-    static std::string substituteEnvVars(const std::string& value);
+    static std::string substituteEnvVars(const std::string& value, bool required = true);
 }; 
 
 } // namespace dbbackup 

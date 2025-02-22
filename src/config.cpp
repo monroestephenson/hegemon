@@ -10,7 +10,7 @@ using namespace dbbackup::error;
 
 namespace dbbackup {
 
-std::string Config::substituteEnvVars(const std::string& value) {
+std::string Config::substituteEnvVars(const std::string& value, bool required) {
     std::regex env_var_pattern("\\$\\{([A-Za-z_][A-Za-z0-9_]*)\\}");
     std::string result = value;
     
@@ -21,7 +21,11 @@ std::string Config::substituteEnvVars(const std::string& value) {
         const char* env_var_value = std::getenv(env_var_name.c_str());
         
         if (!env_var_value) {
-            DB_THROW(ConfigurationError, "Environment variable not set: " + env_var_name);
+            if (required) {
+                DB_THROW(ConfigurationError, "Environment variable not set: " + env_var_name);
+            } else {
+                env_var_value = "";  // Use empty string for optional variables
+            }
         }
         
         auto replaceStart = result.begin() + (searchStart - result.begin()) + match.position();
@@ -58,7 +62,7 @@ Config Config::fromFile(const std::string& configPath) {
         // SQLite only needs the database file path
         if (config.database.type == "sqlite") {
             DB_CHECK(dbConfig.contains("database"), ConfigurationError, "Missing SQLite database file path");
-            config.database.database = substituteEnvVars(dbConfig["database"].get<std::string>());
+            config.database.database = substituteEnvVars(dbConfig["database"].get<std::string>(), true);
         } else {
             // Other databases need host and port
             DB_CHECK(dbConfig.contains("host"), ConfigurationError, "Missing database host");
@@ -68,10 +72,10 @@ Config Config::fromFile(const std::string& configPath) {
             config.database.port = dbConfig["port"].get<int>();
             
             if (dbConfig.contains("username")) {
-                config.database.username = substituteEnvVars(dbConfig["username"].get<std::string>());
+                config.database.username = substituteEnvVars(dbConfig["username"].get<std::string>(), true);
             }
             if (dbConfig.contains("password")) {
-                config.database.password = substituteEnvVars(dbConfig["password"].get<std::string>());
+                config.database.password = substituteEnvVars(dbConfig["password"].get<std::string>(), true);
             }
             if (dbConfig.contains("database")) {
                 config.database.database = dbConfig["database"].get<std::string>();
@@ -105,8 +109,11 @@ Config Config::fromFile(const std::string& configPath) {
         if (loggingConfig.contains("enableNotifications")) {
             config.logging.enableNotifications = loggingConfig["enableNotifications"].get<bool>();
         }
-        if (loggingConfig.contains("notificationEndpoint")) {
-            config.logging.notificationEndpoint = substituteEnvVars(loggingConfig["notificationEndpoint"].get<std::string>());
+        if (loggingConfig.contains("notificationEndpoint") && config.logging.enableNotifications) {
+            config.logging.notificationEndpoint = substituteEnvVars(
+                loggingConfig["notificationEndpoint"].get<std::string>(),
+                config.logging.enableNotifications  // Only required if notifications are enabled
+            );
         }
 
         // Backup configuration
@@ -146,10 +153,16 @@ Config Config::fromFile(const std::string& configPath) {
             if (securityConfig.contains("encryption")) {
                 const auto& encryptionConfig = securityConfig["encryption"];
                 config.security.encryption.enabled = encryptionConfig.value("enabled", false);
-                config.security.encryption.algorithm = encryptionConfig.value("algorithm", "AES-256-GCM");
                 
-                if (encryptionConfig.contains("keyPath")) {
-                    config.security.encryption.keyPath = substituteEnvVars(encryptionConfig["keyPath"].get<std::string>());
+                if (config.security.encryption.enabled) {
+                    config.security.encryption.algorithm = encryptionConfig.value("algorithm", "AES-256-GCM");
+                    
+                    if (encryptionConfig.contains("keyPath")) {
+                        config.security.encryption.keyPath = substituteEnvVars(
+                            encryptionConfig["keyPath"].get<std::string>(),
+                            config.security.encryption.enabled  // Only required if encryption is enabled
+                        );
+                    }
                 }
             }
         }
