@@ -1,0 +1,14 @@
+[
+  {
+    "filename": "backup_20250222_142316_full.dump_20250222_142317.gz",
+    "timestamp": "20250222_142317",
+    "size": 1011,
+    "checksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b85"
+  },
+  {
+    "filename": "backup_20250222_142554_full.dump_20250222_142555.gz",
+    "timestamp": "20250222_142555",
+    "size": 809,
+    "checksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

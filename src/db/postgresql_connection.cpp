@@ -101,7 +101,7 @@ bool PostgreSQLConnection::createBackup(const std::string& backupPath) {
             " -p " + std::to_string(currentConfig.port) +
             " -U " + currentConfig.username +
             " -d " + currentDatabase +
-            " -F c" + // Custom format
+            " -F p" + // Plain text format
             " -f " + backupPath;
 
         int result = system(cmd.c_str());
@@ -127,18 +127,17 @@ bool PostgreSQLConnection::restoreBackup(const std::string& backupPath) {
             DB_THROW(RestoreError, "Backup file does not exist: " + backupPath);
         }
 
-        // Construct pg_restore command
-        std::string cmd = "PGPASSWORD=" + currentConfig.password + " pg_restore" +
+        // Construct psql command for restore
+        std::string cmd = "PGPASSWORD=" + currentConfig.password + " psql" +
             " -h " + currentConfig.host +
             " -p " + std::to_string(currentConfig.port) +
             " -U " + currentConfig.username +
             " -d " + currentDatabase +
-            " -c" + // Clean (drop) database objects before recreating
-            " " + backupPath;
+            " -f " + backupPath;
 
         int result = system(cmd.c_str());
         if (result != 0) {
-            DB_THROW(RestoreError, "pg_restore failed with error code: " + 
+            DB_THROW(RestoreError, "psql restore failed with error code: " + 
                     std::to_string(result));
         }
 

@@ -1,3 +1,5 @@
+# FindPQXX.cmake
+
 # Find libpqxx
 #
 # This module defines
@@ -9,24 +11,30 @@
 find_path(PQXX_INCLUDE_DIR
   NAMES pqxx/pqxx
   PATHS
-    /usr/include
     /usr/local/include
-    /opt/homebrew/include
+    /usr/include
+    /usr/local/opt/libpqxx/include
 )
 
 find_library(PQXX_LIBRARY
-  NAMES pqxx
+  NAMES pqxx libpqxx
   PATHS
-    /usr/lib
     /usr/local/lib
-    /opt/homebrew/lib
+    /usr/lib
+    /usr/local/opt/libpqxx/lib
 )
 
-if(PQXX_INCLUDE_DIR AND PQXX_LIBRARY)
-  set(PQXX_FOUND TRUE)
-  set(PQXX_LIBRARIES ${PQXX_LIBRARY})
-else()
-  set(PQXX_FOUND FALSE)
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(PQXX
+    REQUIRED_VARS PQXX_LIBRARY PQXX_INCLUDE_DIR
+)
+
+if(PQXX_FOUND AND NOT TARGET PQXX::PQXX)
+    add_library(PQXX::PQXX UNKNOWN IMPORTED)
+    set_target_properties(PQXX::PQXX PROPERTIES
+        IMPORTED_LOCATION "${PQXX_LIBRARY}"
+        INTERFACE_INCLUDE_DIRECTORIES "${PQXX_INCLUDE_DIR}"
+    )
 endif()
 
 mark_as_advanced(
