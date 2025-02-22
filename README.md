@@ -249,6 +249,45 @@ Default config file locations:
 
 Override with `-c` option: `hegemon backup mysql -c /path/to/config.json`
 
+### Password Handling
+
+The database backup tool now uses a secure credential management system for handling passwords. There are several ways to provide database passwords:
+
+1. Environment Variables (Recommended):
+   ```bash
+   # Using the HEGEMON_ prefix (recommended)
+   export HEGEMON_db.mysql.myuser.password=mypassword
+   
+   # Or using the direct key
+   export db.mysql.myuser.password=mypassword
+   ```
+
+2. Credential Files:
+   Create a file in one of these locations:
+   - `~/.config/hegemon/credentials/db.mysql.myuser.password`
+   - `/etc/hegemon/credentials/db.mysql.myuser.password`
+   - `~/.hegemon/db.mysql.myuser.password`
+   
+   The file should contain only the password and have proper permissions (600).
+
+3. Configuration:
+   ```json
+   {
+       "database": {
+           "type": "mysql",
+           "host": "localhost",
+           "port": 3306,
+           "credentials": {
+               "username": "myuser",
+               "passwordKey": "db.mysql.myuser.password",
+               "preferredSources": ["environment", "file"]
+           }
+       }
+   }
+   ```
+
+   Note: Direct password storage in the config file is no longer supported for security reasons.
+
 ## Troubleshooting
 
 ### Common Issues

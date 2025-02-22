@@ -145,7 +145,15 @@ void CredentialManager::clearAllCredentials() {
 
 std::optional<Credential> CredentialManager::getFromEnvironment(const std::string& key) {
     DB_TRY_CATCH_LOG("CredentialManager", {
-        const char* value = std::getenv(key.c_str());
+        // First try with HEGEMON_ prefix
+        std::string prefixedKey = "HEGEMON_" + key;
+        const char* value = std::getenv(prefixedKey.c_str());
+        
+        // If not found, try original key
+        if (!value) {
+            value = std::getenv(key.c_str());
+        }
+        
         if (value) {
             return Credential{
                 value,
@@ -162,7 +170,7 @@ std::optional<Credential> CredentialManager::getFromEnvironment(const std::strin
 
 std::optional<Credential> CredentialManager::getFromFile(const std::string& key) {
     DB_TRY_CATCH_LOG("CredentialManager", {
-        // Check common password file locations
+        // Check common password file locations with proper permissions
         std::vector<std::string> possiblePaths = {
             std::string(getenv("HOME")) + "/.config/hegemon/credentials/" + key,
             "/etc/hegemon/credentials/" + key,
@@ -171,6 +179,13 @@ std::optional<Credential> CredentialManager::getFromFile(const std::string& key)
 
         for (const auto& path : possiblePaths) {
             if (std::filesystem::exists(path)) {
+                // Check file permissions
+                auto perms = std::filesystem::status(path).permissions();
+                if ((perms & std::filesystem::perms::others_read) != std::filesystem::perms::none ||
+                    (perms & std::filesystem::perms::others_write) != std::filesystem::perms::none) {
+                    continue; // Skip files with unsafe permissions
+                }
+
                 std::ifstream file(path);
                 if (file) {
                     std::string value;

@@ -72,17 +72,16 @@ Config Config::fromFile(const std::string& configPath) {
             config.database.port = dbConfig["port"].get<int>();
             
             if (dbConfig.contains("username")) {
-                config.database.username = substituteEnvVars(dbConfig["username"].get<std::string>(), true);
+                config.database.credentials.username = substituteEnvVars(dbConfig["username"].get<std::string>(), true);
             }
-            if (dbConfig.contains("password")) {
-                config.database.password = substituteEnvVars(dbConfig["password"].get<std::string>(), true);
-            }
+            
+            // Remove direct password handling from config, use credential manager instead
             if (dbConfig.contains("database")) {
                 config.database.database = dbConfig["database"].get<std::string>();
             }
         }
 
-        // Parse database credentials
+        // Parse database credentials with enhanced security
         if (dbConfig.contains("credentials")) {
             const auto& credConfig = dbConfig["credentials"];
             
@@ -97,12 +96,13 @@ Config Config::fromFile(const std::string& configPath) {
                 config.database.credentials.passwordKey = credConfig["passwordKey"].get<std::string>();
             } else {
                 // Default password key based on database type and username
-                config.database.credentials.passwordKey = "hegemon." + 
+                config.database.credentials.passwordKey = "db." + 
                     config.database.type + "." + 
                     config.database.credentials.username + ".password";
             }
 
             if (credConfig.contains("preferredSources")) {
+                config.database.credentials.preferredSources.clear();
                 for (const auto& source : credConfig["preferredSources"]) {
                     std::string sourceStr = source.get<std::string>();
                     if (sourceStr == "environment") {
@@ -112,7 +112,7 @@ Config Config::fromFile(const std::string& configPath) {
                     } else if (sourceStr == "keystore") {
                         config.database.credentials.preferredSources.push_back(CredentialSource::KeyStore);
                     } else if (sourceStr == "config") {
-                        config.database.credentials.preferredSources.push_back(CredentialSource::ConfigFile);
+                        DB_THROW(ConfigurationError, "Direct password storage in config file is not recommended");
                     } else if (sourceStr == "ssm") {
                         config.database.credentials.preferredSources.push_back(CredentialSource::SSM);
                     } else if (sourceStr == "vault") {
@@ -121,9 +121,15 @@ Config Config::fromFile(const std::string& configPath) {
                         DB_THROW(ConfigurationError, "Invalid credential source: " + sourceStr);
                     }
                 }
+            } else {
+                // Default to environment and file sources
+                config.database.credentials.preferredSources = {
+                    CredentialSource::Environment,
+                    CredentialSource::File
+                };
             }
         } else {
-            // If no credentials section, try to get username from root database config
+            // If no credentials section, set up defaults
             if (dbConfig.contains("username")) {
                 config.database.credentials.username = substituteEnvVars(
                     dbConfig["username"].get<std::string>(), 
@@ -131,10 +137,15 @@ Config Config::fromFile(const std::string& configPath) {
                 );
             }
             
-            // Set default password key
-            config.database.credentials.passwordKey = "hegemon." + 
+            // Set default password key and sources
+            config.database.credentials.passwordKey = "db." + 
                 config.database.type + "." + 
                 config.database.credentials.username + ".password";
+            
+            config.database.credentials.preferredSources = {
+                CredentialSource::Environment,
+                CredentialSource::File
+            };
         }
 
         // Storage configuration
