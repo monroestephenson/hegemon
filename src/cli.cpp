@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <filesystem>
 
 using namespace dbbackup::error;
 
@@ -17,7 +18,11 @@ void CLI::printUsage() {
               << "  restore  Restore from a backup\n"
               << "  list     List available backups\n"
               << "  verify   Verify a backup file\n\n"
-              << "Backup Options:\n"
+              << "General Options:\n"
+              << "  --config <path>            Path to config file (default: ~/.config/db-backup/config.json)\n"
+              << "  --verbose                  Enable verbose output\n"
+              << "  --help                     Show this help message\n\n"
+              << "Backup Options (can be specified in config file):\n"
               << "  --type <full|incremental>  Backup type (default: full)\n"
               << "  --compress <none|gzip>     Compression type (default: gzip)\n"
               << "  --db-type <postgres|mysql|sqlite>  Database type\n"
@@ -28,14 +33,18 @@ void CLI::printUsage() {
               << "  --db-pass <password>       Database password\n"
               << "  --db-file <path>           SQLite database file path\n\n"
               << "Restore Options:\n"
-              << "  --file <path>              Backup file to restore from\n\n"
-              << "General Options:\n"
-              << "  --config <path>            Path to config file (default: /usr/local/etc/database_backup/config.json)\n"
-              << "  --verbose                  Enable verbose output\n"
-              << "  --help                     Show this help message\n\n"
+              << "  --file <path>              Backup file to restore from (required)\n\n"
               << "Examples:\n"
-              << "  " << argv[0] << " backup --db-type postgres --db-name mydb\n"
-              << "  " << argv[0] << " restore --file backup_20240222.dump.gz\n"
+              << "  # Using config file only:\n"
+              << "  " << argv[0] << " backup --config ~/.config/db-backup/mysql_config.json\n\n"
+              << "  # Overriding config options:\n"
+              << "  " << argv[0] << " backup --config ~/.config/db-backup/mysql_config.json --db-name different_db\n\n"
+              << "  # Full command without config:\n"
+              << "  " << argv[0] << " backup --db-type mysql --db-name mydb --db-host localhost --db-port 3306 --db-user myuser\n\n"
+              << "  # Restore command:\n"
+              << "  " << argv[0] << " restore --file backup_20240222.dump.gz\n\n"
+              << "  # SQLite backup:\n"
+              << "  " << argv[0] << " backup --config ~/.config/db-backup/sqlite_config.json\n"
               << "  " << argv[0] << " backup --db-type sqlite --db-file /path/to/db.sqlite\n";
 }
 
@@ -118,24 +127,24 @@ CLIOptions CLI::parse() {
             }
         }
 
-        // Validate required options
+        // Validate required options based on command
         if (options.command == "backup") {
-            if (options.dbType.empty()) {
-                DB_THROW(ValidationError, "Database type (--db-type) is required for backup");
-            }
-            if (options.dbType == "sqlite") {
-                if (options.dbFile.empty()) {
-                    DB_THROW(ValidationError, "Database file (--db-file) is required for SQLite");
-                }
-            } else {
-                if (options.dbName.empty()) {
-                    DB_THROW(ValidationError, "Database name (--db-name) is required");
+            // Database type is now optional as it can come from config
+            if (!options.dbType.empty()) {
+                // If db-type is provided, validate related options
+                if (options.dbType == "sqlite") {
+                    if (!options.dbFile.empty() && !std::filesystem::exists(options.dbFile)) {
+                        DB_THROW(ValidationError, "SQLite database file not found: " + options.dbFile);
+                    }
                 }
             }
         }
         else if (options.command == "restore") {
             if (options.restorePath.empty()) {
                 DB_THROW(ValidationError, "Backup file (--file) is required for restore");
+            }
+            if (!std::filesystem::exists(options.restorePath)) {
+                DB_THROW(ValidationError, "Backup file not found: " + options.restorePath);
             }
         }
 

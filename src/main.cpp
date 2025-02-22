@@ -14,50 +14,50 @@ int main(int argc, char* argv[]) {
         CLI cli(argc, argv);
         CLIOptions options = cli.parse();
 
-        // Create database configuration
-        dbbackup::DatabaseConfig dbConfig;
-        if (options.dbType == "postgres") {
-            dbConfig.type = "postgresql";
-            dbConfig.host = options.dbHost.empty() ? "localhost" : options.dbHost;
-            dbConfig.port = options.dbPort == 0 ? 5432 : options.dbPort;
-            dbConfig.username = options.dbUser;
-            dbConfig.password = options.dbPass;
-            dbConfig.database = options.dbName;
+        // Load configuration from file
+        dbbackup::Config config = dbbackup::Config::fromFile(options.configPath);
+
+        // Override config with command line options if provided
+        if (!options.dbType.empty()) {
+            config.database.type = options.dbType == "postgres" ? "postgresql" : options.dbType;
         }
-        else if (options.dbType == "mysql") {
-            dbConfig.type = "mysql";
-            dbConfig.host = options.dbHost.empty() ? "localhost" : options.dbHost;
-            dbConfig.port = options.dbPort == 0 ? 3306 : options.dbPort;
-            dbConfig.username = options.dbUser;
-            dbConfig.password = options.dbPass;
-            dbConfig.database = options.dbName;
+        
+        if (!options.dbHost.empty()) {
+            config.database.host = options.dbHost;
         }
-        else if (options.dbType == "sqlite") {
-            dbConfig.type = "sqlite";
-            dbConfig.database = options.dbFile;  // Use the file path directly
+        
+        if (options.dbPort != 0) {
+            config.database.port = options.dbPort;
+        }
+        
+        if (!options.dbUser.empty()) {
+            config.database.username = options.dbUser;
+        }
+        
+        if (!options.dbPass.empty()) {
+            config.database.password = options.dbPass;
+        }
+        
+        if (!options.dbName.empty()) {
+            config.database.database = options.dbName;
+        }
+        
+        if (!options.dbFile.empty() && config.database.type == "sqlite") {
+            config.database.database = options.dbFile;
         }
 
-        // Create storage configuration
-        dbbackup::StorageConfig storageConfig;
-        storageConfig.localPath = "backups";  // Default to local backups directory
+        // Override backup settings if provided
+        if (!options.compression.empty()) {
+            config.backup.compression.enabled = (options.compression != "none");
+            if (config.backup.compression.enabled) {
+                config.backup.compression.format = options.compression;
+            }
+        }
 
-        // Create backup configuration
-        dbbackup::BackupConfig backupConfig;
-        backupConfig.compression.enabled = (options.compression != "none");
-        backupConfig.compression.format = "gzip";
-        backupConfig.compression.level = "medium";
-
-        // Create logging configuration
-        dbbackup::LoggingConfig loggingConfig;
-        loggingConfig.logPath = "logs";
-        loggingConfig.logLevel = options.verbose ? "debug" : "info";
-
-        // Create complete configuration
-        dbbackup::Config config;
-        config.database = dbConfig;
-        config.storage = storageConfig;
-        config.backup = backupConfig;
-        config.logging = loggingConfig;
+        // Override logging settings
+        if (options.verbose) {
+            config.logging.logLevel = "debug";
+        }
 
         if (options.command == "backup") {
             BackupManager backupMgr(config);
