@@ -10,7 +10,7 @@ public:
     PostgreSQLConnection() noexcept;
     ~PostgreSQLConnection() noexcept override;
 
-    bool connect(const dbbackup::DatabaseConfig& dbConfig) override;
+    bool connect(const dbbackup::DatabaseConfig& config) override;
     bool disconnect() override;
     bool createBackup(const std::string& backupPath) override;
     bool restoreBackup(const std::string& backupPath) override;
