@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../db_connection.hpp"
+#include "db_connection.hpp"
 #include <pqxx/pqxx>
 #include <string>
 #include <memory>
