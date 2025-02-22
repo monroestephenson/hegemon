@@ -72,34 +72,42 @@ bool BackupManager::backup(const std::string& backupType) {
 
         char timeBuf[128];
         strftime(timeBuf, sizeof(timeBuf), "%Y%m%d_%H%M%S", &tm);
-        std::string backupFileName = "backup_" + std::string(timeBuf) + "_" + backupType + ".dump";
+        std::string backupFileName = "backup_" + std::string(timeBuf) + "_" + backupType;
         std::string localBackupPath = m_config.storage.localPath + "/" + backupFileName;
 
+        // Add extension based on compression setting
+        if (m_config.backup.compression.enabled) {
+            localBackupPath += ".dump.gz";
+        } else {
+            localBackupPath += ".dump";
+        }
+
         // Perform backup
-        if (!conn->createBackup(localBackupPath)) {
+        if (!conn->createBackup(localBackupPath + ".tmp")) {
             DB_THROW(BackupError, "Failed to create backup at: " + localBackupPath);
         }
 
         // Compress the backup if compression is enabled
-        std::string finalBackupPath = localBackupPath;
         if (compressor) {
-            std::string compressedFilePath = localBackupPath + compressor->getFileExtension();
-            
-            if (!compressor->compressFile(localBackupPath, compressedFilePath)) {
+            if (!compressor->compressFile(localBackupPath + ".tmp", localBackupPath)) {
                 logger->warn("Compression failed, proceeding with uncompressed file");
-            } else {
-                // Remove original uncompressed file if compression succeeded
-                if (std::filesystem::remove(localBackupPath)) {
-                    finalBackupPath = compressedFilePath;
-                } else {
-                    logger->warn("Failed to remove uncompressed file: {}", localBackupPath);
+                // Move uncompressed file to final location
+                if (!std::filesystem::rename(localBackupPath + ".tmp", localBackupPath)) {
+                    DB_THROW(StorageError, "Failed to move backup file to final location");
                 }
+            }
+            // Remove temporary file
+            std::filesystem::remove(localBackupPath + ".tmp");
+        } else {
+            // Move uncompressed file to final location
+            if (!std::filesystem::rename(localBackupPath + ".tmp", localBackupPath)) {
+                DB_THROW(StorageError, "Failed to move backup file to final location");
             }
         }
 
-        // Store the backup (no need to create a duplicate)
-        if (!std::filesystem::exists(finalBackupPath)) {
-            DB_THROW(StorageError, "Backup file not found: " + finalBackupPath);
+        // Verify backup exists
+        if (!std::filesystem::exists(localBackupPath)) {
+            DB_THROW(StorageError, "Backup file not found: " + localBackupPath);
         }
 
         // Disconnect database
@@ -108,9 +116,9 @@ bool BackupManager::backup(const std::string& backupType) {
         }
 
         // Log success and send notification if enabled
-        logger->info("Backup completed successfully: {}", finalBackupPath);
+        logger->info("Backup completed successfully: {}", localBackupPath);
         if (m_config.logging.enableNotifications) {
-            sendNotificationIfNeeded(m_config.logging, "Backup succeeded: " + finalBackupPath);
+            sendNotificationIfNeeded(m_config.logging, "Backup succeeded: " + localBackupPath);
         }
 
         return true;
