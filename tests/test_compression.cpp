@@ -11,16 +11,20 @@ using namespace dbbackup;
 using namespace dbbackup::error;
 namespace fs = std::filesystem;
 
-// Helper function to create a test file with random content
+// Helper function to create a test file with compressible content
 void createTestFile(const std::string& path, size_t size) {
     std::ofstream file(path, std::ios::binary);
     std::vector<char> data(size);
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, 255);
-    for (auto& byte : data) {
-        byte = static_cast<char>(dis(gen));
+    
+    // Create a repeating pattern that is highly compressible
+    const std::string pattern = "This is a test pattern that should be highly compressible when repeated multiple times. ";
+    size_t patternPos = 0;
+    
+    for (size_t i = 0; i < size; i++) {
+        data[i] = pattern[patternPos];
+        patternPos = (patternPos + 1) % pattern.length();
     }
+    
     file.write(data.data(), data.size());
 }
 
@@ -32,6 +36,19 @@ std::vector<char> readFileContent(const std::string& path) {
     std::vector<char> buffer(size);
     file.read(buffer.data(), size);
     return buffer;
+}
+
+// Helper function to create test file with random (incompressible) content
+void createRandomFile(const std::string& path, size_t size) {
+    std::ofstream file(path, std::ios::binary);
+    std::vector<char> data(size);
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, 255);
+    for (auto& byte : data) {
+        byte = static_cast<char>(dis(gen));
+    }
+    file.write(data.data(), data.size());
 }
 
 class CompressionTest : public ::testing::Test {
@@ -178,23 +195,29 @@ TEST_F(CompressionTest, EstimateCompressedSize) {
 
     Compressor compressor(config);
     
-    // Test file size estimation
+    // Test with incompressible data (random)
     size_t inputSize = 1024 * 1024; // 1MB
+    fs::path randomPath = testDir / "random_input.txt";
+    fs::path randomCompressedPath = testDir / "random_compressed.gz";
+    createRandomFile(randomPath.string(), inputSize);
+    
     size_t estimatedSize = compressor.estimateCompressedSize(inputSize);
+    EXPECT_TRUE(compressor.compressFile(randomPath.string(), randomCompressedPath.string()));
     
-    // Estimated size should be less than input size
-    EXPECT_LT(estimatedSize, inputSize);
+    // For random data, compressed size should be close to estimated size
+    size_t actualRandomSize = fs::file_size(randomCompressedPath);
+    double randomRatio = static_cast<double>(actualRandomSize) / estimatedSize;
+    EXPECT_GT(randomRatio, 0.8);  // Allow 20% variance below estimate
+    EXPECT_LT(randomRatio, 1.2);  // Allow 20% variance above estimate
     
-    // Create and compress an actual file to compare
-    fs::path inputPath = testDir / "input.txt";
-    fs::path compressedPath = testDir / "compressed.gz";
-    createTestFile(inputPath.string(), inputSize);
+    // Test with compressible data (pattern)
+    fs::path patternPath = testDir / "pattern_input.txt";
+    fs::path patternCompressedPath = testDir / "pattern_compressed.gz";
+    createTestFile(patternPath.string(), inputSize);
     
-    EXPECT_TRUE(compressor.compressFile(inputPath.string(), compressedPath.string()));
+    EXPECT_TRUE(compressor.compressFile(patternPath.string(), patternCompressedPath.string()));
     
-    // Actual compressed size should be within reasonable range of estimate
-    size_t actualSize = fs::file_size(compressedPath);
-    double ratio = static_cast<double>(actualSize) / estimatedSize;
-    EXPECT_GT(ratio, 0.5);
-    EXPECT_LT(ratio, 2.0);
+    // For compressible data, actual size can be much smaller than estimated
+    size_t actualPatternSize = fs::file_size(patternCompressedPath);
+    EXPECT_LT(actualPatternSize, estimatedSize);  // Should compress better than estimated
 } 

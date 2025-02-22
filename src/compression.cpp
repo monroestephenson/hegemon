@@ -214,23 +214,24 @@ bool Compressor::decompressGzip(const std::string& inputPath, const std::string&
 }
 
 size_t Compressor::estimateCompressedSize(size_t inputSize) const {
-    // Rough estimation based on compression level and format
+    // Conservative estimation based on compression level and format
+    // For random/incompressible data, compression might actually increase size slightly
     double ratio;
     switch (level) {
         case CompressionLevel::Low:
-            ratio = 0.7;  // Expect ~30% compression
+            ratio = 1.0;  // Assume no compression for low level
             break;
         case CompressionLevel::Medium:
-            ratio = 0.5;  // Expect ~50% compression
+            ratio = 0.9;  // Expect ~10% compression at best
             break;
         case CompressionLevel::High:
-            ratio = 0.3;  // Expect ~70% compression
+            ratio = 0.8;  // Expect ~20% compression at best
             break;
         default:
-            ratio = 0.5;
+            ratio = 0.9;
     }
     
-    // Add overhead for headers and such
+    // Add overhead for gzip headers and such
     size_t overhead = 1024;  // 1KB overhead
     return static_cast<size_t>(inputSize * ratio) + overhead;
 }

@@ -1,5 +1,4 @@
 #include "restore_manager.hpp"
-#include "db_connection.hpp"
 #include "compression.hpp"
 #include "logging.hpp"
 #include "notifications.hpp"
@@ -39,7 +38,7 @@ bool RestoreManager::restore(const std::string& backupFilePath, bool selectiveRe
     }
 
     // Connect to DB
-    auto conn = createDBConnection(m_config.database);
+    auto conn = createConnection();
     if(!conn->connect(m_config.database)) {
         logger->error("Database connection failed during restore.");
         sendNotificationIfNeeded(m_config.logging, "Restore failed: DB connection error.");
