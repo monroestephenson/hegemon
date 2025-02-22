@@ -1,59 +1,93 @@
-#include "backup_manager.hpp"
+#include <cli.hpp>
 #include "config.hpp"
-#include "cli.hpp"
-#include "logging.hpp"
+#include "backup_manager.hpp"
+#include "restore_manager.hpp"
 #include "error/ErrorUtils.hpp"
 #include <iostream>
-#include <cstdlib>
+#include <memory>
 
 using namespace dbbackup::error;
 
 int main(int argc, char* argv[]) {
     try {
-        // Initialize logging first
-        auto logger = getLogger();
-        logger->info("Database Backup Tool Starting...");
-
         // Parse command line arguments
-        DB_TRY_CATCH_LOG("Main", {
-            CLI cli(argc, argv);
-            auto options = cli.parse();
-            
-            DB_CHECK(!options.configPath.empty(), ConfigurationError, "Configuration file path not provided");
-            
-            // Load configuration
-            auto config = dbbackup::Config::fromFile(options.configPath);
-            
-            // Create and run backup manager
-            BackupManager manager(config);
-            
-            if (options.command == "backup") {
-                DB_CHECK(!options.backupType.empty(), ValidationError, "Backup type not specified");
-                if (!manager.backup(options.backupType)) {
-                    DB_THROW(BackupError, "Backup operation failed");
-                }
-            } else if (options.command == "restore") {
-                DB_CHECK(!options.restorePath.empty(), ValidationError, "Restore path not specified");
-                if (!manager.restore(options.restorePath)) {
-                    DB_THROW(RestoreError, "Restore operation failed");
-                }
-            } else {
-                DB_THROW(ValidationError, "Unknown command: " + options.command);
+        CLI cli(argc, argv);
+        CLIOptions options = cli.parse();
+
+        // Create database configuration
+        dbbackup::DatabaseConfig dbConfig;
+        if (options.dbType == "postgres") {
+            dbConfig.type = "postgresql";
+            dbConfig.host = options.dbHost.empty() ? "localhost" : options.dbHost;
+            dbConfig.port = options.dbPort == 0 ? 5432 : options.dbPort;
+        }
+        else if (options.dbType == "mysql") {
+            dbConfig.type = "mysql";
+            dbConfig.host = options.dbHost.empty() ? "localhost" : options.dbHost;
+            dbConfig.port = options.dbPort == 0 ? 3306 : options.dbPort;
+        }
+        else if (options.dbType == "sqlite") {
+            dbConfig.type = "sqlite";
+            dbConfig.database = options.dbFile;
+        }
+        
+        dbConfig.username = options.dbUser;
+        dbConfig.password = options.dbPass;
+        dbConfig.database = options.dbName;
+
+        // Create storage configuration
+        dbbackup::StorageConfig storageConfig;
+        storageConfig.localPath = "backups";  // Default to local backups directory
+
+        // Create backup configuration
+        dbbackup::BackupConfig backupConfig;
+        backupConfig.compression.enabled = (options.compression != "none");
+        backupConfig.compression.format = "gzip";
+        backupConfig.compression.level = "medium";
+
+        // Create logging configuration
+        dbbackup::LoggingConfig loggingConfig;
+        loggingConfig.logPath = "logs";
+        loggingConfig.logLevel = options.verbose ? "debug" : "info";
+
+        // Create complete configuration
+        dbbackup::Config config;
+        config.database = dbConfig;
+        config.storage = storageConfig;
+        config.backup = backupConfig;
+        config.logging = loggingConfig;
+
+        if (options.command == "backup") {
+            BackupManager backupMgr(config);
+            if (!backupMgr.backup(options.backupType)) {
+                return 1;
             }
-            
-            logger->info("Operation completed successfully");
-            return EXIT_SUCCESS;
-        });
-    } catch (const DatabaseBackupError& e) {
-        std::cerr << "Error: " << e.what() << std::endl;
-        return EXIT_FAILURE;
-    } catch (const std::exception& e) {
-        std::cerr << "Unexpected error: " << e.what() << std::endl;
-        return EXIT_FAILURE;
-    } catch (...) {
-        std::cerr << "Unknown error occurred" << std::endl;
-        return EXIT_FAILURE;
+        }
+        else if (options.command == "restore") {
+            RestoreManager restoreMgr(config);
+            if (!restoreMgr.restore(options.restorePath)) {
+                return 1;
+            }
+        }
+        else if (options.command == "list") {
+            // TODO: Implement listing backups
+            std::cout << "Listing backups is not yet implemented\n";
+            return 1;
+        }
+        else if (options.command == "verify") {
+            // TODO: Implement backup verification
+            std::cout << "Backup verification is not yet implemented\n";
+            return 1;
+        }
+
+        return 0;
     }
-    
-    return EXIT_FAILURE;
+    catch (const DatabaseBackupError& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        return 1;
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Unexpected error: " << e.what() << std::endl;
+        return 1;
+    }
 }

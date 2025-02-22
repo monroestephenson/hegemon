@@ -7,12 +7,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Add our custom CMake modules path
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
-# Enable PostgreSQL support
+# Enable database support
 add_definitions(-DUSE_POSTGRESQL)
+add_definitions(-DUSE_MYSQL)
+add_definitions(-DUSE_SQLITE)
 
 # Find required packages
 find_package(PostgreSQL REQUIRED)
 find_package(PQXX REQUIRED)
+find_package(MySQL REQUIRED)
+find_package(SQLite3 REQUIRED)
 find_package(ZLIB REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(fmt REQUIRED)
@@ -23,6 +27,8 @@ include_directories(${PROJECT_SOURCE_DIR}/src)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PostgreSQL_INCLUDE_DIRS})
 include_directories(${PQXX_INCLUDE_DIR})
+include_directories(${MySQL_INCLUDE_DIRS})
+include_directories(${SQLite3_INCLUDE_DIRS})
 include_directories(${OPENSSL_INCLUDE_DIR})
 
 # Define source files
@@ -39,6 +45,8 @@ set(SOURCES
     src/cli.cpp
     src/scheduling.cpp
     src/db/postgresql_connection.cpp
+    src/db/mysql_connection.cpp
+    src/db/sqlite_connection.cpp
     src/error/ErrorUtils.cpp
 )
 
@@ -50,6 +58,8 @@ target_link_libraries(database-backup
     PRIVATE
     ${PostgreSQL_LIBRARIES}
     PQXX::PQXX
+    MySQL::MySQL
+    SQLite::SQLite3
     ZLIB::ZLIB
     OpenSSL::SSL
     OpenSSL::Crypto
