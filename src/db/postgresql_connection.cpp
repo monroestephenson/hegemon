@@ -28,14 +28,10 @@ PostgreSQLConnection::~PostgreSQLConnection() noexcept {
 }
 
 bool PostgreSQLConnection::connect(const dbbackup::DatabaseConfig& dbConfig) {
-    // Store config for later use in backup/restore
-    dbbackup::DatabaseConfig config = dbConfig;
-    string database = dbConfig.database;
-
     DB_TRY_CATCH_LOG("PostgreSQLConnection", {
         // Store config for later use in backup/restore
-        currentConfig = config;
-        currentDatabase = database;
+        currentConfig = dbConfig;
+        currentDatabase = dbConfig.database;
 
         // Get password from credential manager
         auto& credManager = CredentialManager::getInstance();
