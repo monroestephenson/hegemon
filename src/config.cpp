@@ -53,21 +53,29 @@ Config Config::fromFile(const std::string& configPath) {
         const auto& dbConfig = configJson["database"];
         
         DB_CHECK(dbConfig.contains("type"), ConfigurationError, "Missing database type");
-        DB_CHECK(dbConfig.contains("host"), ConfigurationError, "Missing database host");
-        DB_CHECK(dbConfig.contains("port"), ConfigurationError, "Missing database port");
-        
         config.database.type = dbConfig["type"].get<std::string>();
-        config.database.host = dbConfig["host"].get<std::string>();
-        config.database.port = dbConfig["port"].get<int>();
         
-        if (dbConfig.contains("username")) {
-            config.database.username = substituteEnvVars(dbConfig["username"].get<std::string>());
-        }
-        if (dbConfig.contains("password")) {
-            config.database.password = substituteEnvVars(dbConfig["password"].get<std::string>());
-        }
-        if (dbConfig.contains("database")) {
+        // SQLite only needs the database file path
+        if (config.database.type == "sqlite") {
+            DB_CHECK(dbConfig.contains("database"), ConfigurationError, "Missing SQLite database file path");
             config.database.database = dbConfig["database"].get<std::string>();
+        } else {
+            // Other databases need host and port
+            DB_CHECK(dbConfig.contains("host"), ConfigurationError, "Missing database host");
+            DB_CHECK(dbConfig.contains("port"), ConfigurationError, "Missing database port");
+            
+            config.database.host = dbConfig["host"].get<std::string>();
+            config.database.port = dbConfig["port"].get<int>();
+            
+            if (dbConfig.contains("username")) {
+                config.database.username = substituteEnvVars(dbConfig["username"].get<std::string>());
+            }
+            if (dbConfig.contains("password")) {
+                config.database.password = substituteEnvVars(dbConfig["password"].get<std::string>());
+            }
+            if (dbConfig.contains("database")) {
+                config.database.database = dbConfig["database"].get<std::string>();
+            }
         }
 
         // Storage configuration
@@ -148,8 +156,12 @@ Config Config::fromFile(const std::string& configPath) {
 
         // Validate required fields
         DB_CHECK(!config.database.type.empty(), ConfigurationError, "Database type cannot be empty");
-        DB_CHECK(!config.database.host.empty(), ConfigurationError, "Database host cannot be empty");
-        DB_CHECK(config.database.port > 0, ConfigurationError, "Invalid database port");
+        if (config.database.type != "sqlite") {
+            DB_CHECK(!config.database.host.empty(), ConfigurationError, "Database host cannot be empty");
+            DB_CHECK(config.database.port > 0, ConfigurationError, "Invalid database port");
+        } else {
+            DB_CHECK(!config.database.database.empty(), ConfigurationError, "SQLite database file path cannot be empty");
+        }
         DB_CHECK(!config.storage.localPath.empty(), ConfigurationError, "Storage local path cannot be empty");
         DB_CHECK(!config.logging.logPath.empty(), ConfigurationError, "Log path cannot be empty");
         DB_CHECK(!config.logging.logLevel.empty(), ConfigurationError, "Log level cannot be empty");
