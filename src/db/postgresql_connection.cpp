@@ -30,7 +30,7 @@ PostgreSQLConnection::~PostgreSQLConnection() noexcept {
 bool PostgreSQLConnection::connect(const dbbackup::DatabaseConfig& dbConfig) {
     // Store config for later use in backup/restore
     dbbackup::DatabaseConfig config = dbConfig;
-    std::string database = dbConfig.database;
+    string database = dbConfig.database;
 
     DB_TRY_CATCH_LOG("PostgreSQLConnection", {
         // Store config for later use in backup/restore
