@@ -16,8 +16,9 @@ struct CLIOptions {
     std::string dbFile;         // SQLite database file path
     std::string restorePath;    // Path to backup file for restore
     bool verbose;               // Enable verbose output
+    bool skipArg2;             // Whether to skip the second argument in option parsing
 
-    CLIOptions() : dbPort(0), verbose(false) {
+    CLIOptions() : dbPort(0), verbose(false), skipArg2(false) {
         configPath = "/usr/local/etc/hegemon/config.json"; // Default config path
         backupType = "full";  // Default backup type
         compression = "gzip";  // Default compression

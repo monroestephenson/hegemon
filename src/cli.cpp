@@ -83,8 +83,11 @@ CLIOptions CLI::parse() {
         }
         else if (cmd == "restore") {
             options.command = "restore";
+            // For restore command, next argument is the backup file path
             if (argc > 2 && argv[2][0] != '-') {
                 options.restorePath = argv[2];
+                // Skip this argument in the option parsing loop
+                options.skipArg2 = true;
             }
         }
         else if (cmd == "list") {
@@ -101,8 +104,11 @@ CLIOptions CLI::parse() {
         }
         else if (cmd == "verify") {
             options.command = "verify";
+            // For verify command, next argument is the backup file path
             if (argc > 2 && argv[2][0] != '-') {
                 options.restorePath = argv[2];
+                // Skip this argument in the option parsing loop
+                options.skipArg2 = true;
             }
         }
         else {
@@ -114,7 +120,10 @@ CLIOptions CLI::parse() {
             std::string arg = argv[i];
             
             // Skip if this is a database type argument we already processed
-            if (i == 2 && arg[0] != '-' && (options.command == "backup" || options.command == "list")) {
+            if (i == 2 && (
+                (arg[0] != '-' && (options.command == "backup" || options.command == "list")) ||
+                options.skipArg2
+            )) {
                 continue;
             }
             
