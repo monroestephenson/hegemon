@@ -7,6 +7,7 @@
 #include <sstream>
 
 using namespace dbbackup::error;
+using std::to_string;
 
 PostgreSQLConnection::PostgreSQLConnection() noexcept : conn(nullptr) {
 }
