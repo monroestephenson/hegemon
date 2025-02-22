@@ -26,15 +26,16 @@ PostgreSQLConnection::~PostgreSQLConnection() noexcept {
 
 bool PostgreSQLConnection::connect(const dbbackup::DatabaseConfig& config) {
     DB_TRY_CATCH_LOG("PostgreSQLConnection", {
+        const dbbackup::DatabaseConfig& dbConfig = config;  // Keep in scope for the macro
         // Store config for later use in backup/restore
-        currentConfig = config;
+        currentConfig = dbConfig;
 
         // Get password from credential manager
         auto& credManager = CredentialManager::getInstance();
         auto cred = credManager.getCredential(
-            config.credentials.passwordKey,
+            dbConfig.credentials.passwordKey,
             CredentialType::Password,
-            config.credentials.preferredSources
+            dbConfig.credentials.preferredSources
         );
 
         if (!cred) {
@@ -42,10 +43,10 @@ bool PostgreSQLConnection::connect(const dbbackup::DatabaseConfig& config) {
         }
 
         // Build connection string
-        std::string connStr = "host=" + config.host +
-                            " port=" + std::to_string(config.port) +
-                            " dbname=" + config.database +
-                            " user=" + config.credentials.username;
+        std::string connStr = "host=" + dbConfig.host +
+                            " port=" + std::to_string(dbConfig.port) +
+                            " dbname=" + dbConfig.database +
+                            " user=" + dbConfig.credentials.username;
         
         if (!cred->value.empty()) {
             connStr += " password=" + cred->value;
@@ -57,7 +58,7 @@ bool PostgreSQLConnection::connect(const dbbackup::DatabaseConfig& config) {
             if (!conn->is_open()) {
                 DB_THROW(ConnectionError, "Failed to open PostgreSQL connection");
             }
-            currentDatabase = config.database;
+            currentDatabase = dbConfig.database;
             return true;
         } catch (const pqxx::broken_connection& e) {
             std::string error = e.what();
