@@ -58,7 +58,7 @@ Config Config::fromFile(const std::string& configPath) {
         // SQLite only needs the database file path
         if (config.database.type == "sqlite") {
             DB_CHECK(dbConfig.contains("database"), ConfigurationError, "Missing SQLite database file path");
-            config.database.database = dbConfig["database"].get<std::string>();
+            config.database.database = substituteEnvVars(dbConfig["database"].get<std::string>());
         } else {
             // Other databases need host and port
             DB_CHECK(dbConfig.contains("host"), ConfigurationError, "Missing database host");

@@ -76,3 +76,38 @@ install(FILES config.json
     DESTINATION etc/database_backup
     RENAME config.template.json
 )
+
+# Database support options
+option(USE_MYSQL "Enable MySQL support" ON)
+option(USE_POSTGRESQL "Enable PostgreSQL support" ON)
+option(USE_SQLITE "Enable SQLite support" ON)
+option(USE_MONGODB "Enable MongoDB support" OFF)
+
+# Configure database support
+if(USE_MYSQL)
+    find_package(MySQL REQUIRED)
+    add_definitions(-DUSE_MYSQL)
+    include_directories(${MySQL_INCLUDE_DIRS})
+    list(APPEND EXTRA_LIBS ${MySQL_LIBRARIES})
+endif()
+
+if(USE_POSTGRESQL)
+    find_package(PostgreSQL REQUIRED)
+    add_definitions(-DUSE_POSTGRESQL)
+    include_directories(${PostgreSQL_INCLUDE_DIRS})
+    list(APPEND EXTRA_LIBS ${PostgreSQL_LIBRARIES})
+endif()
+
+if(USE_SQLITE)
+    find_package(SQLite3 REQUIRED)
+    add_definitions(-DUSE_SQLITE)
+    include_directories(${SQLite3_INCLUDE_DIRS})
+    list(APPEND EXTRA_LIBS ${SQLite3_LIBRARIES})
+endif()
+
+if(USE_MONGODB)
+    find_package(mongocxx REQUIRED)
+    add_definitions(-DUSE_MONGODB)
+    include_directories(${MONGOCXX_INCLUDE_DIRS})
+    list(APPEND EXTRA_LIBS ${MONGOCXX_LIBRARIES})
+endif()
