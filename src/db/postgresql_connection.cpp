@@ -24,17 +24,17 @@ PostgreSQLConnection::~PostgreSQLConnection() noexcept {
     }
 }
 
-bool PostgreSQLConnection::connect(const dbbackup::DatabaseConfig& dbConfig) {
+bool PostgreSQLConnection::connect(const dbbackup::DatabaseConfig& config) {
     DB_TRY_CATCH_LOG("PostgreSQLConnection", {
         // Store config for later use in backup/restore
-        currentConfig = dbConfig;
+        currentConfig = config;
 
         // Get password from credential manager
         auto& credManager = CredentialManager::getInstance();
         auto cred = credManager.getCredential(
-            dbConfig.credentials.passwordKey,
+            config.credentials.passwordKey,
             CredentialType::Password,
-            dbConfig.credentials.preferredSources
+            config.credentials.preferredSources
         );
 
         if (!cred) {
@@ -42,10 +42,10 @@ bool PostgreSQLConnection::connect(const dbbackup::DatabaseConfig& dbConfig) {
         }
 
         // Build connection string
-        std::string connStr = "host=" + dbConfig.host +
-                            " port=" + std::to_string(dbConfig.port) +
-                            " dbname=" + dbConfig.database +
-                            " user=" + dbConfig.credentials.username;
+        std::string connStr = "host=" + config.host +
+                            " port=" + std::to_string(config.port) +
+                            " dbname=" + config.database +
+                            " user=" + config.credentials.username;
         
         if (!cred->value.empty()) {
             connStr += " password=" + cred->value;
@@ -57,7 +57,7 @@ bool PostgreSQLConnection::connect(const dbbackup::DatabaseConfig& dbConfig) {
             if (!conn->is_open()) {
                 DB_THROW(ConnectionError, "Failed to open PostgreSQL connection");
             }
-            currentDatabase = dbConfig.database;
+            currentDatabase = config.database;
             return true;
         } catch (const pqxx::broken_connection& e) {
             std::string error = e.what();
