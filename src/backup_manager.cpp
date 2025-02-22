@@ -186,9 +186,22 @@ bool BackupManager::restore(const std::string& backupPath) {
 std::unique_ptr<IDBConnection> BackupManager::createConnection() {
     DB_TRY_CATCH_LOG("BackupManager", {
         // Validate database configuration
-        if (m_config.database.type.empty() || m_config.database.host.empty()) {
-            DB_THROW(ConfigurationError, "Invalid database configuration");
+        if (m_config.database.type.empty()) {
+            DB_THROW(ConfigurationError, "Database type not specified");
         }
+        
+        // For SQLite, we only need the database path
+        if (m_config.database.type == "sqlite") {
+            if (m_config.database.database.empty()) {
+                DB_THROW(ConfigurationError, "SQLite database file path not specified");
+            }
+        } else {
+            // For other databases, we need host
+            if (m_config.database.host.empty()) {
+                DB_THROW(ConfigurationError, "Database host not specified");
+            }
+        }
+        
         return createDBConnection(m_config.database);
     });
     

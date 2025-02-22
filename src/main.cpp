@@ -20,20 +20,22 @@ int main(int argc, char* argv[]) {
             dbConfig.type = "postgresql";
             dbConfig.host = options.dbHost.empty() ? "localhost" : options.dbHost;
             dbConfig.port = options.dbPort == 0 ? 5432 : options.dbPort;
+            dbConfig.username = options.dbUser;
+            dbConfig.password = options.dbPass;
+            dbConfig.database = options.dbName;
         }
         else if (options.dbType == "mysql") {
             dbConfig.type = "mysql";
             dbConfig.host = options.dbHost.empty() ? "localhost" : options.dbHost;
             dbConfig.port = options.dbPort == 0 ? 3306 : options.dbPort;
+            dbConfig.username = options.dbUser;
+            dbConfig.password = options.dbPass;
+            dbConfig.database = options.dbName;
         }
         else if (options.dbType == "sqlite") {
             dbConfig.type = "sqlite";
-            dbConfig.database = options.dbFile;
+            dbConfig.database = options.dbFile;  // Use the file path directly
         }
-        
-        dbConfig.username = options.dbUser;
-        dbConfig.password = options.dbPass;
-        dbConfig.database = options.dbName;
 
         // Create storage configuration
         dbbackup::StorageConfig storageConfig;
