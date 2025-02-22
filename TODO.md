@@ -2,29 +2,43 @@
 
 ## High Priority
 - [x] Implement proper error handling throughout the codebase
-- [ ] Complete database implementations
+- [x] Complete database implementations
   - [x] Add MySQL connection implementation
   - [x] Add PostgreSQL connection implementation
-  - [x] Add MongoDB connection implementation
+  - [ ] Add MongoDB connection implementation (Optional - not currently advertised)
   - [x] Add SQLite connection implementation
 - [x] Add configuration file support
   - [x] Create sample config.json
   - [x] Implement config file validation
-  - [x] Add environment variable support for sensitive data
+  - [ ] Fix config file handling to better use values from config instead of requiring command-line arguments
+  - [ ] Add password support from environment variables or config file
 
 ## Medium Priority
 - [x] Implement compression functionality
   - [x] Add zlib integration
   - [x] Add compression level options
-  - [x] Add support for different compression formats
-- [x] Add storage backends
+  - [ ] Add support for additional compression formats (bzip2, xz)
+- [ ] Improve storage backends
   - [x] Complete local storage implementation
+  - [ ] Add backup file cleanup/rotation
   - [ ] Add AWS S3 support
   - [ ] Add Google Cloud Storage support
 - [x] Enhance logging system
-  - [x] Add log rotation
   - [x] Add log levels configuration
   - [x] Add log file path configuration
+  - [ ] Add log rotation
+  - [ ] Improve error messages clarity
+
+## Command Line Interface
+- [ ] Improve CLI usability
+  - [ ] Allow config file to provide defaults without requiring command-line arguments
+  - [ ] Add short-form options (e.g., -t for --type)
+  - [ ] Add interactive mode for configuration
+  - [ ] Add command to generate config file templates
+- [ ] Add backup management commands
+  - [ ] Implement 'list' command functionality
+  - [ ] Add 'prune' command for old backups
+  - [ ] Add 'verify' command implementation
 
 ## Testing
 - [ ] Add more unit tests
@@ -32,26 +46,38 @@
   - [x] Compression tests
   - [ ] Storage backend tests
   - [ ] Database connection tests
+  - [ ] Add tests for MySQL support
+  - [ ] Add tests for SQLite support
 - [ ] Add integration tests
+  - [ ] Test full backup workflow
+  - [ ] Test restore workflow
+  - [ ] Test compression
 - [ ] Add end-to-end tests
 - [ ] Add performance tests
 
 ## Documentation
-- [ ] Add API documentation
-- [ ] Add user guide
-- [ ] Add configuration guide
+- [x] Update README with current features
+- [x] Add configuration guide
+- [ ] Add detailed troubleshooting guide
+  - [ ] Document MySQL-specific issues
+  - [ ] Document SQLite-specific issues
+  - [ ] Document PostgreSQL-specific issues
 - [ ] Add development guide
-- [ ] Add troubleshooting guide
+- [ ] Add API documentation for contributors
 
 ## Features
+- [x] Implement full backup support
 - [ ] Implement incremental backup support
 - [ ] Implement differential backup support
-- [x] Add backup verification
+- [ ] Add backup verification
 - [ ] Add backup encryption
-- [x] Add backup retention policies
-- [x] Implement Slack notifications
-- [ ] Add email notifications
-- [x] Add progress bars for long operations
+- [ ] Improve backup retention policies
+  - [ ] Implement automatic cleanup
+  - [ ] Add flexible retention rules
+- [ ] Add notification system
+  - [ ] Add Slack notifications
+  - [ ] Add email notifications
+- [x] Add progress indication for operations
 
 ## CI/CD
 - [ ] Set up GitHub Actions
@@ -60,46 +86,26 @@
   - [ ] Add code coverage
   - [ ] Add static analysis
 - [ ] Add release automation
+  - [ ] Automate version bumping
+  - [ ] Automate Homebrew formula updates
 - [ ] Add Docker support
   - [ ] Create Dockerfile
   - [ ] Create docker-compose.yml for testing
 
-## Optimization
-- [ ] Add parallel backup support
-- [ ] Optimize memory usage
-- [x] Add backup compression optimization
-- [ ] Implement backup deduplication 
+## Immediate Priorities (Based on Testing)
+1. Fix config file usage to reduce required command-line arguments
+2. Implement proper password handling
+3. Complete 'list' and 'verify' commands
+4. Add backup file rotation/cleanup
+5. Improve error messages and validation
+6. Add tests for MySQL and SQLite implementations
+7. Document common issues and solutions
 
-
-
-Most Critical (Blocking Basic Usage)
-Database Support
-MongoDB implementation is missing (other DBs appear to be implemented)
-Need to complete database implementations in src/db/ directory
-This is critical as it's a core functionality
-Storage Backend Implementation
-Local storage implementation is incomplete
-Cloud storage (S3, Google Cloud) support is missing
-The storage.hpp shows only basic interface
-This is critical as users need somewhere to store their backups
-Compression Functionality
-Based on the TODO list and files, compression is not yet implemented
-This is important for practical backup sizes
-Need to implement compression.cpp functionality with zlib integration
-Basic Testing Coverage
-While there are test files, many core components lack tests
-Need database connection tests
-Need storage backend tests
-Need compression tests
-This is critical for reliability
-Important but Not Blocking
-Backup Verification
-No implementation for verifying backup integrity
-Important for reliability but not blocking initial usage
-Documentation
-User guide and configuration guide are missing
-Important for adoption but not blocking functionality
-Notification System
-Basic implementation exists but needs enhancement
-Email notifications not implemented
-Not critical for core functionality
+## Known Issues to Fix
+1. Command-line arguments shouldn't be required when config file has the information
+2. Password handling needs to be more secure
+3. Backup file cleanup is not implemented
+4. Error messages could be more user-friendly
+5. List and verify commands are not implemented
+6. Need better validation for SQLite database paths
+7. Progress indication could be improved
