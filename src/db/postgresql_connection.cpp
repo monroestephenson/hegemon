@@ -1,6 +1,7 @@
 #include "postgresql_connection.hpp"
 #include "error/ErrorUtils.hpp"
 #include "credential_manager.hpp"
+#include "config.hpp"
 #include <iostream>
 #include <cstdlib>
 #include <filesystem>
