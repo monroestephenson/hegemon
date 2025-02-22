@@ -9,6 +9,7 @@
 using namespace dbbackup::error;
 using std::to_string;
 using std::string;
+using dbbackup::DatabaseConfig;
 
 PostgreSQLConnection::PostgreSQLConnection() noexcept : conn(nullptr) {
 }
@@ -28,8 +29,8 @@ PostgreSQLConnection::~PostgreSQLConnection() noexcept {
 
 bool PostgreSQLConnection::connect(const dbbackup::DatabaseConfig& dbConfig) {
     // Initialize member variables
-    currentConfig = dbConfig;
-    currentDatabase = dbConfig.database;
+    this->currentConfig = dbConfig;
+    this->currentDatabase = dbConfig.database;
 
     DB_TRY_CATCH_LOG("PostgreSQLConnection", {
         // Get password from credential manager
