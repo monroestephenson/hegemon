@@ -71,19 +71,37 @@ CLIOptions CLI::parse() {
         // Set command
         if (cmd == "backup") {
             options.command = "backup";
+            // For backup command, next argument could be database type
+            if (argc > 2) {
+                std::string dbType = argv[2];
+                if (dbType == "mysql" || dbType == "postgres" || dbType == "sqlite") {
+                    options.dbType = dbType;
+                    // Set default config path based on database type
+                    options.configPath = std::string(getenv("HOME")) + "/.config/hegemon/" + dbType + "_config.json";
+                }
+            }
         }
         else if (cmd == "restore") {
             options.command = "restore";
-            if (argc > 2) {
+            if (argc > 2 && argv[2][0] != '-') {
                 options.restorePath = argv[2];
             }
         }
         else if (cmd == "list") {
             options.command = "list";
+            // For list command, next argument could be database type
+            if (argc > 2 && argv[2][0] != '-') {
+                std::string dbType = argv[2];
+                if (dbType == "mysql" || dbType == "postgres" || dbType == "sqlite") {
+                    options.dbType = dbType;
+                    // Set default config path based on database type
+                    options.configPath = std::string(getenv("HOME")) + "/.config/hegemon/" + dbType + "_config.json";
+                }
+            }
         }
         else if (cmd == "verify") {
             options.command = "verify";
-            if (argc > 2) {
+            if (argc > 2 && argv[2][0] != '-') {
                 options.restorePath = argv[2];
             }
         }
@@ -91,19 +109,14 @@ CLIOptions CLI::parse() {
             DB_THROW(ValidationError, "Unknown command: " + cmd);
         }
 
-        // For backup command, next argument could be database type
-        if (options.command == "backup" && argc > 2) {
-            std::string dbType = argv[2];
-            if (dbType == "mysql" || dbType == "postgres" || dbType == "sqlite") {
-                options.dbType = dbType;
-                // Set default config path based on database type
-                options.configPath = std::string(getenv("HOME")) + "/.config/hegemon/" + dbType + "_config.json";
-            }
-        }
-
         // Parse remaining options
-        for (int i = 3; i < argc; i++) {
+        for (int i = 2; i < argc; i++) {
             std::string arg = argv[i];
+            
+            // Skip if this is a database type argument we already processed
+            if (i == 2 && arg[0] != '-' && (options.command == "backup" || options.command == "list")) {
+                continue;
+            }
             
             if ((arg == "-t" || arg == "--type") && i + 1 < argc) {
                 options.backupType = argv[++i];
