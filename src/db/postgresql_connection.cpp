@@ -26,9 +26,8 @@ PostgreSQLConnection::~PostgreSQLConnection() noexcept {
     }
 }
 
-bool PostgreSQLConnection::connect(const dbbackup::DatabaseConfig& config) {
+bool PostgreSQLConnection::connect(const dbbackup::DatabaseConfig& dbConfig) {
     DB_TRY_CATCH_LOG("PostgreSQLConnection", {
-        const dbbackup::DatabaseConfig& dbConfig = config;  // Keep in scope for the macro
         // Store config for later use in backup/restore
         currentConfig = dbConfig;
 
@@ -45,8 +44,8 @@ bool PostgreSQLConnection::connect(const dbbackup::DatabaseConfig& config) {
         }
 
         // Build connection string
-        std::string connStr = "host=" + dbConfig.host +
-                            " port=" + std::to_string(dbConfig.port) +
+        string connStr = "host=" + dbConfig.host +
+                            " port=" + to_string(dbConfig.port) +
                             " dbname=" + dbConfig.database +
                             " user=" + dbConfig.credentials.username;
         
@@ -63,19 +62,19 @@ bool PostgreSQLConnection::connect(const dbbackup::DatabaseConfig& config) {
             currentDatabase = dbConfig.database;
             return true;
         } catch (const pqxx::broken_connection& e) {
-            std::string error = e.what();
+            string error = e.what();
             // Check if it's an authentication error
-            if (error.find("role") != std::string::npos && 
-                error.find("does not exist") != std::string::npos) {
+            if (error.find("role") != string::npos && 
+                error.find("does not exist") != string::npos) {
                 DB_THROW(AuthenticationError, error);
             } else {
                 DB_THROW(ConnectionError, error);
             }
         } catch (const std::exception& e) {
-            std::string error = e.what();
+            string error = e.what();
             // Check if it's an authentication error
-            if (error.find("role") != std::string::npos && 
-                error.find("does not exist") != std::string::npos) {
+            if (error.find("role") != string::npos && 
+                error.find("does not exist") != string::npos) {
                 DB_THROW(AuthenticationError, error);
             } else {
                 DB_THROW(ConnectionError, error);
