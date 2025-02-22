@@ -8,8 +8,14 @@
 #include <filesystem>
 #include <iomanip>
 #include <ctime>
+#include <fstream>
 
 using namespace dbbackup::error;
+
+// Helper function to check if string starts with prefix
+bool startsWith(const std::string& str, const std::string& prefix) {
+    return str.size() >= prefix.size() && str.compare(0, prefix.size(), prefix) == 0;
+}
 
 // Helper function to format file size
 std::string formatSize(uintmax_t size) {
@@ -54,7 +60,7 @@ void listBackups(const std::string& backupDir) {
 
     std::vector<std::filesystem::directory_entry> backups;
     for (const auto& entry : std::filesystem::directory_iterator(backupDir)) {
-        if (entry.is_regular_file() && entry.path().filename().string().starts_with("backup_")) {
+        if (entry.is_regular_file() && startsWith(entry.path().filename().string(), "backup_")) {
             backups.push_back(entry);
         }
     }
