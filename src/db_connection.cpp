@@ -7,7 +7,9 @@
 
 using namespace dbbackup::error;
 
-std::unique_ptr<IDBConnection> createDBConnection(const dbbackup::DatabaseConfig& dbConfig) {
+namespace dbbackup {
+
+std::unique_ptr<IDBConnection> createDBConnection(const DatabaseConfig& dbConfig) {
     DB_TRY_CATCH_LOG("DBConnection", {
         if (dbConfig.type == "mysql") {
 #ifdef USE_MYSQL
@@ -38,4 +40,6 @@ std::unique_ptr<IDBConnection> createDBConnection(const dbbackup::DatabaseConfig
         }
     });
     return nullptr;
-} 
+}
+
+} // namespace dbbackup 
