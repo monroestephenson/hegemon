@@ -2,15 +2,24 @@
 
 #include <string>
 #include <map>
+#include <vector>
 
 namespace dbbackup {
+
+// Forward declarations
+enum class CredentialSource;
+
+struct DatabaseCredentials {
+    std::string username;
+    std::string passwordKey;  // Key to look up password in credential manager
+    std::vector<CredentialSource> preferredSources;  // Preferred sources for credentials
+};
 
 struct DatabaseConfig {
     std::string type;
     std::string host;
     int port = 0;
-    std::string username;
-    std::string password;
+    DatabaseCredentials credentials;
     std::string database;
 };
 
@@ -53,6 +62,14 @@ struct BackupConfig {
     ScheduleConfig schedule;
 };
 
+struct CredentialStoreConfig {
+    bool enabled = false;
+    std::string type;        // keychain, file, vault, ssm
+    std::string path;        // Path or endpoint for credential store
+    std::string keyPrefix;   // Prefix for credential keys
+    std::map<std::string, std::string> options;  // Additional options
+};
+
 struct EncryptionConfig {
     bool enabled = false;
     std::string algorithm = "AES-256-GCM";
@@ -61,6 +78,7 @@ struct EncryptionConfig {
 
 struct SecurityConfig {
     EncryptionConfig encryption;
+    CredentialStoreConfig credentialStore;
 };
 
 class Config {

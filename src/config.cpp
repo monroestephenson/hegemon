@@ -82,6 +82,61 @@ Config Config::fromFile(const std::string& configPath) {
             }
         }
 
+        // Parse database credentials
+        if (dbConfig.contains("credentials")) {
+            const auto& credConfig = dbConfig["credentials"];
+            
+            if (credConfig.contains("username")) {
+                config.database.credentials.username = substituteEnvVars(
+                    credConfig["username"].get<std::string>(), 
+                    true
+                );
+            }
+            
+            if (credConfig.contains("passwordKey")) {
+                config.database.credentials.passwordKey = credConfig["passwordKey"].get<std::string>();
+            } else {
+                // Default password key based on database type and username
+                config.database.credentials.passwordKey = "hegemon." + 
+                    config.database.type + "." + 
+                    config.database.credentials.username + ".password";
+            }
+
+            if (credConfig.contains("preferredSources")) {
+                for (const auto& source : credConfig["preferredSources"]) {
+                    std::string sourceStr = source.get<std::string>();
+                    if (sourceStr == "environment") {
+                        config.database.credentials.preferredSources.push_back(CredentialSource::Environment);
+                    } else if (sourceStr == "file") {
+                        config.database.credentials.preferredSources.push_back(CredentialSource::File);
+                    } else if (sourceStr == "keystore") {
+                        config.database.credentials.preferredSources.push_back(CredentialSource::KeyStore);
+                    } else if (sourceStr == "config") {
+                        config.database.credentials.preferredSources.push_back(CredentialSource::ConfigFile);
+                    } else if (sourceStr == "ssm") {
+                        config.database.credentials.preferredSources.push_back(CredentialSource::SSM);
+                    } else if (sourceStr == "vault") {
+                        config.database.credentials.preferredSources.push_back(CredentialSource::Vault);
+                    } else {
+                        DB_THROW(ConfigurationError, "Invalid credential source: " + sourceStr);
+                    }
+                }
+            }
+        } else {
+            // If no credentials section, try to get username from root database config
+            if (dbConfig.contains("username")) {
+                config.database.credentials.username = substituteEnvVars(
+                    dbConfig["username"].get<std::string>(), 
+                    true
+                );
+            }
+            
+            // Set default password key
+            config.database.credentials.passwordKey = "hegemon." + 
+                config.database.type + "." + 
+                config.database.credentials.username + ".password";
+        }
+
         // Storage configuration
         DB_CHECK(configJson.contains("storage"), ConfigurationError, "Missing 'storage' section in config");
         const auto& storageConfig = configJson["storage"];
@@ -150,6 +205,7 @@ Config Config::fromFile(const std::string& configPath) {
         if (configJson.contains("security")) {
             const auto& securityConfig = configJson["security"];
             
+            // Parse encryption config
             if (securityConfig.contains("encryption")) {
                 const auto& encryptionConfig = securityConfig["encryption"];
                 config.security.encryption.enabled = encryptionConfig.value("enabled", false);
@@ -162,6 +218,42 @@ Config Config::fromFile(const std::string& configPath) {
                             encryptionConfig["keyPath"].get<std::string>(),
                             config.security.encryption.enabled  // Only required if encryption is enabled
                         );
+                    }
+                }
+            }
+
+            // Parse credential store config
+            if (securityConfig.contains("credentialStore")) {
+                const auto& credStoreConfig = securityConfig["credentialStore"];
+                config.security.credentialStore.enabled = credStoreConfig.value("enabled", false);
+                
+                if (config.security.credentialStore.enabled) {
+                    DB_CHECK(credStoreConfig.contains("type"), ConfigurationError, 
+                            "Credential store type not specified");
+                    
+                    config.security.credentialStore.type = credStoreConfig["type"].get<std::string>();
+                    
+                    if (credStoreConfig.contains("path")) {
+                        config.security.credentialStore.path = substituteEnvVars(
+                            credStoreConfig["path"].get<std::string>(),
+                            false  // Path might not be required for all store types
+                        );
+                    }
+                    
+                    if (credStoreConfig.contains("keyPrefix")) {
+                        config.security.credentialStore.keyPrefix = credStoreConfig["keyPrefix"].get<std::string>();
+                    } else {
+                        config.security.credentialStore.keyPrefix = "hegemon";
+                    }
+                    
+                    if (credStoreConfig.contains("options")) {
+                        const auto& options = credStoreConfig["options"];
+                        for (const auto& [key, value] : options.items()) {
+                            config.security.credentialStore.options[key] = substituteEnvVars(
+                                value.get<std::string>(),
+                                false  // Options are optional
+                            );
+                        }
                     }
                 }
             }

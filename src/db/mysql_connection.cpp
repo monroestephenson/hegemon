@@ -1,8 +1,10 @@
 #include "db/mysql_connection.hpp"
 #include "error/ErrorUtils.hpp"
+#include "credential_manager.hpp"
 #include <iostream>
 #include <cstdlib>
 #include <filesystem>
+#include <sstream>
 
 using namespace dbbackup::error;
 
@@ -37,11 +39,23 @@ bool MySQLConnection::connect(const dbbackup::DatabaseConfig& dbConfig) {
         bool reconnect = true;
         mysql_options(mysql, MYSQL_OPT_RECONNECT, &reconnect);
 
+        // Get password from credential manager
+        auto& credManager = CredentialManager::getInstance();
+        auto cred = credManager.getCredential(
+            dbConfig.credentials.passwordKey,
+            CredentialType::Password,
+            dbConfig.credentials.preferredSources
+        );
+
+        if (!cred) {
+            DB_THROW(AuthenticationError, "Failed to retrieve database password");
+        }
+
         // Attempt to connect
         MYSQL* result = mysql_real_connect(mysql,
             dbConfig.host.c_str(),
-            dbConfig.username.c_str(),
-            dbConfig.password.c_str(),
+            dbConfig.credentials.username.c_str(),
+            cred->value.c_str(),
             dbConfig.database.c_str(),
             dbConfig.port,
             nullptr,  // unix_socket
@@ -92,12 +106,35 @@ bool MySQLConnection::createBackup(const std::string& backupPath) {
             std::filesystem::create_directories(parentPath);
         }
 
-        // Construct mysqldump command
+        // Get password from credential manager
+        auto& credManager = CredentialManager::getInstance();
+        auto cred = credManager.getCredential(
+            currentConfig.credentials.passwordKey,
+            CredentialType::Password,
+            currentConfig.credentials.preferredSources
+        );
+
+        if (!cred) {
+            DB_THROW(AuthenticationError, "Failed to retrieve database password");
+        }
+
+        // Create a temporary file for the password
+        std::string tempPwFile = backupPath + ".pw";
+        {
+            std::ofstream pwFile(tempPwFile);
+            pwFile << "[client]\n"
+                  << "password=" << cred->value << "\n";
+        }
+        std::filesystem::permissions(tempPwFile, 
+            std::filesystem::perms::owner_read | 
+            std::filesystem::perms::owner_write);
+
+        // Construct mysqldump command using defaults-extra-file for password
         std::string cmd = "mysqldump"
+            " --defaults-extra-file=" + tempPwFile +
             " --host=" + currentConfig.host +
             " --port=" + std::to_string(currentConfig.port) +
-            " --user=" + currentConfig.username +
-            " --password=" + currentConfig.password +
+            " --user=" + currentConfig.credentials.username +
             " --databases " + currentDatabase +
             " --add-drop-database" +
             " --add-drop-table" +
@@ -108,6 +145,10 @@ bool MySQLConnection::createBackup(const std::string& backupPath) {
             " --result-file=" + backupPath;
 
         int result = system(cmd.c_str());
+        
+        // Always remove the temporary password file
+        std::filesystem::remove(tempPwFile);
+
         if (result != 0) {
             DB_THROW(BackupError, "mysqldump failed with error code: " + 
                     std::to_string(result));
@@ -130,16 +171,43 @@ bool MySQLConnection::restoreBackup(const std::string& backupPath) {
             DB_THROW(RestoreError, "Backup file does not exist: " + backupPath);
         }
 
-        // Construct mysql command
+        // Get password from credential manager
+        auto& credManager = CredentialManager::getInstance();
+        auto cred = credManager.getCredential(
+            currentConfig.credentials.passwordKey,
+            CredentialType::Password,
+            currentConfig.credentials.preferredSources
+        );
+
+        if (!cred) {
+            DB_THROW(AuthenticationError, "Failed to retrieve database password");
+        }
+
+        // Create a temporary file for the password
+        std::string tempPwFile = backupPath + ".pw";
+        {
+            std::ofstream pwFile(tempPwFile);
+            pwFile << "[client]\n"
+                  << "password=" << cred->value << "\n";
+        }
+        std::filesystem::permissions(tempPwFile, 
+            std::filesystem::perms::owner_read | 
+            std::filesystem::perms::owner_write);
+
+        // Construct mysql command using defaults-extra-file for password
         std::string cmd = "mysql"
+            " --defaults-extra-file=" + tempPwFile +
             " --host=" + currentConfig.host +
             " --port=" + std::to_string(currentConfig.port) +
-            " --user=" + currentConfig.username +
-            " --password=" + currentConfig.password +
+            " --user=" + currentConfig.credentials.username +
             " " + currentDatabase +
             " < " + backupPath;
 
         int result = system(cmd.c_str());
+        
+        // Always remove the temporary password file
+        std::filesystem::remove(tempPwFile);
+
         if (result != 0) {
             DB_THROW(RestoreError, "mysql restore failed with error code: " + 
                     std::to_string(result));

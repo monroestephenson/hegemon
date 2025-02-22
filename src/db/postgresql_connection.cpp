@@ -1,8 +1,10 @@
 #include "db/postgresql_connection.hpp"
 #include "error/ErrorUtils.hpp"
+#include "credential_manager.hpp"
 #include <iostream>
 #include <cstdlib>
 #include <filesystem>
+#include <sstream>
 
 using namespace dbbackup::error;
 
@@ -27,14 +29,26 @@ bool PostgreSQLConnection::connect(const dbbackup::DatabaseConfig& dbConfig) {
         // Store config for later use in backup/restore
         currentConfig = dbConfig;
 
+        // Get password from credential manager
+        auto& credManager = CredentialManager::getInstance();
+        auto cred = credManager.getCredential(
+            dbConfig.credentials.passwordKey,
+            CredentialType::Password,
+            dbConfig.credentials.preferredSources
+        );
+
+        if (!cred) {
+            DB_THROW(AuthenticationError, "Failed to retrieve database password");
+        }
+
         // Build connection string
         std::string connStr = "host=" + dbConfig.host +
                             " port=" + std::to_string(dbConfig.port) +
                             " dbname=" + dbConfig.database +
-                            " user=" + dbConfig.username;
+                            " user=" + dbConfig.credentials.username;
         
-        if (!dbConfig.password.empty()) {
-            connStr += " password=" + dbConfig.password;
+        if (!cred->value.empty()) {
+            connStr += " password=" + cred->value;
         }
 
         try {
@@ -95,16 +109,60 @@ bool PostgreSQLConnection::createBackup(const std::string& backupPath) {
             std::filesystem::create_directories(parentPath);
         }
 
-        // Construct pg_dump command
-        std::string cmd = "PGPASSWORD=" + currentConfig.password + " pg_dump" +
-            " -h " + currentConfig.host +
+        // Get password from credential manager
+        auto& credManager = CredentialManager::getInstance();
+        auto cred = credManager.getCredential(
+            currentConfig.credentials.passwordKey,
+            CredentialType::Password,
+            currentConfig.credentials.preferredSources
+        );
+
+        if (!cred) {
+            DB_THROW(AuthenticationError, "Failed to retrieve database password");
+        }
+
+        // Create a temporary file for the password
+        std::string tempPwFile = backupPath + ".pgpass";
+        {
+            std::ofstream pwFile(tempPwFile);
+            pwFile << currentConfig.host << ":" 
+                  << currentConfig.port << ":" 
+                  << currentDatabase << ":" 
+                  << currentConfig.credentials.username << ":" 
+                  << cred->value;
+        }
+        std::filesystem::permissions(tempPwFile, 
+            std::filesystem::perms::owner_read | 
+            std::filesystem::perms::owner_write);
+
+        // Set PGPASSFILE environment variable
+        std::string oldPgpassfile;
+        if (const char* current = std::getenv("PGPASSFILE")) {
+            oldPgpassfile = current;
+        }
+        setenv("PGPASSFILE", tempPwFile.c_str(), 1);
+
+        // Construct pg_dump command without password
+        std::string cmd = "pg_dump" +
+            std::string(" -h ") + currentConfig.host +
             " -p " + std::to_string(currentConfig.port) +
-            " -U " + currentConfig.username +
+            " -U " + currentConfig.credentials.username +
             " -d " + currentDatabase +
             " -F p" + // Plain text format
             " -f " + backupPath;
 
         int result = system(cmd.c_str());
+
+        // Restore old PGPASSFILE if it existed
+        if (!oldPgpassfile.empty()) {
+            setenv("PGPASSFILE", oldPgpassfile.c_str(), 1);
+        } else {
+            unsetenv("PGPASSFILE");
+        }
+
+        // Always remove the temporary password file
+        std::filesystem::remove(tempPwFile);
+
         if (result != 0) {
             DB_THROW(BackupError, "pg_dump failed with error code: " + 
                     std::to_string(result));
@@ -127,15 +185,59 @@ bool PostgreSQLConnection::restoreBackup(const std::string& backupPath) {
             DB_THROW(RestoreError, "Backup file does not exist: " + backupPath);
         }
 
-        // Construct psql command for restore
-        std::string cmd = "PGPASSWORD=" + currentConfig.password + " psql" +
-            " -h " + currentConfig.host +
+        // Get password from credential manager
+        auto& credManager = CredentialManager::getInstance();
+        auto cred = credManager.getCredential(
+            currentConfig.credentials.passwordKey,
+            CredentialType::Password,
+            currentConfig.credentials.preferredSources
+        );
+
+        if (!cred) {
+            DB_THROW(AuthenticationError, "Failed to retrieve database password");
+        }
+
+        // Create a temporary file for the password
+        std::string tempPwFile = backupPath + ".pgpass";
+        {
+            std::ofstream pwFile(tempPwFile);
+            pwFile << currentConfig.host << ":" 
+                  << currentConfig.port << ":" 
+                  << currentDatabase << ":" 
+                  << currentConfig.credentials.username << ":" 
+                  << cred->value;
+        }
+        std::filesystem::permissions(tempPwFile, 
+            std::filesystem::perms::owner_read | 
+            std::filesystem::perms::owner_write);
+
+        // Set PGPASSFILE environment variable
+        std::string oldPgpassfile;
+        if (const char* current = std::getenv("PGPASSFILE")) {
+            oldPgpassfile = current;
+        }
+        setenv("PGPASSFILE", tempPwFile.c_str(), 1);
+
+        // Construct psql command without password
+        std::string cmd = "psql" +
+            std::string(" -h ") + currentConfig.host +
             " -p " + std::to_string(currentConfig.port) +
-            " -U " + currentConfig.username +
+            " -U " + currentConfig.credentials.username +
             " -d " + currentDatabase +
             " -f " + backupPath;
 
         int result = system(cmd.c_str());
+
+        // Restore old PGPASSFILE if it existed
+        if (!oldPgpassfile.empty()) {
+            setenv("PGPASSFILE", oldPgpassfile.c_str(), 1);
+        } else {
+            unsetenv("PGPASSFILE");
+        }
+
+        // Always remove the temporary password file
+        std::filesystem::remove(tempPwFile);
+
         if (result != 0) {
             DB_THROW(RestoreError, "psql restore failed with error code: " + 
                     std::to_string(result));
