@@ -82,32 +82,49 @@ bool BackupManager::backup(const std::string& backupType) {
             localBackupPath += ".dump";
         }
 
+        // Create temporary file path
+        std::string tempPath = localBackupPath + ".tmp";
+
         // Perform backup
-        if (!conn->createBackup(localBackupPath + ".tmp")) {
-            DB_THROW(BackupError, "Failed to create backup at: " + localBackupPath);
+        if (!conn->createBackup(tempPath)) {
+            DB_THROW(BackupError, "Failed to create backup at: " + tempPath);
         }
 
         // Compress the backup if compression is enabled
         if (compressor) {
-            if (!compressor->compressFile(localBackupPath + ".tmp", localBackupPath)) {
+            if (!compressor->compressFile(tempPath, localBackupPath)) {
                 logger->warn("Compression failed, proceeding with uncompressed file");
                 // Move uncompressed file to final location
-                if (!std::filesystem::rename(localBackupPath + ".tmp", localBackupPath)) {
-                    DB_THROW(StorageError, "Failed to move backup file to final location");
+                try {
+                    std::filesystem::rename(tempPath, localBackupPath);
+                } catch (const std::filesystem::filesystem_error& e) {
+                    DB_THROW(StorageError, "Failed to move backup file to final location: " + std::string(e.what()));
                 }
             }
-            // Remove temporary file
-            std::filesystem::remove(localBackupPath + ".tmp");
+            // Remove temporary file if it still exists
+            try {
+                if (std::filesystem::exists(tempPath)) {
+                    std::filesystem::remove(tempPath);
+                }
+            } catch (const std::filesystem::filesystem_error& e) {
+                logger->warn("Failed to remove temporary file: {}", e.what());
+            }
         } else {
             // Move uncompressed file to final location
-            if (!std::filesystem::rename(localBackupPath + ".tmp", localBackupPath)) {
-                DB_THROW(StorageError, "Failed to move backup file to final location");
+            try {
+                std::filesystem::rename(tempPath, localBackupPath);
+            } catch (const std::filesystem::filesystem_error& e) {
+                DB_THROW(StorageError, "Failed to move backup file to final location: " + std::string(e.what()));
             }
         }
 
         // Verify backup exists
-        if (!std::filesystem::exists(localBackupPath)) {
-            DB_THROW(StorageError, "Backup file not found: " + localBackupPath);
+        try {
+            if (!std::filesystem::exists(localBackupPath)) {
+                DB_THROW(StorageError, "Backup file not found: " + localBackupPath);
+            }
+        } catch (const std::filesystem::filesystem_error& e) {
+            DB_THROW(StorageError, "Failed to verify backup file: " + std::string(e.what()));
         }
 
         // Disconnect database
@@ -217,3 +234,4 @@ std::unique_ptr<IDBConnection> BackupManager::createConnection() {
     
     return nullptr; // Only reached if an exception was caught
 }
+
