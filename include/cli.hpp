@@ -19,7 +19,8 @@ struct CLIOptions {
     bool skipArg2;             // Whether to skip the second argument in option parsing
 
     CLIOptions() : dbPort(0), verbose(false), skipArg2(false) {
-        configPath = "/usr/local/etc/hegemon/config.json"; // Default config path
+        const char* home = getenv("HOME");
+        configPath = std::string(home ? home : "") + "/.config/hegemon/config.json"; // Default config path
         backupType = "full";  // Default backup type
         compression = "gzip";  // Default compression
     }
