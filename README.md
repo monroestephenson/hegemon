@@ -1,6 +1,6 @@
-# Database Backup CLI
+# Hegemon - Database Management CLI
 
-A powerful and flexible command-line tool for backing up and restoring various types of databases. Written in modern C++, it supports multiple database systems, compression, and both local and cloud storage options.
+A powerful and flexible command-line tool for managing and backing up various types of databases. Written in modern C++, it supports multiple database systems, compression, and both local and cloud storage options.
 
 ## Quick Start
 
@@ -10,7 +10,7 @@ A powerful and flexible command-line tool for backing up and restoring various t
 ```bash
 # Install using Homebrew
 brew tap monroestephenson/database-backup
-brew install database-backup
+brew install hegemon
 ```
 
 ### Post-Installation Setup
@@ -19,12 +19,12 @@ After installation, follow these steps to complete the setup:
 
 1. Create your configuration directory:
 ```bash
-mkdir -p ~/.config/db-backup
+mkdir -p ~/.config/hegemon
 ```
 
 2. Create configuration files for your databases. Here are examples for different database types:
 
-MySQL Configuration (`~/.config/db-backup/mysql_config.json`):
+MySQL Configuration (`~/.config/hegemon/mysql_config.json`):
 ```json
 {
     "database": {
@@ -52,7 +52,7 @@ MySQL Configuration (`~/.config/db-backup/mysql_config.json`):
 }
 ```
 
-SQLite Configuration (`~/.config/db-backup/sqlite_config.json`):
+SQLite Configuration (`~/.config/hegemon/sqlite_config.json`):
 ```json
 {
     "database": {
@@ -77,7 +77,7 @@ SQLite Configuration (`~/.config/db-backup/sqlite_config.json`):
 }
 ```
 
-PostgreSQL Configuration (`~/.config/db-backup/postgres_config.json`):
+PostgreSQL Configuration (`~/.config/hegemon/postgres_config.json`):
 ```json
 {
     "database": {
@@ -114,40 +114,61 @@ mkdir -p backups logs
 
 The basic command format is:
 ```bash
-database-backup <command> [options]
+hegemon <command> [database] [options]
 ```
 
 #### Backup Commands
 
-For MySQL:
+Simple backup commands (uses default config files):
 ```bash
-database-backup backup --type full --db-type mysql --db-name your_database --db-host localhost --db-port 3306 --db-user your_username --config ~/.config/db-backup/mysql_config.json
+# MySQL backup
+hegemon backup mysql
+
+# PostgreSQL backup
+hegemon backup postgres
+
+# SQLite backup
+hegemon backup sqlite
 ```
 
-For SQLite:
+Backup commands with options:
 ```bash
-database-backup backup --type full --db-type sqlite --db-file /path/to/your/database.db --config ~/.config/db-backup/sqlite_config.json
-```
+# MySQL backup with custom database
+hegemon backup mysql -n mydatabase -u myuser
 
-For PostgreSQL:
-```bash
-database-backup backup --type full --db-type postgres --db-name your_database --db-host localhost --db-port 5432 --db-user your_username --config ~/.config/db-backup/postgres_config.json
+# PostgreSQL backup with custom host
+hegemon backup postgres -h db.example.com -n mydb
+
+# SQLite backup with specific file
+hegemon backup sqlite -f /path/to/database.db
 ```
 
 #### Other Commands
 ```bash
 # Show help
-database-backup --help
+hegemon help
 
 # List available backups
-database-backup list
+hegemon list
 
 # Restore from a backup
-database-backup restore --file backups/backup_20240222_123456_full.dump.gz
+hegemon restore backup_20240222.dump.gz
 
 # Verify a backup
-database-backup verify --file backups/backup_20240222_123456_full.dump.gz
+hegemon verify backup_20240222.dump.gz
 ```
+
+### Command Options
+
+- `-c, --config <path>`    Custom config file path
+- `-t, --type <type>`      Backup type (full|incremental)
+- `-h, --host <host>`      Database host
+- `-p, --port <port>`      Database port
+- `-n, --name <dbname>`    Database name
+- `-u, --user <user>`      Database username
+- `-f, --file <path>`      SQLite database file path
+- `--verbose`              Enable verbose output
+- `--help`                 Show help message
 
 ### Features
 
@@ -172,23 +193,35 @@ database-backup verify --file backups/backup_20240222_123456_full.dump.gz
 - Backup files are automatically compressed with gzip
 - Backup filenames include timestamp and backup type: `backup_YYYYMMDD_HHMMSS_full.dump.gz`
 
+### Configuration
+
+By default, Hegemon looks for configuration files in the following locations:
+- MySQL: `~/.config/hegemon/mysql_config.json`
+- PostgreSQL: `~/.config/hegemon/postgres_config.json`
+- SQLite: `~/.config/hegemon/sqlite_config.json`
+
+You can override these defaults using the `-c` option to specify a custom config file.
+
 ### Troubleshooting
 
 Common issues and solutions:
 
-1. **"Database type is required"**
-   - Make sure to specify `--db-type` in your command (mysql, postgres, or sqlite)
+1. **"Database type required"**
+   - Make sure to specify the database type after the backup command (mysql, postgres, or sqlite)
+   - Example: `hegemon backup mysql`
 
 2. **"Database name is required"**
-   - For MySQL/PostgreSQL: Include `--db-name` in your command
-   - For SQLite: Use `--db-file` instead
+   - For MySQL/PostgreSQL: Include `-n` option
+   - For SQLite: Use `-f` option
+   - Or set these in your config file
 
 3. **"Configuration file not found"**
-   - Ensure your config file exists at the specified path
-   - Check file permissions
+   - Create the appropriate config file in `~/.config/hegemon/`
+   - Or specify a custom config file with `-c`
 
 4. **"Missing database host"**
-   - For MySQL/PostgreSQL: Include `--db-host` in your command
+   - Set the host in your config file
+   - Or use `-h` option
    - Not required for SQLite
 
 ### License

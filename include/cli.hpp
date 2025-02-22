@@ -17,7 +17,11 @@ struct CLIOptions {
     std::string restorePath;    // Path to backup file for restore
     bool verbose;               // Enable verbose output
 
-    CLIOptions() : dbPort(0), verbose(false) {}
+    CLIOptions() : dbPort(0), verbose(false) {
+        configPath = "/usr/local/etc/hegemon/config.json"; // Default config path
+        backupType = "full";  // Default backup type
+        compression = "gzip";  // Default compression
+    }
 };
 
 class CLI {

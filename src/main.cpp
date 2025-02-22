@@ -34,10 +34,6 @@ int main(int argc, char* argv[]) {
             config.database.username = options.dbUser;
         }
         
-        if (!options.dbPass.empty()) {
-            config.database.password = options.dbPass;
-        }
-        
         if (!options.dbName.empty()) {
             config.database.database = options.dbName;
         }
@@ -59,6 +55,7 @@ int main(int argc, char* argv[]) {
             config.logging.logLevel = "debug";
         }
 
+        // Execute the appropriate command
         if (options.command == "backup") {
             BackupManager backupMgr(config);
             if (!backupMgr.backup(options.backupType)) {
@@ -79,6 +76,10 @@ int main(int argc, char* argv[]) {
         else if (options.command == "verify") {
             // TODO: Implement backup verification
             std::cout << "Backup verification is not yet implemented\n";
+            return 1;
+        }
+        else {
+            std::cerr << "Error: No command specified. Use -h or --help for usage information.\n";
             return 1;
         }
 

@@ -12,111 +12,121 @@ CLI::CLI(int argc, char* argv[]) : argc(argc), argv(argv) {}
 void CLI::printUsage() {
     std::cout << "Hegemon - Database Management CLI\n\n"
               << "Usage:\n"
-              << "  " << argv[0] << " [command] [options]\n\n"
+              << "  " << argv[0] << " <command> [database] [options]\n\n"
               << "Commands:\n"
-              << "  backup   Create a new backup\n"
-              << "  restore  Restore from a backup\n"
-              << "  list     List available backups\n"
-              << "  verify   Verify a backup file\n\n"
-              << "General Options:\n"
-              << "  --config <path>            Path to config file (default: ~/.config/hegemon/config.json)\n"
-              << "  --verbose                  Enable verbose output\n"
-              << "  --help                     Show this help message\n\n"
-              << "Backup Options (can be specified in config file):\n"
-              << "  --type <full|incremental>  Backup type (default: full)\n"
-              << "  --compress <none|gzip>     Compression type (default: gzip)\n"
-              << "  --db-type <postgres|mysql|sqlite>  Database type\n"
-              << "  --db-host <hostname>       Database host\n"
-              << "  --db-port <port>           Database port\n"
-              << "  --db-name <dbname>         Database name\n"
-              << "  --db-user <username>       Database username\n"
-              << "  --db-pass <password>       Database password\n"
-              << "  --db-file <path>           SQLite database file path\n\n"
-              << "Restore Options:\n"
-              << "  --file <path>              Backup file to restore from (required)\n\n"
+              << "  backup, -backup      Create a new backup\n"
+              << "  restore, -restore    Restore from a backup\n"
+              << "  list, -list         List available backups\n"
+              << "  verify, -verify     Verify a backup file\n\n"
+              << "Database Types:\n"
+              << "  mysql               MySQL database\n"
+              << "  postgres            PostgreSQL database\n"
+              << "  sqlite              SQLite database\n\n"
+              << "Options:\n"
+              << "  -c, --config <path>    Path to config file (default: ~/.config/hegemon/<db>_config.json)\n"
+              << "  -t, --type <type>      Backup type: full|incremental (default: full)\n"
+              << "  -h, --host <host>      Database host (default: localhost)\n"
+              << "  -p, --port <port>      Database port (default: db-specific)\n"
+              << "  -n, --name <dbname>    Database name\n"
+              << "  -u, --user <user>      Database username\n"
+              << "  -f, --file <path>      SQLite database file path\n"
+              << "  --verbose              Enable verbose output\n"
+              << "  --help                 Show this help message\n\n"
               << "Examples:\n"
-              << "  # Using config file only:\n"
-              << "  " << argv[0] << " backup --config ~/.config/hegemon/mysql_config.json\n\n"
-              << "  # Overriding config options:\n"
-              << "  " << argv[0] << " backup --config ~/.config/hegemon/mysql_config.json --db-name different_db\n\n"
-              << "  # Full command without config:\n"
-              << "  " << argv[0] << " backup --db-type mysql --db-name mydb --db-host localhost --db-port 3306 --db-user myuser\n\n"
-              << "  # Restore command:\n"
-              << "  " << argv[0] << " restore --file backup_20240222.dump.gz\n\n"
+              << "  # Simple MySQL backup:\n"
+              << "  " << argv[0] << " backup mysql\n\n"
+              << "  # MySQL backup with options:\n"
+              << "  " << argv[0] << " backup mysql -n mydb -u myuser\n\n"
               << "  # SQLite backup:\n"
-              << "  " << argv[0] << " backup --config ~/.config/hegemon/sqlite_config.json\n"
-              << "  " << argv[0] << " backup --db-type sqlite --db-file /path/to/db.sqlite\n";
+              << "  " << argv[0] << " backup sqlite -f /path/to/db.sqlite\n\n"
+              << "  # PostgreSQL backup with custom config:\n"
+              << "  " << argv[0] << " backup postgres -c ~/.config/hegemon/custom_config.json\n\n"
+              << "  # Restore from backup:\n"
+              << "  " << argv[0] << " restore backup_20240222.dump.gz\n\n"
+              << "  # List backups:\n"
+              << "  " << argv[0] << " list\n";
 }
 
 CLIOptions CLI::parse() {
     DB_TRY_CATCH_LOG("CLI", {
         CLIOptions options;
-        options.configPath = "/usr/local/etc/hegemon/config.json"; // Default config path
-        options.backupType = "full";  // Default backup type
-        options.compression = "gzip";  // Default compression
 
         if (argc < 2) {
             printUsage();
             exit(0);
         }
 
-        std::string command = argv[1];
-        
-        if (command == "help" || command == "--help") {
+        // Parse command (first argument)
+        std::string cmd = argv[1];
+        if (cmd == "--help" || cmd == "-h" || cmd == "help") {
             printUsage();
             exit(0);
         }
-
-        if (command == "backup" || command == "restore" || command == "list" || command == "verify") {
-            options.command = command;
-        } else {
-            DB_THROW(ValidationError, "Unknown command: " + command);
+        
+        // Remove leading dash if present
+        if (!cmd.empty() && cmd[0] == '-') {
+            cmd = cmd.substr(1);
+        }
+        
+        // Set command
+        if (cmd == "backup") {
+            options.command = "backup";
+        }
+        else if (cmd == "restore") {
+            options.command = "restore";
+            if (argc > 2) {
+                options.restorePath = argv[2];
+            }
+        }
+        else if (cmd == "list") {
+            options.command = "list";
+        }
+        else if (cmd == "verify") {
+            options.command = "verify";
+            if (argc > 2) {
+                options.restorePath = argv[2];
+            }
+        }
+        else {
+            DB_THROW(ValidationError, "Unknown command: " + cmd);
         }
 
-        // Parse options
-        for (int i = 2; i < argc; i++) {
+        // For backup command, next argument could be database type
+        if (options.command == "backup" && argc > 2) {
+            std::string dbType = argv[2];
+            if (dbType == "mysql" || dbType == "postgres" || dbType == "sqlite") {
+                options.dbType = dbType;
+                // Set default config path based on database type
+                options.configPath = std::string(getenv("HOME")) + "/.config/hegemon/" + dbType + "_config.json";
+            }
+        }
+
+        // Parse remaining options
+        for (int i = 3; i < argc; i++) {
             std::string arg = argv[i];
             
-            if (arg == "--type" && i + 1 < argc) {
+            if ((arg == "-t" || arg == "--type") && i + 1 < argc) {
                 options.backupType = argv[++i];
                 if (options.backupType != "full" && options.backupType != "incremental") {
                     DB_THROW(ValidationError, "Invalid backup type. Must be 'full' or 'incremental'");
                 }
             }
-            else if (arg == "--compress" && i + 1 < argc) {
-                options.compression = argv[++i];
-                if (options.compression != "none" && options.compression != "gzip") {
-                    DB_THROW(ValidationError, "Invalid compression type. Must be 'none' or 'gzip'");
-                }
-            }
-            else if (arg == "--db-type" && i + 1 < argc) {
-                options.dbType = argv[++i];
-                if (options.dbType != "postgres" && options.dbType != "mysql" && options.dbType != "sqlite") {
-                    DB_THROW(ValidationError, "Invalid database type. Must be 'postgres', 'mysql', or 'sqlite'");
-                }
-            }
-            else if (arg == "--db-host" && i + 1 < argc) {
+            else if ((arg == "-h" || arg == "--host") && i + 1 < argc) {
                 options.dbHost = argv[++i];
             }
-            else if (arg == "--db-port" && i + 1 < argc) {
+            else if ((arg == "-p" || arg == "--port") && i + 1 < argc) {
                 options.dbPort = std::stoi(argv[++i]);
             }
-            else if (arg == "--db-name" && i + 1 < argc) {
+            else if ((arg == "-n" || arg == "--name") && i + 1 < argc) {
                 options.dbName = argv[++i];
             }
-            else if (arg == "--db-user" && i + 1 < argc) {
+            else if ((arg == "-u" || arg == "--user") && i + 1 < argc) {
                 options.dbUser = argv[++i];
             }
-            else if (arg == "--db-pass" && i + 1 < argc) {
-                options.dbPass = argv[++i];
-            }
-            else if (arg == "--db-file" && i + 1 < argc) {
+            else if ((arg == "-f" || arg == "--file") && i + 1 < argc) {
                 options.dbFile = argv[++i];
             }
-            else if (arg == "--file" && i + 1 < argc) {
-                options.restorePath = argv[++i];
-            }
-            else if (arg == "--config" && i + 1 < argc) {
+            else if ((arg == "-c" || arg == "--config") && i + 1 < argc) {
                 options.configPath = argv[++i];
             }
             else if (arg == "--verbose") {
@@ -129,19 +139,21 @@ CLIOptions CLI::parse() {
 
         // Validate required options based on command
         if (options.command == "backup") {
-            // Database type is now optional as it can come from config
-            if (!options.dbType.empty()) {
-                // If db-type is provided, validate related options
-                if (options.dbType == "sqlite") {
-                    if (!options.dbFile.empty() && !std::filesystem::exists(options.dbFile)) {
-                        DB_THROW(ValidationError, "SQLite database file not found: " + options.dbFile);
-                    }
+            // If no database type specified, try to get it from config
+            if (options.dbType.empty() && !std::filesystem::exists(options.configPath)) {
+                DB_THROW(ValidationError, "Database type required when no config file exists");
+            }
+            
+            // If database type is sqlite, validate file path
+            if (options.dbType == "sqlite") {
+                if (!options.dbFile.empty() && !std::filesystem::exists(options.dbFile)) {
+                    DB_THROW(ValidationError, "SQLite database file not found: " + options.dbFile);
                 }
             }
         }
-        else if (options.command == "restore") {
+        else if (options.command == "restore" || options.command == "verify") {
             if (options.restorePath.empty()) {
-                DB_THROW(ValidationError, "Backup file (--file) is required for restore");
+                DB_THROW(ValidationError, "Backup file path is required for restore/verify");
             }
             if (!std::filesystem::exists(options.restorePath)) {
                 DB_THROW(ValidationError, "Backup file not found: " + options.restorePath);
