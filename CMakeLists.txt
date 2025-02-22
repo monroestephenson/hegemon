@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(database_backup)
+project(hegemon)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -51,10 +51,10 @@ set(SOURCES
 )
 
 # Create executable
-add_executable(database-backup ${SOURCES})
+add_executable(hegemon ${SOURCES})
 
 # Link libraries
-target_link_libraries(database-backup
+target_link_libraries(hegemon
     PRIVATE
     ${PostgreSQL_LIBRARIES}
     PQXX::PQXX
@@ -68,12 +68,12 @@ target_link_libraries(database-backup
 )
 
 # Installation rules
-install(TARGETS database-backup
+install(TARGETS hegemon
     RUNTIME DESTINATION bin
 )
 
 install(FILES config.json
-    DESTINATION etc/database_backup
+    DESTINATION etc/hegemon
     RENAME config.template.json
 )
 
@@ -88,26 +88,26 @@ if(USE_MYSQL)
     find_package(MySQL REQUIRED)
     add_definitions(-DUSE_MYSQL)
     include_directories(${MySQL_INCLUDE_DIRS})
-    target_link_libraries(database-backup PRIVATE MySQL::MySQL)
+    target_link_libraries(hegemon PRIVATE MySQL::MySQL)
 endif()
 
 if(USE_POSTGRESQL)
     find_package(PostgreSQL REQUIRED)
     add_definitions(-DUSE_POSTGRESQL)
     include_directories(${PostgreSQL_INCLUDE_DIRS})
-    target_link_libraries(database-backup PRIVATE ${PostgreSQL_LIBRARIES})
+    target_link_libraries(hegemon PRIVATE ${PostgreSQL_LIBRARIES})
 endif()
 
 if(USE_SQLITE)
     find_package(SQLite3 REQUIRED)
     add_definitions(-DUSE_SQLITE)
     include_directories(${SQLite3_INCLUDE_DIRS})
-    target_link_libraries(database-backup PRIVATE SQLite::SQLite3)
+    target_link_libraries(hegemon PRIVATE SQLite::SQLite3)
 endif()
 
 if(USE_MONGODB)
     find_package(mongocxx REQUIRED)
     add_definitions(-DUSE_MONGODB)
     include_directories(${MONGOCXX_INCLUDE_DIRS})
-    target_link_libraries(database-backup PRIVATE ${MONGOCXX_LIBRARIES})
+    target_link_libraries(hegemon PRIVATE ${MONGOCXX_LIBRARIES})
 endif()

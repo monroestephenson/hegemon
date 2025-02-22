@@ -10,7 +10,7 @@ using namespace dbbackup::error;
 CLI::CLI(int argc, char* argv[]) : argc(argc), argv(argv) {}
 
 void CLI::printUsage() {
-    std::cout << "Database Backup Tool\n\n"
+    std::cout << "Hegemon - Database Management CLI\n\n"
               << "Usage:\n"
               << "  " << argv[0] << " [command] [options]\n\n"
               << "Commands:\n"
@@ -19,7 +19,7 @@ void CLI::printUsage() {
               << "  list     List available backups\n"
               << "  verify   Verify a backup file\n\n"
               << "General Options:\n"
-              << "  --config <path>            Path to config file (default: ~/.config/db-backup/config.json)\n"
+              << "  --config <path>            Path to config file (default: ~/.config/hegemon/config.json)\n"
               << "  --verbose                  Enable verbose output\n"
               << "  --help                     Show this help message\n\n"
               << "Backup Options (can be specified in config file):\n"
@@ -36,22 +36,22 @@ void CLI::printUsage() {
               << "  --file <path>              Backup file to restore from (required)\n\n"
               << "Examples:\n"
               << "  # Using config file only:\n"
-              << "  " << argv[0] << " backup --config ~/.config/db-backup/mysql_config.json\n\n"
+              << "  " << argv[0] << " backup --config ~/.config/hegemon/mysql_config.json\n\n"
               << "  # Overriding config options:\n"
-              << "  " << argv[0] << " backup --config ~/.config/db-backup/mysql_config.json --db-name different_db\n\n"
+              << "  " << argv[0] << " backup --config ~/.config/hegemon/mysql_config.json --db-name different_db\n\n"
               << "  # Full command without config:\n"
               << "  " << argv[0] << " backup --db-type mysql --db-name mydb --db-host localhost --db-port 3306 --db-user myuser\n\n"
               << "  # Restore command:\n"
               << "  " << argv[0] << " restore --file backup_20240222.dump.gz\n\n"
               << "  # SQLite backup:\n"
-              << "  " << argv[0] << " backup --config ~/.config/db-backup/sqlite_config.json\n"
+              << "  " << argv[0] << " backup --config ~/.config/hegemon/sqlite_config.json\n"
               << "  " << argv[0] << " backup --db-type sqlite --db-file /path/to/db.sqlite\n";
 }
 
 CLIOptions CLI::parse() {
     DB_TRY_CATCH_LOG("CLI", {
         CLIOptions options;
-        options.configPath = "/usr/local/etc/database_backup/config.json"; // Default config path
+        options.configPath = "/usr/local/etc/hegemon/config.json"; // Default config path
         options.backupType = "full";  // Default backup type
         options.compression = "gzip";  // Default compression
 
