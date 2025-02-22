@@ -27,10 +27,11 @@ PostgreSQLConnection::~PostgreSQLConnection() noexcept {
 }
 
 bool PostgreSQLConnection::connect(const dbbackup::DatabaseConfig& dbConfig) {
-    DB_TRY_CATCH_LOG("PostgreSQLConnection", {
-        // Store config for later use in backup/restore
-        currentConfig = dbConfig;
+    // Initialize member variables
+    currentConfig = dbConfig;
+    currentDatabase = dbConfig.database;
 
+    DB_TRY_CATCH_LOG("PostgreSQLConnection", {
         // Get password from credential manager
         auto& credManager = CredentialManager::getInstance();
         auto cred = credManager.getCredential(
@@ -59,7 +60,6 @@ bool PostgreSQLConnection::connect(const dbbackup::DatabaseConfig& dbConfig) {
             if (!conn->is_open()) {
                 DB_THROW(ConnectionError, "Failed to open PostgreSQL connection");
             }
-            currentDatabase = dbConfig.database;
             return true;
         } catch (const pqxx::broken_connection& e) {
             string error = e.what();
