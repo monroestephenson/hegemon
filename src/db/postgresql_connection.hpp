@@ -5,18 +5,22 @@
 #include <string>
 #include <memory>
 
-class PostgreSQLConnection : public dbbackup::IDBConnection {
+namespace dbbackup {
+
+class PostgreSQLConnection : public IDBConnection {
 public:
     PostgreSQLConnection() noexcept;
     ~PostgreSQLConnection() noexcept override;
 
-    bool connect(const dbbackup::DatabaseConfig& dbConfig) override;
+    bool connect(const DatabaseConfig& dbConfig) override;
     bool disconnect() override;
     bool createBackup(const std::string& backupPath) override;
     bool restoreBackup(const std::string& backupPath) override;
 
 private:
-    dbbackup::DatabaseConfig currentConfig;  // Store config for backup/restore operations
+    DatabaseConfig currentConfig;  // Store config for backup/restore operations
     std::unique_ptr<pqxx::connection> conn;  // PostgreSQL connection handle
     std::string currentDatabase;  // Current database name
-}; 
+};
+
+} // namespace dbbackup 

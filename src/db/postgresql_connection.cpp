@@ -11,6 +11,8 @@ using std::string;
 using std::to_string;
 using dbbackup::DatabaseConfig;
 
+namespace dbbackup {
+
 PostgreSQLConnection::PostgreSQLConnection() noexcept : conn(nullptr) {
 }
 
@@ -34,10 +36,10 @@ bool PostgreSQLConnection::connect(const DatabaseConfig& dbConfig) {
         currentDatabase = dbConfig.database;
 
         // Get password from credential manager
-        auto& credManager = dbbackup::CredentialManager::getInstance();
+        auto& credManager = CredentialManager::getInstance();
         auto cred = credManager.getCredential(
             dbConfig.credentials.passwordKey,
-            dbbackup::CredentialType::Password,
+            CredentialType::Password,
             dbConfig.credentials.preferredSources
         );
 
@@ -113,10 +115,10 @@ bool PostgreSQLConnection::createBackup(const std::string& backupPath) {
         }
 
         // Get password from credential manager
-        auto& credManager = dbbackup::CredentialManager::getInstance();
+        auto& credManager = CredentialManager::getInstance();
         auto cred = credManager.getCredential(
             currentConfig.credentials.passwordKey,
-            dbbackup::CredentialType::Password,
+            CredentialType::Password,
             currentConfig.credentials.preferredSources
         );
 
@@ -189,10 +191,10 @@ bool PostgreSQLConnection::restoreBackup(const std::string& backupPath) {
         }
 
         // Get password from credential manager
-        auto& credManager = dbbackup::CredentialManager::getInstance();
+        auto& credManager = CredentialManager::getInstance();
         auto cred = credManager.getCredential(
             currentConfig.credentials.passwordKey,
-            dbbackup::CredentialType::Password,
+            CredentialType::Password,
             currentConfig.credentials.preferredSources
         );
 
@@ -250,4 +252,6 @@ bool PostgreSQLConnection::restoreBackup(const std::string& backupPath) {
     });
     
     return false;
-} 
+}
+
+} // namespace dbbackup 
