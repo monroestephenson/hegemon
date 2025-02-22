@@ -1,14 +1,14 @@
-#include "db/postgresql_connection.hpp"
+#include "postgresql_connection.hpp"
 #include "error/ErrorUtils.hpp"
-#include "credential_manager.hpp"
+#include "../credential_manager.hpp"
 #include <iostream>
 #include <cstdlib>
 #include <filesystem>
 #include <sstream>
 
 using namespace dbbackup::error;
-using std::to_string;
 using std::string;
+using std::to_string;
 using dbbackup::DatabaseConfig;
 
 PostgreSQLConnection::PostgreSQLConnection() noexcept : conn(nullptr) {
@@ -27,17 +27,17 @@ PostgreSQLConnection::~PostgreSQLConnection() noexcept {
     }
 }
 
-bool PostgreSQLConnection::connect(const dbbackup::DatabaseConfig& dbConfig) {
+bool PostgreSQLConnection::connect(const DatabaseConfig& dbConfig) {
     DB_TRY_CATCH_LOG("PostgreSQLConnection", {
         // Store config for later use in backup/restore
         currentConfig = dbConfig;
         currentDatabase = dbConfig.database;
 
         // Get password from credential manager
-        auto& credManager = CredentialManager::getInstance();
+        auto& credManager = dbbackup::CredentialManager::getInstance();
         auto cred = credManager.getCredential(
             dbConfig.credentials.passwordKey,
-            CredentialType::Password,
+            dbbackup::CredentialType::Password,
             dbConfig.credentials.preferredSources
         );
 
@@ -47,9 +47,9 @@ bool PostgreSQLConnection::connect(const dbbackup::DatabaseConfig& dbConfig) {
 
         // Build connection string
         string connStr = "host=" + dbConfig.host +
-                            " port=" + to_string(dbConfig.port) +
-                            " dbname=" + dbConfig.database +
-                            " user=" + dbConfig.credentials.username;
+                        " port=" + to_string(dbConfig.port) +
+                        " dbname=" + dbConfig.database +
+                        " user=" + dbConfig.credentials.username;
         
         if (!cred->value.empty()) {
             connStr += " password=" + cred->value;
@@ -113,10 +113,10 @@ bool PostgreSQLConnection::createBackup(const std::string& backupPath) {
         }
 
         // Get password from credential manager
-        auto& credManager = CredentialManager::getInstance();
+        auto& credManager = dbbackup::CredentialManager::getInstance();
         auto cred = credManager.getCredential(
             currentConfig.credentials.passwordKey,
-            CredentialType::Password,
+            dbbackup::CredentialType::Password,
             currentConfig.credentials.preferredSources
         );
 
@@ -189,10 +189,10 @@ bool PostgreSQLConnection::restoreBackup(const std::string& backupPath) {
         }
 
         // Get password from credential manager
-        auto& credManager = CredentialManager::getInstance();
+        auto& credManager = dbbackup::CredentialManager::getInstance();
         auto cred = credManager.getCredential(
             currentConfig.credentials.passwordKey,
-            CredentialType::Password,
+            dbbackup::CredentialType::Password,
             currentConfig.credentials.preferredSources
         );
 
