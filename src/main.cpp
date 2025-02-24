@@ -206,7 +206,7 @@ int main(int argc, char* argv[]) {
         }
         
         if (!options.dbUser.empty()) {
-            config.database.username = options.dbUser;
+            config.database.credentials.username = options.dbUser;
         }
         
         if (!options.dbName.empty()) {

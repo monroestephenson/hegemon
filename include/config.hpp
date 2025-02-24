@@ -6,8 +6,14 @@
 
 namespace dbbackup {
 
-// Forward declarations
-enum class CredentialSource;
+enum class CredentialSource {
+    Environment,
+    File,
+    KeyStore,
+    ConfigFile,
+    SSM,
+    Vault
+};
 
 struct DatabaseCredentials {
     std::string username;
